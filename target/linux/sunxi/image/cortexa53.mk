@@ -125,6 +125,15 @@ define Device/xunlong_orangepi-one-plus
 endef
 TARGET_DEVICES += xunlong_orangepi-one-plus
 
+define Device/xunlong_orangepi-3-lts
+  $(Device/sun50i-h6)
+  DEVICE_VENDOR := Xunlong
+  DEVICE_MODEL := Orange Pi 3 LTS
+  DEVICE_PACKAGES := kmod-uwe5622
+  SUPPORTED_DEVICES += xunlong,orangepi-3-lts
+endef
+TARGET_DEVICES += xunlong_orangepi-3-lts
+
 define Device/xunlong_orangepi-pc2
   DEVICE_VENDOR := Xunlong
   DEVICE_MODEL := Orange Pi PC 2
