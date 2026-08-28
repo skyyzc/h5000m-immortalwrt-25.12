@@ -1,0 +1,21 @@
+From: jukeboge <jukeboge@gmail.com>
+Date: Sun, 23 Aug 2026 00:00:00 +0800
+Subject: [PATCH] arm64: dts: allwinner: build Orange Pi 3 LTS DTB
+
+Add the Orange Pi 3 LTS device tree to the Allwinner arm64 DTB list.
+
+Signed-off-by: jukeboge <jukeboge@gmail.com>
+---
+ arch/arm64/boot/dts/allwinner/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -33,6 +33,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-beelink-gs1.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-3.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-3-lts.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-lite2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-one-plus.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
