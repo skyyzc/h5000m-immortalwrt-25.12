@@ -1263,22 +1263,6 @@ define Device/edup_ep-rt2960s
 endef
 TARGET_DEVICES += edup_ep-rt2960s
 
-define Device/edup_ep-rt2983
-  $(Device/dsa-migration)
-  $(Device/nand)
-  IMAGE_SIZE := 121344k
-  DEVICE_VENDOR := EDUP
-  DEVICE_MODEL := EP-RT2983
-  KERNEL_LOADADDR := 0x82000000
-  KERNEL := kernel-bin | relocate-kernel $(loadaddr-y) | lzma | \
-	fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
-  IMAGES += factory.bin
-  IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | \
-	append-ubi | check-size
-  DEVICE_PACKAGES += kmod-mt7915-firmware
-endef
-TARGET_DEVICES += edup_ep-rt2983
-
 define Device/elecom_wrc-gs
   $(Device/dsa-migration)
   $(Device/uimage-lzma-loader)
@@ -1767,15 +1751,6 @@ define Device/iodata_wn-ax2033gr
   DEVICE_PACKAGES := kmod-mt7603 kmod-mt7615-firmware -uboot-envtools
 endef
 TARGET_DEVICES += iodata_wn-ax2033gr
-
-define Device/iodata_wn-ax2033gr2
-  $(Device/iodata_nand)
-  DEVICE_MODEL := WN-AX2033GR2
-  KERNEL_INITRAMFS := $(KERNEL_DTB) | loader-kernel | lzma | \
-	uImage lzma -M 0x434f4d42 -n '3.10(XBH.0)b50' | iodata-mstc-header
-  DEVICE_PACKAGES := kmod-mt7603 kmod-mt7615-firmware -uboot-envtools
-endef
-TARGET_DEVICES += iodata_wn-ax2033gr2
 
 define Device/iodata_wn-deax1800gr
   $(Device/dsa-migration)
@@ -3053,18 +3028,6 @@ define Device/tplink_ec330-g5u-v1
 endef
 TARGET_DEVICES += tplink_ec330-g5u-v1
 
-define Device/tplink_er605-v1
-  DEVICE_VENDOR := TP-Link
-  DEVICE_MODEL := ER605
-  DEVICE_VARIANT := v1
-  DEVICE_ALT0_VENDOR := TP-Link
-  DEVICE_ALT0_MODEL := TL-R605
-  DEVICE_ALT0_VARIANT := v1
-  DEVICE_PACKAGES := -wpad-basic-mbedtls -uboot-envtools
-  IMAGE_SIZE := 13760k
-endef
-TARGET_DEVICES += tplink_er605-v1
-
 define Device/tplink_er605-v2
   $(Device/nand)
   DEVICE_COMPAT_VERSION := 1.2
@@ -3542,6 +3505,19 @@ define Device/xiaomi_mi-router-cr6606
   DEVICE_MODEL := Mi Router CR6606
 endef
 TARGET_DEVICES += xiaomi_mi-router-cr6606
+
+define Device/qihoo_360t6gs
+  $(Device/nand)
+  $(Device/uimage-lzma-loader)
+  DEVICE_VENDOR := Qihoo
+  DEVICE_MODEL := 360 T6GS
+  IMAGE_SIZE := 120320k
+  IMAGES += firmware.bin
+  IMAGE/firmware.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | \
+	check-size
+  DEVICE_PACKAGES += kmod-mt7915-firmware
+endef
+TARGET_DEVICES += qihoo_360t6gs
 
 define Device/xiaomi_mi-router-cr6608
   $(Device/xiaomi_mi-router-cr660x)
