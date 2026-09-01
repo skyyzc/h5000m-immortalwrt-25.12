@@ -14,7 +14,7 @@
 
 		modem-reset {
 			gpio-export,name = "MODEM-RST";
-			gpio-export,output = <0>;
+			gpio-export,output = <1>;
 			gpios = <&gpio4 RK_PA3 GPIO_ACTIVE_LOW>;
 		};
 
