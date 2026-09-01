@@ -1,0 +1,55 @@
+name: Build H5000M initramfs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: openwrt-25.12
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang flex bison g++ gawk gcc-multilib gettext             git libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libncurses-dev             libreadline-dev libssl-dev libtool ninja-build p7zip-full patch pkgconf             python3 python3-pyelftools python3-setuptools rsync scons squashfs-tools             subversion swig texinfo uglifyjs unzip wget xmlto xxd zlib1g-dev
+
+      - name: Apply private H5000M overlay
+        run: |
+          rm -rf /tmp/h5000m-overlay
+          mkdir -p /tmp/h5000m-overlay package/hiveton
+          unzip -q h5000m-25.12-build-overlay.zip -d /tmp/h5000m-overlay
+          cp -a /tmp/h5000m-overlay/higoros package/hiveton/higoros
+          cp /tmp/h5000m-overlay/h5000m-initramfs.config .config
+
+      - name: Update feeds
+        run: |
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+      - name: Configure
+        run: |
+          make defconfig
+          ./scripts/diffconfig.sh
+
+      - name: Download
+        run: make download -j8
+
+      - name: Build
+        run: make -j"$(nproc)" V=s
+
+      - name: Collect images
+        run: |
+          mkdir -p artifacts
+          find bin/targets/mediatek/filogic -maxdepth 1 -type f \
+            \( -name '*h5000m*' -o -name 'sha256sums' -o -name '*.manifest' \
+            -o -name '*.buildinfo' \) -exec cp -v {} artifacts/ \;
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h5000m-initramfs
+          path: artifacts/
+          if-no-files-found: error
