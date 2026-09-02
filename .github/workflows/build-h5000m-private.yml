@@ -15,16 +15,11 @@ jobs:
 
       - name: Reclaim runner disk space
         run: |
-          echo "Disk before cleanup:"
           df -h /
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/local/.ghcup
-          sudo rm -rf /opt/hostedtoolcache
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          sudo rm -rf /usr/local/.ghcup /opt/hostedtoolcache
           sudo docker system prune --all --force || true
           sudo apt-get clean
-          echo "Disk after cleanup:"
           df -h /
 
       - name: Install minimal build dependencies
@@ -35,6 +30,10 @@ jobs:
           sudo rm -rf /var/lib/apt/lists/*
           df -h /
 
+      - name: Add QModem feed
+        run: |
+          echo 'src-git qmodem https://github.com/FUjr/QModem.git;main' >> feeds.conf.default
+
       - name: Apply private H5000M overlay
         run: |
           rm -rf /tmp/h5000m-overlay
@@ -42,6 +41,7 @@ jobs:
           unzip -q h5000m-25.12-build-overlay.zip -d /tmp/h5000m-overlay
           cp -a /tmp/h5000m-overlay/higoros package/hiveton/higoros
           cp /tmp/h5000m-overlay/h5000m-initramfs.config .config
+          sed -i 's|PROG=/usr/sbin/higorosd|PROG=/usr/bin/higorosd|' package/hiveton/higoros/files/etc/init.d/higoros
           rm -rf /tmp/h5000m-overlay
 
       - name: Update feeds
@@ -49,10 +49,22 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
+      - name: Enable Quectel QMAP stack
+        run: |
+          sed -i '/CONFIG_PACKAGE_kmod-usb-net-qmi-wwan=/d' .config
+          cat >> .config <<'EOF'
+          # CONFIG_PACKAGE_kmod-usb-net-qmi-wwan is not set
+          CONFIG_PACKAGE_kmod-qmi_wwan_q=y
+          CONFIG_PACKAGE_qmodem=y
+          CONFIG_PACKAGE_luci-app-qmodem-next=y
+          CONFIG_PACKAGE_luci-i18n-qmodem-next-zh-cn=y
+          EOF
+
       - name: Configure
         run: |
           make defconfig
           ./scripts/diffconfig.sh
+          grep -E 'qmi_wwan|qmodem|higoros' .config || true
           df -h /
 
       - name: Download
@@ -75,6 +87,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: h5000m-initramfs
+          name: h5000m-initramfs-qmodem
           path: artifacts/
           if-no-files-found: error
