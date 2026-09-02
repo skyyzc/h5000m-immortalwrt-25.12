@@ -1,5 +1,4 @@
-97-h5000m-wireles
-
+name: Build H5000M initramfs
 
 on:
   workflow_dispatch:
@@ -98,4 +97,3 @@ jobs:
           if-no-files-found: error
 
 
-97-h5000m-wireles
