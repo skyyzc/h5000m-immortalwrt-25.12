@@ -1,0 +1,23 @@
+# H5000M current project state
+
+- **Project:** H5000M ImmortalWrt 25.12 with Higo compatibility
+- **Device:** Hiveton H5000M / MediaTek MT7987A / Quectel RG520N-CN
+- **Target OS:** ImmortalWrt 25.12
+- **Current branch:** `master`
+- **Current project commit:** `HEAD`; Phase 1 base `2898f03021187cddc9ed7ae4ccb2cffa255f6345`
+- **ImmortalWrt branch/SHA:** project build branch `openwrt-25.12` / `cfd4f9545c7c893525b23ab3577252d5b9902399`
+- **Kernel:** source line 6.12; last tested artifact Linux 6.12.103
+- **Current rescue status:** `FUNCTION_TESTED` on Actions #10 RAM artifact; later unified-profile artifact status `UNKNOWN`
+- **Current full status:** latest RAM artifact is `FUNCTION_TESTED` only for validated items below; exact Actions run/artifact `UNKNOWN`
+- **QModem version/SHA:** 3.2.0-r1 / `c1db0fe2067955d6b9c6b43efff1b69259f4b096` (`CONFIGURED`; version also `RUNNING` on tested full RAM image)
+- **OAF version/SHA:** 7.0.1-r1 / `UNKNOWN`; source follows upstream (`RUNNING`, blocking unverified)
+- **wrtbwmon version/SHA:** 1.2.1-r3 / `UNKNOWN`; source follows upstream (`RUNNING`, Higo integration incomplete)
+- **Current validated hardware:** MT7987A, about 988 MiB RAM, 7.28 GiB eMMC, eth0 LAN, eth1 WAN, MT7992 dual-band Wi-Fi, RG520N-CN USB `2c7c:0801` with QMAP `wwan0_1`, PWM fan
+- **Current partially validated functions:** Higo `:80`, LuCI `:8080`, LAN/WAN, dual-band Wi-Fi, QModem first dial, IPv4/IPv6, fan PWM, OAF runtime, wrtbwmon data, KSMBD/DiskMan/UPnP/DDNS/Watchcat/ZeroTier presence
+- **Current unverified functions:** long 5G reconnect, OAF blocking/Higo UI, Higo device-list conversion, external-disk operations, SMB, UPnP, DDNS, ZeroTier, fan RPM/high-load curve, backup/restore, persistent upgrade/rollback
+- **Current known blockers:** Higo device API does not consume current wrtbwmon data; Higo expects older OAF controls; QModem scanner remains partially compatible; OAF/wrtbwmon and feeds are not fully pinned; persistent eMMC path is unvalidated
+- **Current Task:** Phase 1 governance baseline completed locally; awaiting Phase 2 approval after commit/push verification
+- **Next Tasks:** P0 pin/reproduce inputs; P1 candidate-build-RAM-test promotion record; P1 Higo device/OAF compatibility; hardware/persistent writes only in separately approved phases
+- **Last Tested Artifact:** latest `full` initramfs RAM image; exact filename and Actions run `UNKNOWN`
+- **Last Actions Run:** #16 / run identity `UNKNOWN`; former “building” text was stale and is not treated as success
+- **Last Updated:** 2026-09-03

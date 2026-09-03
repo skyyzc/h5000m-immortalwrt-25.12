@@ -35,3 +35,11 @@ git-src
 .cproject
 .ccache
 .vscode*
+
+# H5000M local/reference outputs; protected source and recovery material live separately.
+/artifacts/
+/outputs/
+/reference/
+/archive/raw/
+/diagnostics/raw/
+*.log
