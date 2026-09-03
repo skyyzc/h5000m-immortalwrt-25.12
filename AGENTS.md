@@ -40,6 +40,37 @@ This file is the permanent operating contract for maintainers and coding agents.
 - Build, test or validation-state changes require a `PROJECT_STATE.md` check.
 - Run `scripts/check-h5000m-governance.sh` before committing.
 
+## Reference Evidence Policy
+
+- `REFERENCE_EVIDENCE.md` is the index for external evidence location, provenance, recoverability, protection, and access timing.
+- **ACTIVE:** by default read only `AGENTS.md`, `PROJECT_STATE.md`, and files directly related to Current Task.
+- **EVIDENCE:** read by explicit path only when Current Task involves the corresponding function.
+- **DERIVED:** use as analysis assistance only; never unconditionally replace available original evidence with a derived asset.
+- **RECOVERY:** read only for approved recovery, high-risk write, partition, or boot-chain tasks. Verify the backup integrity manifest first.
+- **UPSTREAM:** read only for scoped build, source, kernel, plugin, or U-Boot tasks.
+- Do not recursively scan large EVIDENCE, RECOVERY, DERIVED, or UPSTREAM trees by default. “Not read by default” does not mean “not permitted to use.”
+- Fact precedence is: current-device original evidence > verified original backup > original-firmware extract > traceable DERIVED analysis > `PROJECT_STATE.md` / `README.md` > historical chat / model memory.
+- If high-confidence evidence conflicts, mark the fact `CONFLICT / UNKNOWN`, do not choose automatically, stop any dependent high-risk operation, and obtain more evidence.
+- Critical derived assets should trace `SOURCE -> EXTRACTED -> DERIVED`; if the chain is not confirmed, mark it `UNKNOWN`. Never call a derived report original evidence.
+- Recoverability labels are `IRREPLACEABLE`, `REGENERATABLE`, `REDOWNLOADABLE`, and `UNKNOWN`. Never delete, overwrite, modify, or automatically organize `IRREPLACEABLE` assets. Before deleting `REGENERATABLE` assets, verify inputs and method. `REDOWNLOADABLE` requires a traceable repository/URL plus version, tag, or SHA.
+
+## Git worktree protection
+
+- `h5000m-project` and `immortalwrt-25.12` share Git repository/worktree management. `h5000m-project\.git` points to `C:/Users/skyyz/Documents/Codex/2026-09-01/w/work/immortalwrt-25.12/.git/worktrees/h5000m-project`.
+- Treat `C:\Users\skyyz\Documents\Codex\2026-09-01\w\work\immortalwrt-25.12` as **GIT COMMON-DIR HOST / PROTECTED**, not as a disposable or redownloadable cache.
+- Without specific approval and a migration plan, do not move, delete, recreate, reclone over, `reset --hard`, clean, modify `.git/worktrees`, or perform any Git management operation that could break the canonical worktree.
+
+## High-risk evidence gate
+
+- Before changing or writing DTS/DTB, MTD, GPT, partitions, U-Boot, bootloader, sysupgrade, persistent flashing, backup/restore, or the recovery chain, re-read the applicable current-device/original evidence.
+- Critical hardware, partition, and boot-chain conclusions require in principle two independent evidence sources, for example MTD/block + DTB/DTS or GPT + boot log/bootloader evidence.
+- One source alone must not be promoted to `CONFIRMED`. Conflicting high-confidence sources require `CONFLICT / UNKNOWN` and a stop to the high-risk operation.
+
+## Source Folder policy
+
+- Keep `h5000m-project` as the only daily Codex Source Folder. Phase 1.1B confirmed external ACTIVE, EVIDENCE, DERIVED, RECOVERY, and UPSTREAM assets are reachable by exact path; no additional Source Folder is needed.
+- Unless the Codex access model changes and is revalidated, do not add `immortalwrt-25.12`, `bl-mt798x-dhcpd`, `h5000m-materials`, `overlay-inspect`, `outputs\h5000m-backup`, large Higo assets, `build_dir`, `staging_dir`, `tmp`, `dl`, `bin`, caches, or logs as daily Source Folders.
+
 ## Scope and safety
 
 - This repository is the canonical GitHub project worktree. ImmortalWrt/U-Boot trees are read-only references.

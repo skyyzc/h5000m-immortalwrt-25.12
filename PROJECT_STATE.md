@@ -16,8 +16,12 @@
 - **Current partially validated functions:** Higo `:80`, LuCI `:8080`, LAN/WAN, dual-band Wi-Fi, QModem first dial, IPv4/IPv6, fan PWM, OAF runtime, wrtbwmon data, KSMBD/DiskMan/UPnP/DDNS/Watchcat/ZeroTier presence
 - **Current unverified functions:** long 5G reconnect, OAF blocking/Higo UI, Higo device-list conversion, external-disk operations, SMB, UPnP, DDNS, ZeroTier, fan RPM/high-load curve, backup/restore, persistent upgrade/rollback
 - **Current known blockers:** Higo device API does not consume current wrtbwmon data; Higo expects older OAF controls; QModem scanner remains partially compatible; OAF/wrtbwmon and feeds are not fully pinned; persistent eMMC path is unvalidated
-- **Current Task:** Phase 1 governance baseline completed and pushed; awaiting explicit Phase 2 approval
-- **Next Tasks:** P0 pin/reproduce inputs; P1 candidate-build-RAM-test promotion record; P1 Higo device/OAF compatibility; hardware/persistent writes only in separately approved phases
+- **Reference evidence governance:** Phase 1.1A asset map + Phase 1.1B `PASS WITH CONDITIONS` access validation are codified in `REFERENCE_EVIDENCE.md`; `h5000m-project` remains the only daily Source Folder
+- **Git worktree protection:** `immortalwrt-25.12` is the protected Git common-dir host for this worktree and must not be treated as a disposable upstream cache
+- **Recovery readiness:** `NOT VERIFIED`; recovery evidence is incomplete, and p1-p4 backups do not establish `FULL RECOVERY READY`
+- **Recovery evidence gaps:** complete vendor firmware, p5/rootfs image, raw overlay image, raw boot/dmesg/device-topology/modem/thermal records, complete block/GPT capture, device-origin calibration evidence, and full eMMC/GPT-sector backup remain `UNKNOWN` or `PARTIAL/UNKNOWN`
+- **Current Task:** Phase 1.1C reference evidence governance baseline completed; awaiting explicit Phase 1.1D approval
+- **Next Tasks:** Phase 1.1D only if explicitly approved; then P0 pin/reproduce inputs, P1 candidate-build-RAM-test promotion record, and P1 Higo device/OAF compatibility; hardware/persistent writes remain separately approved phases
 - **Last Tested Artifact:** latest `full` initramfs RAM image; exact filename and Actions run `UNKNOWN`
 - **Last Actions Run:** #16 / run identity `UNKNOWN`; former “building” text was stale and is not treated as success
 - **Last Updated:** 2026-09-03
