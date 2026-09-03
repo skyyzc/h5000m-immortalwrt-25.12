@@ -15,15 +15,23 @@
 
 ### Added
 
-- Build traceability and first Rescue build work is in progress.
+- Exact resolved-config, Higo payload/install-tree, native board and image gates.
+- Per-build firmware identity, manifest, build report and SHA256SUMS generation.
+- Run-specific GitHub Actions artifact identity and retained build log.
 
 ### Fixed
 
-- Pending Linux build evidence.
+- Feed preparation now indexes exact locked commits and verifies every feed HEAD
+  before package installation; the previous branch-index/late-checkout sequence
+  could leave stale indexes even when final Git HEADs appeared locked.
+- Rescue explicitly requests uhttpd, dnsmasq, USB3 and the MT7996 driver so
+  `defconfig` cannot silently rely on target defaults for mandatory gates.
 
 ### Changed
 
 - Repository state, not chat history, is now the authoritative project memory.
+- Parallel compile now retries once with `-j1 V=s` to preserve the real root
+  cause, without ignoring failure or reducing the Rescue target.
 
 ### Build
 

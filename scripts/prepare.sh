@@ -27,17 +27,7 @@ git -C "$src" fetch --depth=1 origin "$commit"
 git -C "$src" checkout --detach "$commit"
 test "$(git -C "$src" rev-parse HEAD)" = "$commit"
 
-qmodem_dir="$src/feeds/qmodem"
-rm -rf "$qmodem_dir"
-git clone --filter=blob:none --no-checkout "$qmodem_repo" "$qmodem_dir"
-git -C "$qmodem_dir" fetch --depth=1 origin "$qmodem_commit"
-git -C "$qmodem_dir" checkout --detach "$qmodem_commit"
-test "$(git -C "$qmodem_dir" rev-parse HEAD)" = "$qmodem_commit"
-cp "$src/feeds.conf.default" "$src/feeds.conf"
-printf 'src-link qmodem %s\n' "$qmodem_dir" >> "$src/feeds.conf"
-
-# Feed SHAs are intentionally UNKNOWN in BUILD-01. Refuse a false lock instead
-# of silently updating feeds to moving branch tips.
+# Refuse a false lock instead of silently updating feeds to moving branch tips.
 "$python_cmd" - "$lock" <<'PY'
 import json, sys
 d=json.load(open(sys.argv[1]))
@@ -46,18 +36,29 @@ if missing:
     raise SystemExit('Feed commits are UNKNOWN: '+', '.join(missing))
 PY
 
-"$python_cmd" - "$lock" "$src" <<'PY'
+"$python_cmd" - "$lock" "$src/feeds.conf" <<'PY'
+import json, sys
+d=json.load(open(sys.argv[1]))
+with open(sys.argv[2], 'w', newline='\n') as out:
+    for name, feed in d['feeds'].items():
+        out.write(f"src-git {name} {feed['repository']}^{feed['commit']}\n")
+    q=d['qmodem']
+    out.write(f"src-git qmodem {q['repository']}^{q['commit']}\n")
+PY
+
+if [ "${H5000M_PREPARE_FETCH_ONLY:-0}" = 1 ]; then
+  "$python_cmd" - "$lock" "$src" <<'PY'
 import json, os, subprocess, sys
 d=json.load(open(sys.argv[1])); src=sys.argv[2]
-for name, feed in d['feeds'].items():
+sources=dict(d['feeds'])
+sources['qmodem']={'repository':d['qmodem']['repository'],'commit':d['qmodem']['commit']}
+for name, feed in sources.items():
     path=os.path.join(src,'feeds',name)
     if not os.path.isdir(os.path.join(path,'.git')):
         subprocess.check_call(['git','clone','--filter=blob:none','--no-checkout',feed['repository'],path])
     subprocess.check_call(['git','-C',path,'fetch','--depth=1','origin',feed['commit']])
     subprocess.check_call(['git','-C',path,'checkout','--detach',feed['commit']])
 PY
-
-if [ "${H5000M_PREPARE_FETCH_ONLY:-0}" = 1 ]; then
   echo "Prepared locked source checkouts without feed indexing (fetch-only mode)"
   exit 0
 fi
@@ -66,11 +67,11 @@ fi
 "$python_cmd" - "$lock" "$src" <<'PY'
 import json, os, subprocess, sys
 d=json.load(open(sys.argv[1])); src=sys.argv[2]
-for name, feed in d['feeds'].items():
+sources=dict(d['feeds'])
+sources['qmodem']={'commit':d['qmodem']['commit']}
+for name, feed in sources.items():
     path=os.path.join(src,'feeds',name)
     commit=feed['commit']
-    subprocess.check_call(['git','-C',path,'fetch','--depth=1','origin',commit])
-    subprocess.check_call(['git','-C',path,'checkout','--detach',commit])
     actual=subprocess.check_output(['git','-C',path,'rev-parse','HEAD'],text=True).strip()
     if actual != commit: raise SystemExit(f'{name} feed mismatch: {actual}')
 PY
