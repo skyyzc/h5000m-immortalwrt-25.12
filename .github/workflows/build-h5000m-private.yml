@@ -2,11 +2,26 @@ name: Build H5000M initramfs
 
 on:
   workflow_dispatch:
+    inputs:
+      profile:
+        description: Firmware profile to build
+        required: true
+        default: both
+        type: choice
+        options:
+          - both
+          - rescue
+          - full
 
 jobs:
   build:
+    name: build-${{ matrix.profile }}
     runs-on: ubuntu-24.04
     timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: ${{ fromJSON(inputs.profile == 'both' && '["rescue","full"]' || format('["{0}"]', inputs.profile)) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -35,6 +50,7 @@ jobs:
           echo 'src-git qmodem https://github.com/FUjr/QModem.git;main' >> feeds.conf.default
 
       - name: Add H5000M feature sources
+        if: matrix.profile == 'full'
         run: |
           git clone --depth=1 https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
           git clone --depth=1 https://github.com/brvphoenix/wrtbwmon.git /tmp/wrtbwmon-src
@@ -118,6 +134,92 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
+      - name: Apply H5000M runtime fixes
+        run: |
+          # QModem starts modem_scand before it checks block_auto_probe.  Keep the
+          # fixed RG520N-CN path but suppress the redundant generic scanner.
+          QMODEM_INIT="$(find package -path '*/qmodem/files/etc/init.d/qmodem_init' -print -quit)"
+          test -n "$QMODEM_INIT"
+          python3 - "$QMODEM_INIT" <<'PY'
+          import pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          data = path.read_text()
+          old = '''        config_load qmodem
+              _start_scand
+              config_foreach _mk_rundir modem-device
+              config_get block_auto_probe main block_auto_probe 0
+          '''
+          new = '''        config_load qmodem
+              config_get block_auto_probe main block_auto_probe 0
+              [ "$block_auto_probe" -eq 1 ] || _start_scand
+              config_foreach _mk_rundir modem-device
+          '''
+          if old not in data:
+              raise SystemExit('qmodem_init layout changed; refusing an unsafe patch')
+          path.write_text(data.replace(old, new, 1))
+          PY
+
+          # The upstream stop order can leave a stopped shell behind after
+          # concurrent ifup events.  Resume the daemon before asking procd to kill it.
+          if [ "${{ matrix.profile }}" = full ]; then
+            WRT_INIT="$(grep -Rsl 'kill -CONT.*PID_FILE' package/wrtbwmon 2>/dev/null | head -n1)"
+            test -n "$WRT_INIT"
+            sed -i '/procd_kill wrtbwmon/{N;s/procd_kill wrtbwmon\n[[:space:]]*kill -CONT \$(cat \$PID_FILE)/kill -CONT \$(cat \$PID_FILE) 2>\/dev\/null || true\n\tprocd_kill wrtbwmon/;}' "$WRT_INIT"
+          fi
+
+          # Final defaults run after QModem's own defaults.  Keep the fixed modem
+          # profile deterministic and set the documented RAM-image root password.
+          mkdir -p package/base-files/files/etc/uci-defaults
+          cat > package/base-files/files/etc/uci-defaults/zzz-h5000m-finalize <<'EOF'
+          #!/bin/sh
+          [ "$(cat /tmp/sysinfo/board_name 2>/dev/null)" = "hiveton,h5000m" ] || exit 0
+          uci set qmodem.main.block_auto_probe='1'
+          uci set qmodem.main.start_delay='0'
+          uci set qmodem.main.try_preset_usb='0'
+          uci set qmodem.main.try_preset_pcie='0'
+          uci commit qmodem
+          printf 'admin\nadmin\n' | passwd root >/dev/null 2>&1
+          exit 0
+          EOF
+
+          if [ "${{ matrix.profile }}" = full ]; then
+            # HigoROS 1.26 detects the legacy OAF control surface.  OAF 7 uses
+            # /etc/config/fwx, so provide a narrow compatibility configuration and
+            # reload shim while retaining the new kernel module and daemon.
+            mkdir -p package/base-files/files/etc/config package/base-files/files/usr/bin
+            cat > package/base-files/files/etc/config/appfilter <<'EOF'
+          config global 'global'
+                  option enable '1'
+                  option work_mode '0'
+                  option record_enable '1'
+                  option disable_hnat '0'
+                  option tcp_rst '1'
+                  option lan_ifname 'br-lan'
+                  option auto_load_engine '1'
+                  option disable_quic '0'
+                  option user_mode '0'
+                  option app_filter_mode '0'
+          config appfilter 'appfilter'
+          config feature 'feature'
+                  option update '0'
+                  option format 'v3.0'
+          config rule 'rule'
+          EOF
+            cat > package/base-files/files/usr/bin/oaf_rule <<'EOF'
+          #!/bin/sh
+          case "$1" in
+            reload)
+              enabled="$(uci -q get appfilter.global.enable)"
+              uci -q set fwx.appfilter.enable="${enabled:-1}"
+              uci -q commit fwx
+              /etc/init.d/appfilter reload
+              ;;
+            *) exit 0 ;;
+          esac
+          EOF
+            chmod 0755 package/base-files/files/usr/bin/oaf_rule
+          fi
+
       - name: Enable Quectel QMAP stack
         run: |
           sed -i '/CONFIG_PACKAGE_kmod-usb-net-qmi-wwan=/d' .config
@@ -127,7 +229,10 @@ jobs:
           CONFIG_PACKAGE_qmodem=y
           CONFIG_PACKAGE_luci-app-qmodem-next=y
           CONFIG_PACKAGE_luci-i18n-qmodem-next-zh-cn=y
+          EOF
 
+          if [ "${{ matrix.profile }}" = full ]; then
+            cat >> .config <<'EOF'
           # Restore packages used by Higo feature detection and vendor menus.
           CONFIG_PACKAGE_wrtbwmon=y
           CONFIG_PACKAGE_luci-app-wrtbwmon=y
@@ -167,13 +272,16 @@ jobs:
           CONFIG_PACKAGE_luci-app-zerotier=y
           CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y
           EOF
+          fi
 
       - name: Configure
         run: |
           make defconfig
           ./scripts/diffconfig.sh
           grep -E 'qmi_wwan|qmodem|higoros|app-oaf|fancontrol|wrtbwmon|diskman|ksmbd|upnp|ddns|watchcat|zerotier' .config || true
-          for pkg in higoros qmodem fancontrol appfilter wrtbwmon block-mount ksmbd-server miniupnpd-nftables ddns-scripts watchcat zerotier; do
+          required='higoros qmodem'
+          [ "${{ matrix.profile }}" = full ] && required="$required fancontrol appfilter wrtbwmon block-mount ksmbd-server miniupnpd-nftables ddns-scripts watchcat zerotier"
+          for pkg in $required; do
             grep -q "CONFIG_PACKAGE_${pkg}=y" .config || { echo "Required package missing after defconfig: $pkg"; exit 1; }
           done
           df -h /
@@ -198,6 +306,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: h5000m-initramfs-qmodem
+          name: h5000m-initramfs-${{ matrix.profile }}
           path: artifacts/
           if-no-files-found: error
