@@ -1,5 +1,56 @@
 # Changelog
 
+## Rebuild V1 / BUILD-02
+
+### Project Memory
+
+- Added durable repository rules in `AGENTS.md`.
+- Added the H5000M firmware engineer SOP Skill.
+- Added concise reference evidence, asset, and migration maps.
+
+### Source
+
+- Starting project commit: `de73dcd2090a2d28c593f77a3f2882029d086d47`.
+- Candidate source locks are unchanged from BUILD-01.5.
+
+### Added
+
+- Build traceability and first Rescue build work is in progress.
+
+### Fixed
+
+- Pending Linux build evidence.
+
+### Changed
+
+- Repository state, not chat history, is now the authoritative project memory.
+
+### Build
+
+- GitHub Actions Run ID/number/attempt/result: pending.
+
+### Artifacts
+
+- Pending first reproducible Rescue artifact.
+
+### Validation
+
+- SOURCE_LOCKED: CONFIRMED
+- CONFIG_RESOLVED: UNVERIFIED
+- BUILD_OK: UNVERIFIED
+- RAM_BOOT_OK: UNVERIFIED
+- DEVICE_OK: UNVERIFIED
+- FUNCTION_TESTED: UNVERIFIED
+
+### Known Issues
+
+- Linux defconfig and compile gates have not yet run for this project.
+
+### Deferred
+
+- All device, RAM boot, persistent installation, Full-profile, and upstream
+  update work remains outside BUILD-02.
+
 ## Rebuild V1 / BUILD-01.5
 
 ### Source Locked
