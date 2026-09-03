@@ -1,0 +1,24 @@
+# Build and upstream workspaces
+/workspace/
+/upstream/
+/downloads/
+/dl/
+/build_dir/
+/staging_dir/
+/bin/
+/tmp/
+/logs/
+
+# Generated outputs
+/artifacts/
+/firmware/
+/BUILD-MANIFEST.json
+
+# Local secrets and credentials
+/.env
+/.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*secret*

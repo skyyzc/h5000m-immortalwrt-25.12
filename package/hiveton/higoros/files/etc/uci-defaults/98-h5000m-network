@@ -1,0 +1,12 @@
+#!/bin/sh
+
+board_name="$(cat /tmp/sysinfo/board_name 2>/dev/null)"
+[ "$board_name" = "hiveton,h5000m" ] || exit 0
+
+# Match the vendor firmware's management subnet and avoid the commonly used
+# 192.168.1.0/24 network.  Both web services listen on all LAN addresses:
+# HigoROS on port 80 and LuCI on port 8080.
+uci set network.lan.ipaddr='192.168.88.1/24'
+uci commit network
+
+exit 0

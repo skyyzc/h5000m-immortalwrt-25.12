@@ -1,0 +1,26 @@
+#!/bin/sh
+
+board_name="$(cat /tmp/sysinfo/board_name 2>/dev/null)"
+[ "$board_name" = "hiveton,h5000m" ] || exit 0
+
+# Match the vendor firmware's two-band layout while keeping mac80211-generated
+# device paths and MAC addresses.  Only apply this on first boot.
+uci -q batch <<'EOF'
+set wireless.radio0.band='2g'
+set wireless.radio0.channel='6'
+set wireless.radio0.htmode='EHT40'
+set wireless.radio0.country='CN'
+set wireless.default_radio0.ssid='Hiveton-H5000M-2.4G'
+set wireless.default_radio0.encryption='none'
+set wireless.default_radio0.disabled='0'
+set wireless.radio1.band='5g'
+set wireless.radio1.channel='44'
+set wireless.radio1.htmode='EHT160'
+set wireless.radio1.country='CN'
+set wireless.default_radio1.ssid='Hiveton-H5000M-5G'
+set wireless.default_radio1.encryption='none'
+set wireless.default_radio1.disabled='0'
+commit wireless
+EOF
+
+exit 0

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "validation_origin": "historical",
+  "reproducible": false,
+  "note": "Historical latest-full RAM validation only; no stable rebuild exists yet.",
+  "immortalwrt": {
+    "repository": "https://github.com/immortalwrt/immortalwrt.git",
+    "branch": "openwrt-25.12",
+    "commit": "cfd4f9545c7c893525b23ab3577252d5b9902399",
+    "status": "CONFIRMED"
+  },
+  "feeds": {
+    "packages": {"repository": "https://github.com/immortalwrt/packages.git", "commit": null, "status": "UNKNOWN"},
+    "luci": {"repository": "https://github.com/immortalwrt/luci.git", "commit": null, "status": "UNKNOWN"},
+    "routing": {"repository": "https://github.com/openwrt/routing.git", "commit": null, "status": "UNKNOWN"},
+    "telephony": {"repository": "https://github.com/openwrt/telephony.git", "commit": null, "status": "UNKNOWN"}
+  },
+  "higo": {"version": "1.26.04.29.09-r1", "payload_sha256": {"higorosd": "b21b8bafddd3ce797a1610fa106f42ab1c9e6eff73d48d39715ed0835aa87ace", "api_lua": "55d6d2de03e79a0946d492bfe501d29bfa74e9fe97f89191c854e74d4c588355", "frontend": "f8acab37d83c52202b1ea93687aa164c20c558b86e5719ae2ef3bd33abd50739"}, "status": "CONFIRMED"},
+  "qmodem": {"repository": null, "commit": null, "package_version": "3.2.0-r1", "status": "UNKNOWN"},
+  "qmi_wwan_q": {"source": null, "commit": null, "version": null, "status": "UNKNOWN"},
+  "openappfilter": {"repository": null, "commit": null, "version": "7.0.1-r1", "status": "UNKNOWN"},
+  "wrtbwmon": {"repository": null, "commit": null, "version": "1.2.1-r3", "status": "UNKNOWN"}
+}

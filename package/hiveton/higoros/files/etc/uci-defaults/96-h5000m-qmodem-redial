@@ -1,0 +1,34 @@
+#!/bin/sh
+
+board_name="$(cat /tmp/sysinfo/board_name 2>/dev/null)"
+[ "$board_name" = "hiveton,h5000m" ] || exit 0
+
+target=/usr/share/qmodem/modem_dial.sh
+marker='H5000M has a fixed QMAP interface'
+[ -f "$target" ] || exit 0
+grep -q "$marker" "$target" && exit 0
+
+backup="/tmp/modem_dial.sh.h5000m.$$"
+cp "$target" "$backup" || exit 1
+
+# QModem normally deletes its generated UCI interfaces on every hangup, which
+# forces a full network restart.  This board has a fixed RG520N-CN/QMAP layout;
+# retaining USB and USBv6 lets netifd follow the wwan0_1 carrier and avoids
+# interrupting LAN, Wi-Fi, LuCI, HigoROS and SSH during a modem redial.
+sed -i '/^flush_if()$/,/^{$/ { /^{$/ a\
+    # H5000M has a fixed QMAP interface; retain it during modem redial.\
+    if [ "$(cat /tmp/sysinfo/board_name 2>/dev/null)" = "hiveton,h5000m" ] && [ "$modem_config" = "2_1" ]; then\
+        set_led "net" "$modem_config"\
+        set_led "sim" "$modem_config" 0\
+        return 0\
+    fi
+}' "$target"
+
+if ! sh -n "$target"; then
+	cp "$backup" "$target"
+	rm -f "$backup"
+	exit 1
+fi
+
+rm -f "$backup"
+exit 0

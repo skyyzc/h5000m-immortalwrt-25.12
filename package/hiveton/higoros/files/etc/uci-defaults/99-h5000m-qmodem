@@ -1,0 +1,57 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+board_name="$(cat /tmp/sysinfo/board_name 2>/dev/null)"
+[ "$board_name" = "hiveton,h5000m" ] || exit 0
+
+# The modem path and profile are fixed on this board.  Disable generic probing,
+# which otherwise retries nonexistent PCIe/USB slots and cannot match RG520N-CN.
+uci set qmodem.main.block_auto_probe='1'
+uci set qmodem.main.start_delay='0'
+uci set qmodem.main.try_preset_usb='0'
+uci set qmodem.main.try_preset_pcie='0'
+
+# QModem 3.2 does not include an exact RG520N-CN model profile.  Seed the
+# vendor-proven device section so the modem can be managed and dialled without
+# relying on model auto-detection.  Keep an already discovered/user-edited
+# section intact on upgrades.
+if uci -q get qmodem.2_1 >/dev/null; then
+	uci commit qmodem
+	exit 0
+fi
+
+uci set qmodem.2_1='modem-device'
+uci set qmodem.2_1.alias='USB'
+uci set qmodem.2_1.path='/sys/bus/usb/devices/2-1/'
+uci set qmodem.2_1.data_interface='usb'
+uci set qmodem.2_1.enable_dial='1'
+uci set qmodem.2_1.soft_reboot='1'
+uci set qmodem.2_1.extend_prefix='1'
+uci set qmodem.2_1.pdp_type='ipv4v6'
+uci set qmodem.2_1.state='enabled'
+uci set qmodem.2_1.metric='11'
+uci set qmodem.2_1.name='rg520n-cn'
+uci set qmodem.2_1.network='wwan0'
+uci set qmodem.2_1.manufacturer='quectel'
+uci set qmodem.2_1.platform='qualcomm'
+uci set qmodem.2_1.wcdma_band='1/8'
+uci set qmodem.2_1.lte_band='1/3/5/8/34/38/39/40/41'
+uci set qmodem.2_1.nsa_band='1/8/28/41/78'
+uci set qmodem.2_1.sa_band='1/8/28/41/78'
+uci set qmodem.2_1.at_port='/dev/ttyUSB3'
+
+for mode in qmi gobinet ecm mbim rndis ncm; do
+	uci add_list qmodem.2_1.modes="$mode"
+done
+for port in /dev/ttyUSB2 /dev/ttyUSB3; do
+	uci add_list qmodem.2_1.valid_at_ports="$port"
+done
+for port in /dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3; do
+	uci add_list qmodem.2_1.ports="$port"
+done
+
+uci set qmodem.main.modem_count='1'
+uci commit qmodem
+
+exit 0
