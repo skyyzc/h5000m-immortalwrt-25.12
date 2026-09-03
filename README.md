@@ -45,17 +45,17 @@ eMMC 已确认包含 U-Boot 环境、factory、FIP、kernel 和 rootfs 分区。
 | WAN、LAN/DHCP、IPv6、路由、转发、DMZ、拓扑、诊断 | 已保留 | netifd、firewall4、odhcp6c | 双栈长稳测试 |
 | HigoROS `:80` + LuCI `:8080` | 已保留 | 双管理入口 | 固化升级迁移策略 |
 | 双频 Wi-Fi | 已保留 | mt76/mac80211 | 吞吐、漫游和高温压力测试 |
-| 设备列表、黑名单、流量排行 | 部分保留/待修复 | DHCP/邻居表可用；统计依赖 `wrtbwmon` | 25.12 feed 已移除该包；移植兼容版或接入 nlbwmon |
-| UPnP | 待验证 | `miniupnpd-nftables` | 已纳入增强构建 |
-| DDNS | 待验证 | `ddns-scripts` | 已纳入增强构建 |
+| 设备列表、黑名单、流量排行 | 底层已恢复，Higo 展示待修复 | #13 已生成 `/tmp/usage.db` 并记录客户端流量，但 Higo API 仍返回空数组 | 增加 wrtbwmon→Higo 设备缓存兼容转换服务 |
+| UPnP | 已安装/API 可读，功能待测 | `miniupnpd-nftables`，#13 默认禁用 | 后续验证端口映射与清理 |
+| DDNS | 已安装/API 可读，功能待测 | `ddns-scripts`，#13 为未启用示例配置 | 后续验证服务商更新 |
 | 防火墙、DoS、IP/URL 过滤 | 基本保留 | firewall4/nftables、HigoROS | 逐类验证规则 |
-| 应用过滤 | 待编译验证 | 原厂 `oaf.ko` 绑定 Linux 6.6 ABI | 用 OpenAppFilter 源码针对 6.12 重编译 |
+| 应用过滤 | 底层已运行，Higo 接口待修复 | #13 的 OAF 7 内核模块、守护进程和识别数据库正常；Higo 期待旧控制接口 | 提供 `appfilter`/`oaf_rule` 兼容层并实测阻断 |
 | 固件、备份、日志、任务、信息、监控、终端、通知 | 基本保留 | HigoROS 和系统工具 | 逐页回归 |
-| 风扇控制 | 待验证 | pwm-fan/hwmon | 已按原厂三条曲线重建 25.12 服务；实测 PWM/RPM |
-| 磁盘管理 | 待验证 | block-mount、USB、EXT4/exFAT/NTFS3、DiskMan | 外置磁盘全流程测试 |
-| 文件共享 | 待验证 | KSMBD | 测试 SMB2/SMB3 和权限 |
-| ZeroTier | 待验证 | `zerotier` | 已纳入，默认不加入网络 |
-| Watchcat | 待验证 | `watchcat` | 已纳入，避免默认激进重启 |
+| 风扇控制 | 已保留 | #13 服务运行并根据 CPU 温度动态调整 PWM | 继续验证 RPM 路径及高负载温控曲线 |
+| 磁盘管理 | 已安装/API 通过，写操作未测 | #13 可识别 eMMC、分区及挂载能力 | 禁止操作当前 eMMC；使用外置磁盘测试 |
+| 文件共享 | 服务已恢复，实际共享待测 | #13 KSMBD、内核线程和 wsdd2 均运行 | 使用外置磁盘验证 SMB2/SMB3、账号与权限 |
+| ZeroTier | 已安装/API 可读 | #13 默认禁用，符合安全预期 | 用户配置测试网络后验证连通性 |
+| Watchcat | 已保留 | #13 服务正常运行，默认每 6 小时检查连通性 | 验证故障恢复且避免误重启 |
 
 这些菜单并非 RAM 启动方式本质上无法实现。HigoROS 会按软件包、配置和服务状态动态显示菜单；早期 RAM 镜像采用精简包集合，因此隐藏了入口。
 
@@ -67,17 +67,17 @@ eMMC 已确认包含 U-Boot 环境、factory、FIP、kernel 和 rootfs 分区。
 | --- | --- | --- | --- |
 | ImmortalWrt / Linux | 24.10 / 6.6.94 | `openwrt-25.12` / 6.12 系列 | 系统、网络和驱动 |
 | HigoROS | — | `1.26.04.29.09-1` | 厂商界面与 API |
-| QModem | — | main，当前 3.2 系列 | RG520N-CN 管理、AT、短信和拨号 |
+| QModem | — | `3.2.0-r1`；#16 起固定源码 commit `c1db0fe2` | RG520N-CN 管理、AT、短信和拨号 |
 | `kmod-qmi_wwan_q` | 原厂 Quectel 驱动 | 随当前内核编译 | QMAP 数据接口 |
-| OpenAppFilter | `appfilter 6.1.8-r1` | 6.1.8 系列源码 | 应用识别与终端访问控制 |
+| OpenAppFilter | `appfilter 6.1.8-r1` | #13 实测 `appfilter 7.0.1-r1` / `kmod-oaf 6.12.103-r1` | 应用识别与终端访问控制 |
 | H5000M fancontrol | `1-r3` | 本项目 `2.0-1` | 静音/均衡/性能温控曲线 |
 | wrtbwmon | `1.2.1-r3` | `brvphoenix/wrtbwmon`，`1.2.1-r3` | Higo 设备流量数据源；通过 iptables-nft 兼容层运行 |
 | DiskMan | `0.2.13-r1` | 25.12 feed | 分区、格式化和挂载 |
-| KSMBD | `ksmbd-server 3.5.5-r1` | 25.12 feed/内核 | SMB2/SMB3 文件共享 |
+| KSMBD | `ksmbd-server 3.5.5-r1` | #13 实测 `ksmbd-server 3.5.6-r1` | SMB2/SMB3 文件共享 |
 | UPnP | `miniupnpd-nftables 2.3.9-r1` | 25.12 feed | 自动端口映射 |
-| DDNS | `ddns-scripts 2.8.2-r65` | 25.12 feed | 动态 DNS 更新 |
-| Watchcat | `1-r17` | 25.12 feed | 网络故障检测与恢复 |
-| ZeroTier | `1.14.1-r14` | 25.12 feed | 虚拟组网 |
+| DDNS | `ddns-scripts 2.8.2-r65` | #13 实测 `ddns-scripts 2.8.3-r5` | 动态 DNS 更新 |
+| Watchcat | `1-r17` | #13 实测 `1-r25` | 网络故障检测与恢复 |
+| ZeroTier | `1.14.1-r14` | #13 实测 `1.16.0-r2` | 虚拟组网 |
 | block-mount/automount | 24.10 对应版本 | 25.12 feed | 外置存储探测与挂载 |
 | EXT4/exFAT/NTFS3 | Linux 6.6.94 模块 | 针对 Linux 6.12 编译 | 移动存储文件系统 |
 
@@ -86,9 +86,12 @@ eMMC 已确认包含 U-Boot 环境、factory、FIP、kernel 和 rootfs 分区。
 | Actions 版本 | 定位 | 测试内容 | 状态 |
 | --- | --- | --- | --- |
 | #9 | 无线恢复基线 | Higo/LuCI、双频无线、5G 双栈 | 成功并已实测 |
-| #10 | QModem 稳定基线 | 固定 RG520N-CN、重拨不中断 LAN/Wi-Fi/SSH | 构建中；增强版回退对照 |
+| #10 | 精简救援/稳定基线 | 固定 RG520N-CN、双后台、双频 Wi-Fi、IPv4/IPv6 | 成功并已实机验证 |
 | #12 | 完整功能增强尝试 | OAF、风扇、存储、共享、UPnP、DDNS、Watchcat、ZeroTier、设备统计 | 配置校验停止：缺少 `wrtbwmon`，未产生镜像 |
-| #13 | 完整功能增强修正版 | 为 25.12 外置引入 wrtbwmon 1.2.1-r3 及 LuCI 前端 | 待构建 |
+| #13 | 完整功能增强基线 | 加入 wrtbwmon、OAF 7、风扇、DiskMan、KSMBD 等 | 成功并完成与 #10 的实机 A/B 对照；核心网络无回退 |
+| #14 | rescue/full 合并构建首次尝试 | 单工作流双产物矩阵 | 失败：QModem 文件查找未正确覆盖 feed 路径，未产生镜像 |
+| #15 | QModem 文件定位修正版 | 验证合并构建的运行时补丁 | 失败：整段源码匹配过于严格，未产生镜像 |
+| #16 | 当前双版本构建 | QModem 源码固定、扫描器补丁语义匹配且可降级 | 构建中；rescue/full 均已越过 #15 失败步骤 |
 
 后续优先测试最新完整功能增强版，并用 #10 做稳定性对照。报告问题时必须注明 Actions 运行编号，不能只写“最新固件”。
 
@@ -113,7 +116,11 @@ eMMC 已确认包含 U-Boot 环境、factory、FIP、kernel 和 rootfs 分区。
 - 增加 H5000M 风扇控制重建实现和原厂三种温控曲线。
 - 将 DiskMan、KSMBD、UPnP、DDNS、Watchcat、ZeroTier 和常用 USB 文件系统加入增强构建。
 - #12 发现 25.12 feed 不提供 `wrtbwmon`；下一步移植兼容包或为 HigoROS 接入 nlbwmon。
-- 准备 #13：从维护中的独立源码引入 `wrtbwmon 1.2.1-r3` 和 `luci-app-wrtbwmon 2.0.13`，保留构建期必需包校验。
+- #13 构建成功并完成与 #10 的实机 A/B 对照：核心网络无回退；风扇、DiskMan、KSMBD、Watchcat 已恢复。
+- #13 确认 wrtbwmon 和 OAF 7 底层工作，但 Higo 设备列表与应用过滤接口仍需兼容层。
+- 合并为单一工作流的 `rescue`/`full` 双产物矩阵，保留精简救援版和完整测试版。
+- #14/#15 在编译前的 QModem 修补步骤失败，均未产生固件，不影响 #10/#13 的实机结论。
+- #16 固定 QModem commit `c1db0fe2`，将扫描器修补改为语义定位；上游结构变化时降级保留原行为，不再阻断构建。
 - 重写 README，增加设备信息、项目思路、功能矩阵、插件版本和测试约定。
 
 ### 已完成的早期优化
