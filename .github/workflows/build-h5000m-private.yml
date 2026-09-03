@@ -56,29 +56,7 @@ jobs:
           # Higo probes for a package named "fancontrol".  Reimplement the small
           # vendor daemon as a portable procd shell service against pwm-fan sysfs.
           mkdir -p package/hiveton/fancontrol/files/etc/init.d package/hiveton/fancontrol/files/etc/config package/hiveton/fancontrol/files/usr/bin
-          cat > package/hiveton/fancontrol/Makefile <<'EOF'
-          include $(TOPDIR)/rules.mk
-          PKG_NAME:=fancontrol
-          PKG_VERSION:=2.0
-          PKG_RELEASE:=1
-          PKG_LICENSE:=GPL-2.0-only
-          include $(INCLUDE_DIR)/package.mk
-          define Package/fancontrol
-            SECTION:=utils
-            CATEGORY:=Utilities
-            TITLE:=H5000M PWM fan controller
-            DEPENDS:=+uci +kmod-hwmon-pwmfan
-          endef
-          define Build/Compile
-          endef
-          define Package/fancontrol/install
-	$(INSTALL_DIR) $(1)/etc/init.d $(1)/etc/config $(1)/usr/bin
-	$(INSTALL_BIN) ./files/etc/init.d/fancontrol $(1)/etc/init.d/fancontrol
-	$(INSTALL_CONF) ./files/etc/config/fancontrol $(1)/etc/config/fancontrol
-	$(INSTALL_BIN) ./files/usr/bin/fancontrol $(1)/usr/bin/fancontrol
-          endef
-          $(eval $(call BuildPackage,fancontrol))
-          EOF
+          printf '%s' 'aW5jbHVkZSAkKFRPUERJUikvcnVsZXMubWsKUEtHX05BTUU6PWZhbmNvbnRyb2wKUEtHX1ZFUlNJT046PTIuMApQS0dfUkVMRUFTRTo9MQpQS0dfTElDRU5TRTo9R1BMLTIuMC1vbmx5CmluY2x1ZGUgJChJTkNMVURFX0RJUikvcGFja2FnZS5tawpkZWZpbmUgUGFja2FnZS9mYW5jb250cm9sCiAgU0VDVElPTjo9dXRpbHMKICBDQVRFR09SWTo9VXRpbGl0aWVzCiAgVElUTEU6PUg1MDAwTSBQV00gZmFuIGNvbnRyb2xsZXIKICBERVBFTkRTOj0rdWNpICtrbW9kLWh3bW9uLXB3bWZhbgplbmRlZgpkZWZpbmUgQnVpbGQvQ29tcGlsZQplbmRlZgpkZWZpbmUgUGFja2FnZS9mYW5jb250cm9sL2luc3RhbGwKCSQoSU5TVEFMTF9ESVIpICQoMSkvZXRjL2luaXQuZCAkKDEpL2V0Yy9jb25maWcgJCgxKS91c3IvYmluCgkkKElOU1RBTExfQklOKSAuL2ZpbGVzL2V0Yy9pbml0LmQvZmFuY29udHJvbCAkKDEpL2V0Yy9pbml0LmQvZmFuY29udHJvbAoJJChJTlNUQUxMX0NPTkYpIC4vZmlsZXMvZXRjL2NvbmZpZy9mYW5jb250cm9sICQoMSkvZXRjL2NvbmZpZy9mYW5jb250cm9sCgkkKElOU1RBTExfQklOKSAuL2ZpbGVzL3Vzci9iaW4vZmFuY29udHJvbCAkKDEpL3Vzci9iaW4vZmFuY29udHJvbAplbmRlZgokKGV2YWwgJChjYWxsIEJ1aWxkUGFja2FnZSxmYW5jb250cm9sKSkK' | base64 -d > package/hiveton/fancontrol/Makefile
           cat > package/hiveton/fancontrol/files/etc/config/fancontrol <<'EOF'
           config fancontrol 'settings'
                   option enable '1'
@@ -219,4 +197,3 @@ jobs:
           name: h5000m-initramfs-qmodem
           path: artifacts/
           if-no-files-found: error
-
