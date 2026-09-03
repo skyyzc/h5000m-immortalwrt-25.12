@@ -47,7 +47,9 @@ jobs:
 
       - name: Add QModem feed
         run: |
-          echo 'src-git qmodem https://github.com/FUjr/QModem.git;main' >> feeds.conf.default
+          # Pin the feed used by the #15 diagnosis so upstream changes cannot
+          # silently alter the resulting firmware between builds.
+          echo 'src-git qmodem https://github.com/FUjr/QModem.git^c1db0fe2067955d6b9c6b43efff1b69259f4b096' >> feeds.conf.default
 
       - name: Add H5000M feature sources
         if: matrix.profile == 'full'
@@ -139,25 +141,36 @@ jobs:
           # QModem starts modem_scand before it checks block_auto_probe.  Keep the
           # fixed RG520N-CN path but suppress the redundant generic scanner.
           QMODEM_INIT="$(find feeds package -path '*/qmodem/files/etc/init.d/qmodem_init' -print -quit)"
-          test -n "$QMODEM_INIT"
-          python3 - "$QMODEM_INIT" <<'PY'
+          if [ -z "$QMODEM_INIT" ]; then
+            echo "::warning::qmodem_init not found; keeping upstream scanner behavior"
+          else
+            python3 - "$QMODEM_INIT" <<'PY'
           import pathlib, sys
           path = pathlib.Path(sys.argv[1])
-          data = path.read_text()
-          old = '''        config_load qmodem
-              _start_scand
-              config_foreach _mk_rundir modem-device
-              config_get block_auto_probe main block_auto_probe 0
-          '''
-          new = '''        config_load qmodem
-              config_get block_auto_probe main block_auto_probe 0
-              [ "$block_auto_probe" -eq 1 ] || _start_scand
-              config_foreach _mk_rundir modem-device
-          '''
-          if old not in data:
-              raise SystemExit('qmodem_init layout changed; refusing an unsafe patch')
-          path.write_text(data.replace(old, new, 1))
+          lines = path.read_text().splitlines(keepends=True)
+          scan = [i for i, line in enumerate(lines) if line.strip() == "_start_scand"]
+          probe = [i for i, line in enumerate(lines)
+                   if line.strip() == "config_get block_auto_probe main block_auto_probe 0"]
+          marker = "H5000M: skip generic scanner for fixed modem profile"
+          if marker in "".join(lines):
+              print(f"{path}: scanner compatibility patch already applied")
+          elif len(scan) == 1 and len(probe) == 1 and scan[0] < probe[0]:
+              scan_i, probe_i = scan[0], probe[0]
+              indent = lines[scan_i][:-len(lines[scan_i].lstrip())]
+              newline = "\n" if lines[scan_i].endswith("\n") else ""
+              probe_line = lines.pop(probe_i)
+              lines[scan_i:scan_i + 1] = [
+                  probe_line,
+                  f"{indent}# {marker}{newline}",
+                  f'{indent}[ "$block_auto_probe" -eq 1 ] || _start_scand{newline}',
+              ]
+              path.write_text("".join(lines))
+              print(f"{path}: applied scanner compatibility patch")
+          else:
+              print(f"::warning::{path}: unexpected layout; keeping upstream scanner behavior "
+                    f"(scan={len(scan)}, probe={len(probe)})")
           PY
+          fi
 
           # The upstream stop order can leave a stopped shell behind after
           # concurrent ifup events.  Resume the daemon before asking procd to kill it.
