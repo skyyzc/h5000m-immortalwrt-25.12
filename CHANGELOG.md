@@ -2,6 +2,24 @@
 
 This is the single chronological record of project changes. Build success and device validation remain separate.
 
+## 2026-09-03 - Phase 1.1D: Recovery Readiness Snapshot
+
+### Added
+
+- Established the Recovery Readiness Snapshot and task-specific future evidence-acquisition gates.
+- Recorded the confirmed recovery assets separately from partial and missing recovery capabilities.
+
+### Changed
+
+- Sealed Phase 1 and Phase 1.1 as `COMPLETE` and identified Phase 2 - Reproducible Build Baseline as the next engineering phase.
+- Kept recovery readiness at `NOT VERIFIED` and the Persistent Write Gate `CLOSED`.
+- Deferred new device evidence acquisition to the relevant modem, thermal, storage, boot-chain, partition, or persistent-write task.
+
+### Validation
+
+- Reused only Phase 1.1A–1.1C evidence; no new device data was collected and no existing recovery gap was inferred away.
+- No firmware build, workflow dispatch, source change, device operation, or persistent write was performed.
+
 ## 2026-09-03 - Phase 1.1A–1.1C: Reference Evidence Governance Baseline
 
 ### Added
