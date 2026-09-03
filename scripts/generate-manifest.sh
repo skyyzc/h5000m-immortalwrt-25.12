@@ -6,7 +6,9 @@ case "$profile" in rescue|full) ;; *) echo "usage: $0 rescue|full [candidate|sta
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 src="${H5000M_SOURCE:-$root/workspace/immortalwrt}"
 out="${H5000M_MANIFEST:-$root/BUILD-MANIFEST.json}"
-python3 - "$root" "$src" "$profile" "$lock_name" "$out" <<'PY'
+python_cmd="${PYTHON:-python3}"
+command -v "$python_cmd" >/dev/null || { echo "Python is required (set PYTHON if python3 is not on PATH)" >&2; exit 1; }
+"$python_cmd" - "$root" "$src" "$profile" "$lock_name" "$out" <<'PY'
 import datetime, glob, hashlib, json, os, subprocess, sys
 root, src, profile, lock_name, out = sys.argv[1:]
 lock=json.load(open(os.path.join(root,'versions',lock_name+'.json')))

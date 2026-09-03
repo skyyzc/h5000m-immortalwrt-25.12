@@ -35,9 +35,9 @@ from this repository has been promoted.
 ./scripts/build.sh full candidate
 ```
 
-BUILD-01 intentionally did not run these commands. Candidate feed commits are
-locked; third-party source commits that cannot be proven remain `UNKNOWN`.
-`prepare.sh` refuses to build from any lock whose feed commits are unknown.
+BUILD-01 intentionally did not run these commands. Candidate ImmortalWrt,
+standard feeds, QModem and `qmi_wwan_q` sources are locked. `prepare.sh`
+refuses any lock with unknown Rescue feed or QModem commits.
 
 The current safe development path is RAM initramfs. eMMC installation and
 sysupgrade are not established as safe. Do not write eMMC, GPT or U-Boot based

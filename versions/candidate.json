@@ -2,6 +2,7 @@
   "schema_version": 1,
   "validation_origin": "local_source_inspection",
   "reproducible": false,
+  "reproducibility_scope": "SOURCE_REPRODUCIBLE; apply statically validated; make defconfig not validated on this Windows host",
   "immortalwrt": {
     "repository": "https://github.com/immortalwrt/immortalwrt.git",
     "branch": "openwrt-25.12",
@@ -23,8 +24,8 @@
     },
     "status": "CONFIRMED"
   },
-  "qmodem": {"repository": null, "commit": null, "package_version": "3.2.0-r1", "status": "UNKNOWN"},
-  "qmi_wwan_q": {"source": null, "commit": null, "version": null, "status": "UNKNOWN"},
+  "qmodem": {"repository": "https://github.com/FUjr/QModem.git", "commit": "c1db0fe2067955d6b9c6b43efff1b69259f4b096", "package_version": "3.2.0-r1", "status": "CONFIRMED"},
+  "qmi_wwan_q": {"source": "https://github.com/FUjr/QModem.git", "commit": "c1db0fe2067955d6b9c6b43efff1b69259f4b096", "version": "1.5-r1", "kernel_compatibility": "Built in-tree against the locked ImmortalWrt kernel; source contains Linux 6.x compatibility branches and RG520 2c7c:0801 QMAP support.", "status": "CONFIRMED"},
   "openappfilter": {"repository": null, "commit": null, "version": "7.0.1-r1", "status": "UNKNOWN"},
   "wrtbwmon": {"repository": null, "commit": null, "version": "1.2.1-r3", "status": "UNKNOWN"}
 }

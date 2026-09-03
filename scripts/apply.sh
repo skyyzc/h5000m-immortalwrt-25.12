@@ -24,7 +24,12 @@ for patch in "$root"/patches/immortalwrt/*.patch; do
 done
 
 mkdir -p "$src/package/hiveton"
-rm -rf "$src/package/hiveton/higoros"
-cp -a "$root/package/hiveton/higoros" "$src/package/hiveton/higoros"
-if [ -d "$root/files" ]; then cp -a "$root/files/." "$src/"; fi
+if [ -d "$src/package/hiveton/higoros" ] && diff -qr "$root/package/hiveton/higoros" "$src/package/hiveton/higoros" >/dev/null 2>&1; then
+  echo "already current: package/hiveton/higoros"
+else
+  rm -rf "$src/package/hiveton/higoros"
+  cp -a "$root/package/hiveton/higoros" "$src/package/hiveton/higoros"
+  echo "installed: package/hiveton/higoros"
+fi
+if find "$root/files" -mindepth 1 ! -name .gitkeep -print -quit | grep -q .; then cp -a "$root/files/." "$src/"; fi
 echo "Applied H5000M package and root files"

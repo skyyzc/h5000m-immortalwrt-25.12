@@ -9,9 +9,9 @@ new rebuild. `UNKNOWN` means an exact upstream source commit was not proven.
 |---|---|---:|---|---|---|---|---|
 | HigoROS | higoros | 1.26.04.29.09-r1 | same baseline | local canonical payload / hashes in source lock | rescue/full | Vendor UI and API | CONFIRMED historical |
 | LuCI | luci | 26.236.50544~cb5d434 | locked feed | feed SHA UNKNOWN | rescue/full | Admin UI on 8080 | CONFIRMED historical |
-| QModem | qmodem | 3.2.0-r1 | 3.2 baseline | source SHA UNKNOWN | rescue/full | RG520 management | CONFIRMED first dial; source UNKNOWN |
+| QModem | qmodem | 3.2.0-r1 | 3.2.0-r1 | FUjr/QModem `c1db0fe2067955d6b9c6b43efff1b69259f4b096` | rescue/full | RG520 management | CONFIRMED source; historical first dial |
 | QMI userspace | uqmi | UNKNOWN | locked feed | feed SHA UNKNOWN | rescue/full | QMI control | CONFIRMED functional |
-| Quectel QMI | qmi_wwan_q | kernel module present | UNKNOWN | source SHA UNKNOWN | rescue/full | QMAP data path | CONFIRMED historical |
+| Quectel QMI | kmod-qmi_wwan_q | 1.5-r1 | 1.5-r1 | FUjr/QModem `c1db0fe2067955d6b9c6b43efff1b69259f4b096` | rescue/full | RG520 `2c7c:0801` QMAP data path, built for locked kernel | CONFIRMED source; runtime historical |
 
 ## FULL
 
