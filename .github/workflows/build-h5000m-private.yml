@@ -138,7 +138,7 @@ jobs:
         run: |
           # QModem starts modem_scand before it checks block_auto_probe.  Keep the
           # fixed RG520N-CN path but suppress the redundant generic scanner.
-          QMODEM_INIT="$(find package -path '*/qmodem/files/etc/init.d/qmodem_init' -print -quit)"
+          QMODEM_INIT="$(find feeds package -path '*/qmodem/files/etc/init.d/qmodem_init' -print -quit)"
           test -n "$QMODEM_INIT"
           python3 - "$QMODEM_INIT" <<'PY'
           import pathlib, sys
