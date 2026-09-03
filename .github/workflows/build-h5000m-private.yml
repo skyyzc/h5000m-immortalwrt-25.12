@@ -37,6 +37,10 @@ jobs:
       - name: Add H5000M feature sources
         run: |
           git clone --depth=1 https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
+          git clone --depth=1 https://github.com/brvphoenix/wrtbwmon.git /tmp/wrtbwmon-src
+          git clone --depth=1 https://github.com/brvphoenix/luci-app-wrtbwmon.git /tmp/luci-wrtbwmon-src
+          cp -a /tmp/wrtbwmon-src/wrtbwmon package/wrtbwmon
+          cp -a /tmp/luci-wrtbwmon-src/luci-app-wrtbwmon package/luci-app-wrtbwmon
 
       - name: Apply private H5000M overlay
         run: |
