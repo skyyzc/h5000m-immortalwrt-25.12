@@ -34,6 +34,10 @@ jobs:
         run: |
           echo 'src-git qmodem https://github.com/FUjr/QModem.git;main' >> feeds.conf.default
 
+      - name: Add H5000M feature sources
+        run: |
+          git clone --depth=1 https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
+
       - name: Apply private H5000M overlay
         run: |
           rm -rf /tmp/h5000m-overlay
@@ -48,6 +52,83 @@ jobs:
           printf '%s' 'IyEvYmluL3NoCgpib2FyZF9uYW1lPSIkKGNhdCAvdG1wL3N5c2luZm8vYm9hcmRfbmFtZSAyPi9kZXYvbnVsbCkiClsgIiRib2FyZF9uYW1lIiA9ICJoaXZldG9uLGg1MDAwbSIgXSB8fCBleGl0IDAKCiMgTWF0Y2ggdGhlIHZlbmRvciBmaXJtd2FyZSdzIG1hbmFnZW1lbnQgc3VibmV0IGFuZCBhdm9pZCB0aGUgY29tbW9ubHkgdXNlZAojIDE5Mi4xNjguMS4wLzI0IG5ldHdvcmsuICBCb3RoIHdlYiBzZXJ2aWNlcyBsaXN0ZW4gb24gYWxsIExBTiBhZGRyZXNzZXM6CiMgSGlnb1JPUyBvbiBwb3J0IDgwIGFuZCBMdUNJIG9uIHBvcnQgODA4MC4KdWNpIHNldCBuZXR3b3JrLmxhbi5pcGFkZHI9JzE5Mi4xNjguODguMS8yNCcKdWNpIGNvbW1pdCBuZXR3b3JrCgpleGl0IDAK' | base64 -d > package/hiveton/higoros/files/etc/uci-defaults/98-h5000m-network
           printf '%s' 'IyEvYmluL3NoCgouIC9saWIvZnVuY3Rpb25zLnNoCgpib2FyZF9uYW1lPSIkKGNhdCAvdG1wL3N5c2luZm8vYm9hcmRfbmFtZSAyPi9kZXYvbnVsbCkiClsgIiRib2FyZF9uYW1lIiA9ICJoaXZldG9uLGg1MDAwbSIgXSB8fCBleGl0IDAKCiMgVGhlIG1vZGVtIHBhdGggYW5kIHByb2ZpbGUgYXJlIGZpeGVkIG9uIHRoaXMgYm9hcmQuICBEaXNhYmxlIGdlbmVyaWMgcHJvYmluZywKIyB3aGljaCBvdGhlcndpc2UgcmV0cmllcyBub25leGlzdGVudCBQQ0llL1VTQiBzbG90cyBhbmQgY2Fubm90IG1hdGNoIFJHNTIwTi1DTi4KdWNpIHNldCBxbW9kZW0ubWFpbi5ibG9ja19hdXRvX3Byb2JlPScxJwp1Y2kgc2V0IHFtb2RlbS5tYWluLnN0YXJ0X2RlbGF5PScwJwp1Y2kgc2V0IHFtb2RlbS5tYWluLnRyeV9wcmVzZXRfdXNiPScwJwp1Y2kgc2V0IHFtb2RlbS5tYWluLnRyeV9wcmVzZXRfcGNpZT0nMCcKCiMgUU1vZGVtIDMuMiBkb2VzIG5vdCBpbmNsdWRlIGFuIGV4YWN0IFJHNTIwTi1DTiBtb2RlbCBwcm9maWxlLiAgU2VlZCB0aGUKIyB2ZW5kb3ItcHJvdmVuIGRldmljZSBzZWN0aW9uIHNvIHRoZSBtb2RlbSBjYW4gYmUgbWFuYWdlZCBhbmQgZGlhbGxlZCB3aXRob3V0CiMgcmVseWluZyBvbiBtb2RlbCBhdXRvLWRldGVjdGlvbi4gIEtlZXAgYW4gYWxyZWFkeSBkaXNjb3ZlcmVkL3VzZXItZWRpdGVkCiMgc2VjdGlvbiBpbnRhY3Qgb24gdXBncmFkZXMuCmlmIHVjaSAtcSBnZXQgcW1vZGVtLjJfMSA+L2Rldi9udWxsOyB0aGVuCgl1Y2kgY29tbWl0IHFtb2RlbQoJZXhpdCAwCmZpCgp1Y2kgc2V0IHFtb2RlbS4yXzE9J21vZGVtLWRldmljZScKdWNpIHNldCBxbW9kZW0uMl8xLmFsaWFzPSdVU0InCnVjaSBzZXQgcW1vZGVtLjJfMS5wYXRoPScvc3lzL2J1cy91c2IvZGV2aWNlcy8yLTEvJwp1Y2kgc2V0IHFtb2RlbS4yXzEuZGF0YV9pbnRlcmZhY2U9J3VzYicKdWNpIHNldCBxbW9kZW0uMl8xLmVuYWJsZV9kaWFsPScxJwp1Y2kgc2V0IHFtb2RlbS4yXzEuc29mdF9yZWJvb3Q9JzEnCnVjaSBzZXQgcW1vZGVtLjJfMS5leHRlbmRfcHJlZml4PScxJwp1Y2kgc2V0IHFtb2RlbS4yXzEucGRwX3R5cGU9J2lwdjR2NicKdWNpIHNldCBxbW9kZW0uMl8xLnN0YXRlPSdlbmFibGVkJwp1Y2kgc2V0IHFtb2RlbS4yXzEubWV0cmljPScxMScKdWNpIHNldCBxbW9kZW0uMl8xLm5hbWU9J3JnNTIwbi1jbicKdWNpIHNldCBxbW9kZW0uMl8xLm5ldHdvcms9J3d3YW4wJwp1Y2kgc2V0IHFtb2RlbS4yXzEubWFudWZhY3R1cmVyPSdxdWVjdGVsJwp1Y2kgc2V0IHFtb2RlbS4yXzEucGxhdGZvcm09J3F1YWxjb21tJwp1Y2kgc2V0IHFtb2RlbS4yXzEud2NkbWFfYmFuZD0nMS84Jwp1Y2kgc2V0IHFtb2RlbS4yXzEubHRlX2JhbmQ9JzEvMy81LzgvMzQvMzgvMzkvNDAvNDEnCnVjaSBzZXQgcW1vZGVtLjJfMS5uc2FfYmFuZD0nMS84LzI4LzQxLzc4Jwp1Y2kgc2V0IHFtb2RlbS4yXzEuc2FfYmFuZD0nMS84LzI4LzQxLzc4Jwp1Y2kgc2V0IHFtb2RlbS4yXzEuYXRfcG9ydD0nL2Rldi90dHlVU0IzJwoKZm9yIG1vZGUgaW4gcW1pIGdvYmluZXQgZWNtIG1iaW0gcm5kaXMgbmNtOyBkbwoJdWNpIGFkZF9saXN0IHFtb2RlbS4yXzEubW9kZXM9IiRtb2RlIgpkb25lCmZvciBwb3J0IGluIC9kZXYvdHR5VVNCMiAvZGV2L3R0eVVTQjM7IGRvCgl1Y2kgYWRkX2xpc3QgcW1vZGVtLjJfMS52YWxpZF9hdF9wb3J0cz0iJHBvcnQiCmRvbmUKZm9yIHBvcnQgaW4gL2Rldi90dHlVU0IwIC9kZXYvdHR5VVNCMSAvZGV2L3R0eVVTQjIgL2Rldi90dHlVU0IzOyBkbwoJdWNpIGFkZF9saXN0IHFtb2RlbS4yXzEucG9ydHM9IiRwb3J0Igpkb25lCgp1Y2kgc2V0IHFtb2RlbS5tYWluLm1vZGVtX2NvdW50PScxJwp1Y2kgY29tbWl0IHFtb2RlbQoKZXhpdCAwCg==' | base64 -d > package/hiveton/higoros/files/etc/uci-defaults/99-h5000m-qmodem
           printf '%s' 'aW5jbHVkZSAkKFRPUERJUikvcnVsZXMubWsKClBLR19OQU1FOj1oaWdvcm9zClBLR19WRVJTSU9OOj0xLjI2LjA0LjI5LjA5ClBLR19SRUxFQVNFOj0xClBLR19MSUNFTlNFOj1Qcm9wcmlldGFyeQpQS0dfTUFJTlRBSU5FUjo9TG9jYWwgSDUwMDBNIG1pZ3JhdGlvbgoKaW5jbHVkZSAkKElOQ0xVREVfRElSKS9wYWNrYWdlLm1rCgpkZWZpbmUgUGFja2FnZS9oaWdvcm9zCiAgU0VDVElPTjo9YWRtaW4KICBDQVRFR09SWTo9QWRtaW5pc3RyYXRpb24KICBUSVRMRTo9SGlnb1JPUyB3ZWIgaW50ZXJmYWNlIGFuZCBiYWNrZW5kCiAgREVQRU5EUzo9QFRBUkdFVF9tZWRpYXRla19maWxvZ2ljIEBhYXJjaDY0ICtsaWJjICt1Y2kgK3VidXMKZW5kZWYKCmRlZmluZSBQYWNrYWdlL2hpZ29yb3MvZGVzY3JpcHRpb24KICBWZW5kb3IgSGlnb1JPUyBmcm9udGVuZCBhbmQgc3RhdGljYWxseSBsaW5rZWQgYmFja2VuZCByZXRhaW5lZCBmb3IgbWlncmF0aW9uCiAgdGVzdGluZyBvbiB0aGUgSGl2ZXRvbiBINTAwME0uCmVuZGVmCgpkZWZpbmUgQnVpbGQvQ29tcGlsZQplbmRlZgoKZGVmaW5lIFBhY2thZ2UvaGlnb3Jvcy9pbnN0YWxsCgkkKElOU1RBTExfRElSKSAkKDEpL2V0Yy9pbml0LmQKCSQoSU5TVEFMTF9CSU4pIC4vZmlsZXMvZXRjL2luaXQuZC9oaWdvcm9zICQoMSkvZXRjL2luaXQuZC9oaWdvcm9zCgkkKElOU1RBTExfRElSKSAkKDEpL2V0Yy91Y2ktZGVmYXVsdHMKCSQoSU5TVEFMTF9CSU4pIC4vZmlsZXMvZXRjL3VjaS1kZWZhdWx0cy85Ni1oNTAwMG0tcW1vZGVtLXJlZGlhbCAkKDEpL2V0Yy91Y2ktZGVmYXVsdHMvOTYtaDUwMDBtLXFtb2RlbS1yZWRpYWwKCSQoSU5TVEFMTF9CSU4pIC4vZmlsZXMvZXRjL3VjaS1kZWZhdWx0cy85Ny1oNTAwMG0td2lyZWxlc3MgJCgxKS9ldGMvdWNpLWRlZmF1bHRzLzk3LWg1MDAwbS13aXJlbGVzcwoJJChJTlNUQUxMX0JJTikgLi9maWxlcy9ldGMvdWNpLWRlZmF1bHRzLzk4LWg1MDAwbS1uZXR3b3JrICQoMSkvZXRjL3VjaS1kZWZhdWx0cy85OC1oNTAwMG0tbmV0d29yawoJJChJTlNUQUxMX0JJTikgLi9maWxlcy9ldGMvdWNpLWRlZmF1bHRzLzk5LWg1MDAwbS1xbW9kZW0gJCgxKS9ldGMvdWNpLWRlZmF1bHRzLzk5LWg1MDAwbS1xbW9kZW0KCSQoSU5TVEFMTF9ESVIpICQoMSkvdXNyL2JpbgoJJChJTlNUQUxMX0JJTikgLi9maWxlcy91c3IvYmluL2hpZ29yb3NkICQoMSkvdXNyL2Jpbi9oaWdvcm9zZAoJJChJTlNUQUxMX0RJUikgJCgxKS91c3Ivc2hhcmUvaGlnb3JvcwoJJChDUCkgLi9maWxlcy91c3Ivc2hhcmUvaGlnb3Jvcy8uICQoMSkvdXNyL3NoYXJlL2hpZ29yb3MvCgkkKElOU1RBTExfRElSKSAkKDEpL3d3dy9oaWdvcm9zCgkkKENQKSAuL2ZpbGVzL3d3dy9oaWdvcm9zLy4gJCgxKS93d3cvaGlnb3Jvcy8KZW5kZWYKCiQoZXZhbCAkKGNhbGwgQnVpbGRQYWNrYWdlLGhpZ29yb3MpKQo=' | base64 -d > package/hiveton/higoros/Makefile
+
+          # Higo probes for a package named "fancontrol".  Reimplement the small
+          # vendor daemon as a portable procd shell service against pwm-fan sysfs.
+          mkdir -p package/hiveton/fancontrol/files/etc/init.d package/hiveton/fancontrol/files/etc/config package/hiveton/fancontrol/files/usr/bin
+          cat > package/hiveton/fancontrol/Makefile <<'EOF'
+          include $(TOPDIR)/rules.mk
+          PKG_NAME:=fancontrol
+          PKG_VERSION:=2.0
+          PKG_RELEASE:=1
+          PKG_LICENSE:=GPL-2.0-only
+          include $(INCLUDE_DIR)/package.mk
+          define Package/fancontrol
+            SECTION:=utils
+            CATEGORY:=Utilities
+            TITLE:=H5000M PWM fan controller
+            DEPENDS:=+uci +kmod-hwmon-pwmfan
+          endef
+          define Build/Compile
+          endef
+          define Package/fancontrol/install
+	$(INSTALL_DIR) $(1)/etc/init.d $(1)/etc/config $(1)/usr/bin
+	$(INSTALL_BIN) ./files/etc/init.d/fancontrol $(1)/etc/init.d/fancontrol
+	$(INSTALL_CONF) ./files/etc/config/fancontrol $(1)/etc/config/fancontrol
+	$(INSTALL_BIN) ./files/usr/bin/fancontrol $(1)/usr/bin/fancontrol
+          endef
+          $(eval $(call BuildPackage,fancontrol))
+          EOF
+          cat > package/hiveton/fancontrol/files/etc/config/fancontrol <<'EOF'
+          config fancontrol 'settings'
+                  option enable '1'
+                  option thermal_file '/sys/class/thermal/thermal_zone0/temp'
+                  option fan_file '/sys/class/hwmon/hwmon2/pwm1'
+                  option start_temp '45'
+                  option start_speed '35'
+                  option max_speed '255'
+                  option temp_div '1000'
+                  option mode '1'
+                  option curve_silent '20:0,25:0,30:0,35:0,40:0,45:0,50:0,55:16,60:19,65:22,70:25,75:28,80:31,85:35,90:38,95:41,100:44,105:47,110:50'
+                  option curve_balanced '20:0,25:0,30:0,35:0,40:0,45:27,50:33,55:38,60:44,65:49,70:55,75:60,80:65,85:71,90:76,95:82,100:87,105:94,110:100'
+                  option curve_performance '20:0,25:0,30:78,35:81,40:83,45:86,50:88,55:90,60:93,65:95,70:97,75:100,80:100,85:100,90:100,95:100,100:100,105:100,110:100'
+          EOF
+          cat > package/hiveton/fancontrol/files/etc/init.d/fancontrol <<'EOF'
+          #!/bin/sh /etc/rc.common
+          START=99
+          STOP=01
+          USE_PROCD=1
+          start_service() {
+                  config_load fancontrol
+                  local enable mode
+                  config_get_bool enable settings enable 1
+                  config_get mode settings mode 1
+                  [ "$enable" = 1 ] || return 0
+                  procd_open_instance
+                  procd_set_param command /usr/bin/fancontrol "$mode"
+                  procd_set_param respawn 5 10 0
+                  procd_close_instance
+          }
+          service_triggers() { procd_add_reload_trigger fancontrol; }
+          EOF
+          cat > package/hiveton/fancontrol/files/usr/bin/fancontrol <<'EOF'
+          #!/bin/sh
+          mode="${1:-1}"
+          while :; do
+                  thermal="$(uci -q get fancontrol.settings.thermal_file)"
+                  pwm="$(uci -q get fancontrol.settings.fan_file)"
+                  [ -r "$thermal" ] || thermal="$(find /sys/class/thermal -name temp 2>/dev/null | head -n1)"
+                  [ -w "$pwm" ] || pwm="$(find /sys/class/hwmon -name pwm1 2>/dev/null | head -n1)"
+                  temp="$(cat "$thermal" 2>/dev/null)"; temp=$(( ${temp:-0} / 1000 ))
+                  case "$mode" in 0) curve=curve_silent;; 2) curve=curve_performance;; *) curve=curve_balanced;; esac
+                  points="$(uci -q get fancontrol.settings.$curve)"; percent=0
+                  oldifs="$IFS"; IFS=,
+                  for point in $points; do threshold="${point%%:*}"; value="${point#*:}"; [ "$temp" -ge "$threshold" ] && percent="$value"; done
+                  IFS="$oldifs"; max="$(uci -q get fancontrol.settings.max_speed)"; max="${max:-255}"
+                  [ -n "$pwm" ] && printf '%s\n' $(( percent * max / 100 )) > "$pwm" 2>/dev/null
+                  sleep 5
+          done
+          EOF
           rm -rf /tmp/h5000m-overlay
 
       - name: Update feeds
@@ -64,13 +145,55 @@ jobs:
           CONFIG_PACKAGE_qmodem=y
           CONFIG_PACKAGE_luci-app-qmodem-next=y
           CONFIG_PACKAGE_luci-i18n-qmodem-next-zh-cn=y
+
+          # Restore packages used by Higo feature detection and vendor menus.
+          CONFIG_PACKAGE_wrtbwmon=y
+          CONFIG_PACKAGE_luci-app-wrtbwmon=y
+          CONFIG_PACKAGE_luci-i18n-wrtbwmon-zh-cn=y
+          CONFIG_PACKAGE_kmod-hwmon-pwmfan=y
+          CONFIG_PACKAGE_fancontrol=y
+          CONFIG_PACKAGE_luci-app-oaf=y
+          CONFIG_PACKAGE_block-mount=y
+          CONFIG_PACKAGE_automount=y
+          CONFIG_PACKAGE_mount-utils=y
+          CONFIG_PACKAGE_kmod-usb-storage=y
+          CONFIG_PACKAGE_kmod-usb-storage-extras=y
+          CONFIG_PACKAGE_kmod-usb-storage-uas=y
+          CONFIG_PACKAGE_kmod-fs-ext4=y
+          CONFIG_PACKAGE_kmod-fs-exfat=y
+          CONFIG_PACKAGE_kmod-fs-ntfs3=y
+          CONFIG_PACKAGE_exfat-fsck=y
+          CONFIG_PACKAGE_exfat-mkfs=y
+          CONFIG_PACKAGE_ntfs3-mount=y
+          CONFIG_PACKAGE_luci-app-diskman=y
+          CONFIG_PACKAGE_luci-i18n-diskman-zh-cn=y
+          CONFIG_PACKAGE_kmod-fs-ksmbd=y
+          CONFIG_PACKAGE_ksmbd-server=y
+          CONFIG_PACKAGE_luci-app-ksmbd=y
+          CONFIG_PACKAGE_luci-i18n-ksmbd-zh-cn=y
+          CONFIG_PACKAGE_miniupnpd-nftables=y
+          CONFIG_PACKAGE_luci-app-upnp=y
+          CONFIG_PACKAGE_luci-i18n-upnp-zh-cn=y
+          CONFIG_PACKAGE_ddns-scripts=y
+          CONFIG_PACKAGE_ddns-scripts-services=y
+          CONFIG_PACKAGE_luci-app-ddns=y
+          CONFIG_PACKAGE_luci-i18n-ddns-zh-cn=y
+          CONFIG_PACKAGE_watchcat=y
+          CONFIG_PACKAGE_luci-app-watchcat=y
+          CONFIG_PACKAGE_luci-i18n-watchcat-zh-cn=y
+          CONFIG_PACKAGE_zerotier=y
+          CONFIG_PACKAGE_luci-app-zerotier=y
+          CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y
           EOF
 
       - name: Configure
         run: |
           make defconfig
           ./scripts/diffconfig.sh
-          grep -E 'qmi_wwan|qmodem|higoros' .config || true
+          grep -E 'qmi_wwan|qmodem|higoros|app-oaf|fancontrol|wrtbwmon|diskman|ksmbd|upnp|ddns|watchcat|zerotier' .config || true
+          for pkg in higoros qmodem fancontrol appfilter wrtbwmon block-mount ksmbd-server miniupnpd-nftables ddns-scripts watchcat zerotier; do
+            grep -q "CONFIG_PACKAGE_${pkg}=y" .config || { echo "Required package missing after defconfig: $pkg"; exit 1; }
+          done
           df -h /
 
       - name: Download
@@ -96,7 +219,4 @@ jobs:
           name: h5000m-initramfs-qmodem
           path: artifacts/
           if-no-files-found: error
-
-
-
 
