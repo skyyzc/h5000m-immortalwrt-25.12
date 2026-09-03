@@ -71,7 +71,7 @@ eMMC 已确认包含 U-Boot 环境、factory、FIP、kernel 和 rootfs 分区。
 | `kmod-qmi_wwan_q` | 原厂 Quectel 驱动 | 随当前内核编译 | QMAP 数据接口 |
 | OpenAppFilter | `appfilter 6.1.8-r1` | 6.1.8 系列源码 | 应用识别与终端访问控制 |
 | H5000M fancontrol | `1-r3` | 本项目 `2.0-1` | 静音/均衡/性能温控曲线 |
-| wrtbwmon | `1.2.1-r3` | 25.12 feed 缺失，当前未编入 | Higo 设备流量数据源 |
+| wrtbwmon | `1.2.1-r3` | `brvphoenix/wrtbwmon`，`1.2.1-r3` | Higo 设备流量数据源；通过 iptables-nft 兼容层运行 |
 | DiskMan | `0.2.13-r1` | 25.12 feed | 分区、格式化和挂载 |
 | KSMBD | `ksmbd-server 3.5.5-r1` | 25.12 feed/内核 | SMB2/SMB3 文件共享 |
 | UPnP | `miniupnpd-nftables 2.3.9-r1` | 25.12 feed | 自动端口映射 |
@@ -88,6 +88,7 @@ eMMC 已确认包含 U-Boot 环境、factory、FIP、kernel 和 rootfs 分区。
 | #9 | 无线恢复基线 | Higo/LuCI、双频无线、5G 双栈 | 成功并已实测 |
 | #10 | QModem 稳定基线 | 固定 RG520N-CN、重拨不中断 LAN/Wi-Fi/SSH | 构建中；增强版回退对照 |
 | #12 | 完整功能增强尝试 | OAF、风扇、存储、共享、UPnP、DDNS、Watchcat、ZeroTier、设备统计 | 配置校验停止：缺少 `wrtbwmon`，未产生镜像 |
+| #13 | 完整功能增强修正版 | 为 25.12 外置引入 wrtbwmon 1.2.1-r3 及 LuCI 前端 | 待构建 |
 
 后续优先测试最新完整功能增强版，并用 #10 做稳定性对照。报告问题时必须注明 Actions 运行编号，不能只写“最新固件”。
 
@@ -112,6 +113,7 @@ eMMC 已确认包含 U-Boot 环境、factory、FIP、kernel 和 rootfs 分区。
 - 增加 H5000M 风扇控制重建实现和原厂三种温控曲线。
 - 将 DiskMan、KSMBD、UPnP、DDNS、Watchcat、ZeroTier 和常用 USB 文件系统加入增强构建。
 - #12 发现 25.12 feed 不提供 `wrtbwmon`；下一步移植兼容包或为 HigoROS 接入 nlbwmon。
+- 准备 #13：从维护中的独立源码引入 `wrtbwmon 1.2.1-r3` 和 `luci-app-wrtbwmon 2.0.13`，保留构建期必需包校验。
 - 重写 README，增加设备信息、项目思路、功能矩阵、插件版本和测试约定。
 
 ### 已完成的早期优化
