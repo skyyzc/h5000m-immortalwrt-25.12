@@ -45,6 +45,19 @@ Firmware-affecting changes update `CHANGELOG.md`; package/source/profile changes
 also update `docs/PACKAGES.md`; Higo behavior or implementation changes update
 `docs/HIGO-FEATURES.md`. Keep README architectural and durable.
 
+`CHANGELOG.md` owns actual engineering changes, formal build history, failures,
+and repairs. `docs/PACKAGES.md` owns component provenance, ownership class, and
+integration state. `docs/HIGO-FEATURES.md` remains the Higo feature gap and next
+step matrix. `versions/candidate.json` and `versions/stable.json` own exact
+version locks. Do not create overlapping records when these files can carry the
+evidence.
+
+The permanent project mainline is: ImmortalWrt 25.12 upstream -> H5000M
+hardware adaptation -> permanent Higo compatibility -> LuCI coexistence ->
+RG520N-CN -> optional integrations -> Rescue RAM validation -> Full -> manual
+stable promotion -> persistent/eMMC only after recovery and rollback are
+proven. A phase-specific task must not omit, rewrite, or bypass this mainline.
+
 Work may analyze, modify, validate, commit, push and rerun Actions only within
 the current explicit task. Stop before changing source locks or core
 architecture, removing core functions, making persistent device writes, doing a
@@ -56,6 +69,30 @@ Never commit credentials, passwords, tokens, private keys, IMEI/ICCID/SIM or
 phone identifiers, unique MAC/serial values, carrier accounts, real Wi-Fi
 passwords, or askpass contents. The proprietary Higo payload is explicitly
 allowed in commits and pushes and is not itself a sensitive-data blocker.
+
+## Formal Build Ledger Rule
+
+Every formal GitHub firmware build must leave a durable record whether its
+result is `SUCCESS`, `FAILURE`, or `CANCELLED`. Record at least Phase, Run ID,
+Run Number, Attempt, Profile, Source, Project SHA, ImmortalWrt SHA, Result,
+critical gates, artifact or diagnostics identity, failure root cause, repair
+commit when applicable, and firmware SHA256 on success. Preserve failed and
+cancelled runs after later success; never delete or rewrite their history.
+
+## Package / Integration Provenance Rule
+
+Every core package, official package, third-party plugin, vendor component, and
+project-local compatibility layer must remain inventoried in
+`docs/PACKAGES.md`. Classify Origin/Ownership as `IMMORTALWRT_CORE`,
+`IMMORTALWRT_FEED`, `OPENWRT_FEED`, `THIRD_PARTY`, `VENDOR_HIGO`, or
+`PROJECT_LOCAL`. Maintain package/version, repository or source, exact SHA or
+`UNKNOWN`, profile, purpose, integration/patch state, build validation, device
+validation, known issue, and update policy.
+
+When an upstream or third-party version changes, record `OLD -> NEW`, reason,
+compatibility impact, build result, and device result; changing only the version
+number is prohibited. Exact locks remain in `versions/candidate.json` and
+`versions/stable.json`.
 
 ## Codex Resource / Quota Governance
 

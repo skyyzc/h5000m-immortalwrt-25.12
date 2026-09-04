@@ -4,6 +4,10 @@ Evidence: historical latest-full analysis plus the canonical frontend/API
 payload. Status is conservative: package presence is not treated as proof that
 an authenticated page operation works.
 
+This file remains the Higo feature gap, evidence, and next-step matrix. Package
+provenance belongs in `docs/PACKAGES.md`, exact locks in `versions/*.json`, and
+build history or repairs in `CHANGELOG.md`.
+
 | Feature | Vendor | Latest Full | Target | Backend | Preserved | Gap / reason | Next step |
 |---|---|---|---|---|---|---|---|
 | Home | yes | status data present | rescue | Higo API | PRESERVED | authenticated UI not retested | RAM UI test |

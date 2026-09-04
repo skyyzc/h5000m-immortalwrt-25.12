@@ -25,6 +25,13 @@
   before waiting, resume requires Context Reload, and quota optimization cannot
   weaken validation or evidence requirements. This is project governance, not
   a firmware functional change.
+- Added the Formal Build Ledger Rule for durable `SUCCESS`, `FAILURE`, and
+  `CANCELLED` build records without deleting earlier failed-run evidence.
+- Added the Package / Integration Provenance Rule, including Origin/Ownership
+  categories and mandatory adaptation, validation, issue, and update history.
+- Clarified the non-overlapping responsibilities of `CHANGELOG.md`,
+  `docs/PACKAGES.md`, `docs/HIGO-FEATURES.md`, and the candidate/stable locks,
+  and preserved the permanent upstream-to-safe-persistent project mainline.
 
 ### Fixed
 

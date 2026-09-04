@@ -10,7 +10,13 @@ vendor Higo interface retained and LuCI available alongside it.
 
 ## Design
 
-Official ImmortalWrt -> H5000M adaptation -> Higo compatibility -> optional packages.
+ImmortalWrt 25.12 upstream -> H5000M hardware adaptation -> permanent Higo
+compatibility -> LuCI coexistence -> RG520N-CN -> optional integrations ->
+Rescue RAM validation -> Full -> manual stable promotion -> persistent/eMMC
+only after recovery and rollback are proven.
+
+This is the permanent project mainline; individual build or validation phases
+must not replace or shorten it.
 
 The locked ImmortalWrt source contains the board DTS, image definition, LED,
 Ethernet and generated MAC handling. This repository owns the source locks,

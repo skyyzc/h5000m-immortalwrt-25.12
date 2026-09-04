@@ -34,3 +34,7 @@ ImmortalWrt SHA `1d34e7b8`, and profile `rescue`. Its optional kernel-version
 field is empty and is explicitly recorded as UNKNOWN in the manifest/report;
 the source revision and target release identity remain exact. One clean build
 does not establish byte-for-byte reproducibility.
+
+Post-BUILD-02 governance records now require a durable ledger for every formal
+build result and provenance/ownership tracking for every package or integration.
+This documentation-only update does not reopen BUILD-02 or start DEVICE-01.
