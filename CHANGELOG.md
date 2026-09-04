@@ -1,5 +1,27 @@
 # Changelog
 
+## Rebuild V1 / DEVICE-01A
+
+### Pre-RAM-Boot Readiness
+
+- Corrected the readiness model for the device's confirmed
+  `Yuzhii0718/bl-mt798x-dhcpd` Recovery WebUI path. `Load initramfs`, rather
+  than manual TFTP/load-address/`bootm`/`booti`, is the selected temporary RAM
+  boot mechanism; manual RAM address and boot-command fields remain in the
+  ledger as `NOT_REQUIRED_FOR_WEBUI_PATH` for auditability.
+- Recorded the permanent current constraint `NO_TTL = YES` and
+  `NO_SERIAL_CONSOLE = YES`; absence of TTL is not a device failure.
+- Reconfirmed the exact Run 20 image size and SHA256 locally. The user-confirmed
+  Recovery WebUI and its visible `Load initramfs` function agree with upstream
+  documentation for booting OpenWrt/ImmortalWrt initramfs images.
+- Separated `Load initramfs` from prohibited persistent WebUI functions,
+  including firmware, U-Boot, BL2 and Factory updates, Flash Editor,
+  Environment Manager and UBI management.
+- DEVICE-01A is ready for the mandatory user-operated RAM boot. Codex has not
+  entered U-Boot, uploaded or started an image, rebooted the device, or modified
+  persistent storage. Power-cycle recovery is design-confirmed and remains to
+  be function-tested at the end of DEVICE-01B.
+
 ## Rebuild V1 / BUILD-02
 
 ### Project Memory
