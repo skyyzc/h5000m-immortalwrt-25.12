@@ -16,7 +16,7 @@ build history or repairs in `CHANGELOG.md`.
 | Signal | yes | data confirmed | rescue | QModem/Higo | PRESERVED | none known | regression test |
 | SIM | yes | modem registered | rescue | QModem | PARTIAL | controls not tested | SIM UI test |
 | SMS | yes | UNKNOWN | rescue | QModem | UNKNOWN | no direct evidence | functional test |
-| AT | yes | one unplanned user-issued command in Run 20 | rescue | QModem | REVIEW_REQUIRED | exact command and persistence effect unknown; no data-path loss observed | classify exact command before any further AT test |
+| AT | yes | Run 20 Higo `ATI` returned module identification | rescue | QModem | FUNCTION_TESTED | read-only query passed with no observed QMI/data interruption; mutating AT remains prohibited | retain safe-query evidence; reconnect/race test later |
 | Lock band/network | yes | profile bands seeded | rescue | QModem | PARTIAL | mutation untested | controlled test |
 | Wi-Fi | yes | Run 20: 2.4/5 GHz real clients passed association, DHCP, Higo and Internet | rescue | UCI/mac80211 | FUNCTION_TESTED | current Rescue defaults are open for isolated RAM validation | security design later; do not alter DEVICE-01 image |
 | LAN | yes | 192.168.88.1 works | rescue | netifd | PRESERVED | none known | regression test |

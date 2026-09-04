@@ -1,7 +1,7 @@
 # DEVICE-01 Current State
 
 - Phase: `DEVICE-01B`
-- State: `REVIEW_REQUIRED`
+- State: `ACTIVE_ENGINEERING`
 - Date: `2026-09-04`
 - Branch: `rebuild-v1`
 - Repository HEAD at DEVICE-01 start: `28bdcc6f5c5347d37b9a0c0e4039e55ab7f319df`
@@ -19,10 +19,9 @@
 - Last Confirmed Gate: Run 20 Rescue is running from initramfs with exact embedded
   build identity; LAN/DHCP/SSH, dual UI reachability and RG520/QMI/QMAP data path
   passed the initial DEVICE-01B checks
-- Next Action: classify the exact user-issued AT command and determine whether
-  it was read-only, runtime-only, or capable of changing modem-persistent state
-- Blocked Reason: the exact AT command is not yet known; no further AT or modem
-  mutation test is allowed until its effect is classified
+- Next Action: complete authenticated LuCI login and basic status-read validation
+  without changing configuration
+- Blocked Reason: none
 - Wait Reason: `NONE`
 - Persistent Storage Modified: `NO`
 
@@ -177,13 +176,13 @@ device configuration change.
 - Higo/QModem race: no modem reset, QMI interruption or data-path loss was
   observed during the initial bounded sample. Longer/reconnect behavior remains
   `UNVERIFIED`.
-- Unplanned runtime actions: the user reports one 5 GHz channel write and one AT
-  command from Higo. The current 5 GHz channel is 44 and both Wi-Fi/data paths
+- Unplanned runtime actions: the user reports one 5 GHz channel write and one
+  Higo `ATI` query. The current 5 GHz channel is 44 and both Wi-Fi/data paths
   remain operational. Because the initramfs root is tmpfs and the original
   partition remains read-only, the Wi-Fi configuration write is runtime-only
-  in this boot. The AT command text/effect is `UNKNOWN`; modem-persistent impact
-  cannot be excluded until the exact command is classified. No additional AT
-  command has been sent by Codex.
+  in this boot. `ATI` returned module identification and is a read-only query;
+  it did not modify modem configuration. No additional AT command was sent by
+  Codex.
 - Firewall: `PASS` baseline. nftables/fw4 is active with LAN and WAN zones,
   default reject input/forward policy, LAN acceptance and WAN masquerading.
 - WAN: `BLOCKED_BY_ENVIRONMENT` because no wired WAN cable is connected.
@@ -194,5 +193,5 @@ device configuration change.
   running, so these are not promoted to functional failures without contrary
   evidence.
 - Device eMMC/GPT/U-Boot persistent storage modified: `NO` based on current
-  mount and action evidence. Modem-internal persistent state: `UNKNOWN` pending
-  classification of the user-issued AT command.
+  mount and action evidence. Modem-internal persistent state modified: `NO` by
+  the classified read-only `ATI` query.

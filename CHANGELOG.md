@@ -15,8 +15,9 @@
 - The user unintentionally performed one 5 GHz channel write and one AT command.
   Read-only follow-up found the channel at 44, the initramfs root in tmpfs, the
   original partition read-only, and Wi-Fi/RG520/data paths healthy. The channel
-  write is runtime-only for this boot. The AT command remains `REVIEW_REQUIRED`
-  until its exact text is classified for modem-persistent effects.
+  write is runtime-only for this boot. The command was identified as read-only
+  `ATI`; it returned module identification without changing modem configuration
+  or interrupting the observed QMI/QMAP data path.
 - Added project-scoped credential authorization to `AGENTS.md`. Explicitly
   provided or securely configured local H5000M credentials may be reused for
   ordinary project authentication without repeated authorization, while
