@@ -79,28 +79,55 @@
 
 ### Build
 
-- GitHub Actions Run ID/number/attempt/result: pending.
+- Run 17 (`33827585087`): FAILURE at resolved config; corrected the MT7992
+  firmware symbol.
+- Run 18 (`33827939372`): FAILURE after gates; corrected kernel identity target
+  invocation.
+- Run 19 (`33828304097`): FAILURE after successful compile; corrected the
+  H5000M initramfs artifact suffix selector.
+- Run 20 (`33836565597`), attempt 1: SUCCESS on project
+  `698aecdc52218c3565239e97bfd224b6c4af8f02`, branch `rebuild-v1`, profile
+  `rescue`, source `candidate`, locked ImmortalWrt
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`.
+- Run 20 passed exact source/feed preparation, double apply/idempotence,
+  defconfig, resolved config, H5000M, Higo, RG520/QModem, compile, artifact
+  generation and upload.
 
 ### Artifacts
 
-- Pending first reproducible Rescue artifact.
+- `immortalwrt-mediatek-filogic-hiveton_h5000m-initramfs-kernel.bin`
+  (`19778796` bytes), SHA256
+  `af4f129d68cbb0b2e6d06ed2dbccd64e100bc7403cf69f62b95093d7e86af13e`.
+- `BUILD-MANIFEST.json`, `BUILD-REPORT.md`, `resolved.config`, and
+  `SHA256SUMS` were present and all recorded hashes verified locally.
+- The FIT ramdisk contains `/etc/h5000m-build.json`; its Run ID/number,
+  project SHA, ImmortalWrt SHA and Rescue profile match Run 20 and the manifest.
 
 ### Validation
 
 - SOURCE_LOCKED: CONFIRMED
-- CONFIG_RESOLVED: CONFIRMED (Run 19 exact resolved-config gate)
-- BUILD_OK: UNVERIFIED
+- CONFIG_RESOLVED: CONFIRMED
+- BUILD_OK: CONFIRMED (single Linux clean Rescue/candidate build)
 - RAM_BOOT_OK: UNVERIFIED
 - DEVICE_OK: UNVERIFIED
 - FUNCTION_TESTED: UNVERIFIED
 
+### Reproducibility
+
+- Source reconstruction: CONFIRMED.
+- Configuration resolution: CONFIRMED.
+- Single Linux clean Rescue/candidate build: CONFIRMED.
+- Byte-for-byte reproducibility: UNVERIFIED; Run 20 is one clean build and no
+  second-build binary comparison was performed.
+
 ### Known Issues
 
-- Run 19 confirmed exact source/feed preparation, double apply, defconfig,
-  resolved configuration, H5000M, Higo and RG520/QModem gates, and completed
-  `make world`; artifact acceptance failed because the collector expected the
-  wrong suffix. A repaired clean run and complete artifact acceptance remain
-  required for `BUILD_OK`.
+- The optional kernel-version identity field is empty and explicitly listed as
+  UNKNOWN in Run 20's manifest/report. Exact project/source revision, target,
+  profile and Run identity are present and consistent; this does not weaken the
+  BUILD-02 acceptance gates.
+- Runtime Higo, RG520/QMAP, Wi-Fi, IPv6 and device behavior remain untested by
+  this build and belong to DEVICE-01.
 
 ### Deferred
 

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "validation_origin": "local_source_inspection",
+  "validation_origin": "github_actions_run_20",
   "reproducible": false,
-  "reproducibility_scope": "SOURCE_REPRODUCIBLE; apply statically validated; make defconfig not validated on this Windows host",
+  "reproducibility_scope": "Source reconstruction, config resolution, and one Linux clean Rescue/candidate build verified by GitHub Actions Run 20; byte-for-byte reproducibility remains UNVERIFIED",
   "immortalwrt": {
     "repository": "https://github.com/immortalwrt/immortalwrt.git",
     "branch": "openwrt-25.12",

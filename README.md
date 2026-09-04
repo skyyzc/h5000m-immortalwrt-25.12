@@ -1,6 +1,6 @@
 # H5000M Firmware
 
-Reproducible firmware project for the Hiveton H5000M: MT7987A, about 1 GiB
+Source-locked firmware project for the Hiveton H5000M: MT7987A, about 1 GiB
 RAM, about 8 GiB eMMC, two 2.5 GbE ports, MT7992 Wi-Fi and an RG520N-CN
 modem (`2c7c:0801`). The software target is ImmortalWrt 25.12 with the
 vendor Higo interface retained and LuCI available alongside it.
@@ -27,6 +27,10 @@ ImmortalWrt or U-Boot tree.
 The release flow is `candidate -> build -> RAM test -> manual promote -> stable`.
 `versions/stable.json` currently describes historical validation only; no build
 from this repository has been promoted.
+
+The candidate has passed source reconstruction, config resolution, and one
+Linux clean Rescue build. This is not evidence of byte-for-byte reproducibility,
+which remains unverified.
 
 ## Build interface
 
