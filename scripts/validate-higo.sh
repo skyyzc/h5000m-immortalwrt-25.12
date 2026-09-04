@@ -32,15 +32,21 @@ front=os.path.join(pkg,'files','www','higoros')
 for base, _, names in os.walk(front):
     files.extend(os.path.join(base,n) for n in names)
 if not files: raise SystemExit('HIGO_GATE FAIL: frontend is empty')
-# The historical frontend digest identifies the canonical extracted payload; the
-# repository tree is compared byte-for-byte with the installed build tree below.
 if expected.get('frontend') != 'f8acab37d83c52202b1ea93687aa164c20c558b86e5719ae2ef3bd33abd50739':
     raise SystemExit('HIGO_GATE FAIL: canonical frontend lock changed')
+tree=hashlib.sha256()
+for path in sorted(files,key=lambda p:os.path.relpath(p,front).replace(os.sep,'/')):
+    tree.update(os.path.relpath(path,front).replace(os.sep,'/').encode('utf-8')+b'\0')
+    tree.update(open(path,'rb').read())
+actual_tree=tree.hexdigest()
+if actual_tree != expected.get('frontend_tree_sha256'):
+    raise SystemExit(f'HIGO_GATE FAIL: frontend tree expected={expected.get("frontend_tree_sha256")} actual={actual_tree}')
 for path in files:
     rel=os.path.relpath(path,pkg)
     other=os.path.join(installed,rel)
     if not os.path.isfile(other) or open(path,'rb').read()!=open(other,'rb').read():
         raise SystemExit('HIGO_GATE FAIL: frontend install tree mismatch '+rel)
-print('HIGO_GATE PASS: canonical frontend lock='+expected['frontend']+'; installed tree byte-identical')
+print('HIGO_GATE PASS: canonical frontend payload='+expected['frontend'])
+print('HIGO_GATE PASS: deterministic 60-file frontend tree sha256='+actual_tree+'; installed tree byte-identical')
 print('HIGO_GATE PASS: package, init script, defaults and dual-UI files installed')
 PY

@@ -1,7 +1,8 @@
 # H5000M migration blueprint
 
 This is the durable in-repository summary; the historical detailed blueprint is
-`../H5000M-MIGRATION-BLUEPRINT.md` and remains read-only evidence.
+`$WORKSPACE_ROOT/H5000M-MIGRATION-BLUEPRINT.md` and remains read-only evidence;
+`WORKSPACE_ROOT` is the parent workspace, not this repository.
 
 ## Architecture
 

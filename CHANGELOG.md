@@ -18,6 +18,8 @@
 - Exact resolved-config, Higo payload/install-tree, native board and image gates.
 - Per-build firmware identity, manifest, build report and SHA256SUMS generation.
 - Run-specific GitHub Actions artifact identity and retained build log.
+- A deterministic 60-file frontend tree digest beside the preserved canonical
+  historical frontend payload digest.
 
 ### Fixed
 
@@ -32,6 +34,8 @@
 - Repository state, not chat history, is now the authoritative project memory.
 - Parallel compile now retries once with `-j1 V=s` to preserve the real root
   cause, without ignoring failure or reducing the Rescue target.
+- Failed runs upload available requested/resolved configs and logs under a
+  diagnostics-only artifact name; they cannot be confused with firmware.
 
 ### Build
 

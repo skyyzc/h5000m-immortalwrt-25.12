@@ -20,8 +20,10 @@
     "payload_sha256": {
       "higorosd": "b21b8bafddd3ce797a1610fa106f42ab1c9e6eff73d48d39715ed0835aa87ace",
       "api_lua": "55d6d2de03e79a0946d492bfe501d29bfa74e9fe97f89191c854e74d4c588355",
-      "frontend": "f8acab37d83c52202b1ea93687aa164c20c558b86e5719ae2ef3bd33abd50739"
+      "frontend": "f8acab37d83c52202b1ea93687aa164c20c558b86e5719ae2ef3bd33abd50739",
+      "frontend_tree_sha256": "9ebef3bbd38a0b7f70d5b201bfa4b08fbd6cdc7167a397888b466116d0b3ed2b"
     },
+    "frontend_tree_hash_algorithm": "SHA256 over each sorted POSIX relative path encoded as UTF-8, then NUL, then exact file bytes; regular files only; 60 files",
     "status": "CONFIRMED"
   },
   "qmodem": {"repository": "https://github.com/FUjr/QModem.git", "commit": "c1db0fe2067955d6b9c6b43efff1b69259f4b096", "package_version": "3.2.0-r1", "status": "CONFIRMED"},

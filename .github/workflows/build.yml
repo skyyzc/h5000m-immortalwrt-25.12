@@ -36,13 +36,22 @@ jobs:
           ./scripts/build.sh "${{ matrix.profile }}" "${{ inputs.source }}" 2>&1 | tee artifacts/build.log
       - name: Set artifact identity
         id: identity
+        if: always()
         shell: bash
         run: |
           project_short=$(git rev-parse --short=8 HEAD)
           source_short=$(python3 -c 'import json; print(json.load(open("versions/${{ inputs.source }}.json"))["immortalwrt"]["commit"][:8])')
-          echo "name=h5000m-${{ matrix.profile }}-${project_short}-${source_short}-run${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "name=h5000m-${{ matrix.profile }}-${project_short}-${source_short}-run${GITHUB_RUN_NUMBER}-attempt${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: ${{ steps.identity.outputs.name }}
           path: artifacts/**
           if-no-files-found: error
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: h5000m-${{ matrix.profile }}-diagnostics-run${{ github.run_number }}-attempt${{ github.run_attempt }}
+          path: artifacts/**
+          if-no-files-found: warn

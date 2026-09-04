@@ -10,6 +10,7 @@ root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 src="${H5000M_SOURCE:-$root/workspace/immortalwrt}"
 artifacts="${H5000M_ARTIFACTS:-$root/artifacts}"
 mkdir -p "$artifacts"
+cp "$root/configs/$profile.config" "$artifacts/requested.config"
 "$root/scripts/prepare.sh" "$source_lock"
 H5000M_SOURCE="$src" "$root/scripts/apply.sh"
 # Apply twice: native checks and identical package state must remain safe.
