@@ -10,13 +10,13 @@ build history or repairs in `CHANGELOG.md`.
 
 | Feature | Vendor | Latest Full | Target | Backend | Preserved | Gap / reason | Next step |
 |---|---|---|---|---|---|---|---|
-| Home | yes | status data present | rescue | Higo API | PRESERVED | authenticated UI not retested | RAM UI test |
-| 5G status | yes | registration/signal/CA data | rescue | QModem/Higo | PRESERVED | reconnect unproven | reconnect test |
+| Home | yes | Run 20 authenticated dashboard mostly renders | rescue | Higo API | UI_OK / PARTIAL | device distribution, connected devices and application ranking lack useful data; latter integrations belong to Full | preserve evidence; Full integration test later |
+| 5G status | yes | Run 20 network type and signal read successfully | rescue | QModem/Higo | FUNCTION_TESTED / PARTIAL | current configuration shows unrecognized 4G/5G profile; reconnect unproven | diagnose profile mapping after DEVICE-01 evidence review |
 | APN | yes | fixed profile works | rescue | QModem/UCI | PARTIAL | editing not tested | form/API test |
 | Signal | yes | data confirmed | rescue | QModem/Higo | PRESERVED | none known | regression test |
 | SIM | yes | modem registered | rescue | QModem | PARTIAL | controls not tested | SIM UI test |
 | SMS | yes | UNKNOWN | rescue | QModem | UNKNOWN | no direct evidence | functional test |
-| AT | yes | ttyUSB3 confirmed | rescue | QModem | PARTIAL | UI execution untested | safe AT test |
+| AT | yes | one unplanned user-issued command in Run 20 | rescue | QModem | REVIEW_REQUIRED | exact command and persistence effect unknown; no data-path loss observed | classify exact command before any further AT test |
 | Lock band/network | yes | profile bands seeded | rescue | QModem | PARTIAL | mutation untested | controlled test |
 | Wi-Fi | yes | Run 20: 2.4/5 GHz real clients passed association, DHCP, Higo and Internet | rescue | UCI/mac80211 | FUNCTION_TESTED | current Rescue defaults are open for isolated RAM validation | security design later; do not alter DEVICE-01 image |
 | LAN | yes | 192.168.88.1 works | rescue | netifd | PRESERVED | none known | regression test |

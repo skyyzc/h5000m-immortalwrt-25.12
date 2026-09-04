@@ -1,7 +1,7 @@
 # DEVICE-01 Current State
 
 - Phase: `DEVICE-01B`
-- State: `ACTIVE_ENGINEERING`
+- State: `REVIEW_REQUIRED`
 - Date: `2026-09-04`
 - Branch: `rebuild-v1`
 - Repository HEAD at DEVICE-01 start: `28bdcc6f5c5347d37b9a0c0e4039e55ab7f319df`
@@ -19,10 +19,10 @@
 - Last Confirmed Gate: Run 20 Rescue is running from initramfs with exact embedded
   build identity; LAN/DHCP/SSH, dual UI reachability and RG520/QMI/QMAP data path
   passed the initial DEVICE-01B checks
-- Next Action: complete authenticated Higo and LuCI status-read validation
-  without changing configuration
-- Blocked Reason: none; authenticated Higo/LuCI operations still require a
-  safely supplied local credential or user-authenticated UI session
+- Next Action: classify the exact user-issued AT command and determine whether
+  it was read-only, runtime-only, or capable of changing modem-persistent state
+- Blocked Reason: the exact AT command is not yet known; no further AT or modem
+  mutation test is allowed until its effect is classified
 - Wait Reason: `NONE`
 - Persistent Storage Modified: `NO`
 
@@ -143,10 +143,12 @@ device configuration change.
 - LAN/DHCP: `PASS`. The real Ethernet client obtained a lease and reached the
   gateway; `eth0` and `br-lan` are up.
 - SSH: `PASS`. A real root SSH session executed read-only commands.
-- Higo: `UI_OK PARTIAL`. Port 80, the SPA document and its primary JavaScript/CSS
-  assets return HTTP 200. The API correctly returns 401 anonymously. Empty
-  password API login is rejected, so authenticated status/API reads remain
-  pending user UI validation; no credential or token was saved.
+- Higo: authenticated login `PASS`; maturity `UI_OK` with `PARTIAL` feature
+  validation. Dashboard, system status and 5G/signal status read successfully.
+  Device distribution, connected-device data and application ranking do not
+  render useful data. Those components belong to later Full integrations in
+  the current matrix and are not promoted to Rescue failures, but the observed
+  gaps remain recorded.
 - LuCI: `UI_OK PARTIAL`. Port 8080 and the LuCI login page respond. Authenticated
   status reads remain pending user UI validation.
 - Higo/LuCI coexistence: `PASS` for simultaneous service/page availability;
@@ -159,6 +161,9 @@ device configuration change.
   Wi-Fi path, and accessed the Internet. The exact client identity is omitted.
 - Dual-band conclusion: 2.4 GHz and 5 GHz were each independently validated by
   a real client; neither result is inferred from the other.
+- Higo CPE configuration: `PARTIAL`. Live network type and signal are readable,
+  but the current configuration card reports an unrecognized 4G/5G profile.
+  This is a real Run 20 compatibility gap even though dialing and traffic work.
 - RG520 USB: `PASS`. The RG520N-CN enumerates as `2c7c:0801`; four ttyUSB nodes
   and `/dev/cdc-wdm0` exist.
 - QMI/QMAP: `PASS`. `qmi_wwan_q`, `wwan0`, and `wwan0_1` are active;
@@ -172,6 +177,13 @@ device configuration change.
 - Higo/QModem race: no modem reset, QMI interruption or data-path loss was
   observed during the initial bounded sample. Longer/reconnect behavior remains
   `UNVERIFIED`.
+- Unplanned runtime actions: the user reports one 5 GHz channel write and one AT
+  command from Higo. The current 5 GHz channel is 44 and both Wi-Fi/data paths
+  remain operational. Because the initramfs root is tmpfs and the original
+  partition remains read-only, the Wi-Fi configuration write is runtime-only
+  in this boot. The AT command text/effect is `UNKNOWN`; modem-persistent impact
+  cannot be excluded until the exact command is classified. No additional AT
+  command has been sent by Codex.
 - Firewall: `PASS` baseline. nftables/fw4 is active with LAN and WAN zones,
   default reject input/forward policy, LAN acceptance and WAN masquerading.
 - WAN: `BLOCKED_BY_ENVIRONMENT` because no wired WAN cable is connected.
@@ -181,4 +193,6 @@ device configuration change.
   The relevant Ethernet, Wi-Fi, storage and cellular functions are presently
   running, so these are not promoted to functional failures without contrary
   evidence.
-- Persistent Storage Modified: `NO`.
+- Device eMMC/GPT/U-Boot persistent storage modified: `NO` based on current
+  mount and action evidence. Modem-internal persistent state: `UNKNOWN` pending
+  classification of the user-issued AT command.

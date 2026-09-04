@@ -8,6 +8,15 @@
   association, DHCP lease, Higo access through Wi-Fi, and Internet traffic all
   succeeded on each band. Both Wi-Fi gates are `FUNCTION_TESTED`; unrelated
   device gates retain their independently observed status.
+- Authenticated Higo login, dashboard, system status and 5G/signal reads passed.
+  Device/connection/application widgets lacked useful data, and the CPE current
+  configuration reported an unrecognized 4G/5G profile; these remain explicit
+  feature/integration gaps rather than being hidden by the working data path.
+- The user unintentionally performed one 5 GHz channel write and one AT command.
+  Read-only follow-up found the channel at 44, the initramfs root in tmpfs, the
+  original partition read-only, and Wi-Fi/RG520/data paths healthy. The channel
+  write is runtime-only for this boot. The AT command remains `REVIEW_REQUIRED`
+  until its exact text is classified for modem-persistent effects.
 - Added project-scoped credential authorization to `AGENTS.md`. Explicitly
   provided or securely configured local H5000M credentials may be reused for
   ordinary project authentication without repeated authorization, while
