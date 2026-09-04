@@ -41,11 +41,11 @@ if ! make -C "$src" -j"${JOBS:-$(nproc)}"; then
   make -C "$src" -j1 V=s
 fi
 
-find "$src/bin/targets/mediatek/filogic" -maxdepth 1 -type f -name '*h5000m*initramfs*.itb' -exec cp {} "$artifacts/" \;
-find "$artifacts" -maxdepth 1 -type f -name '*h5000m*initramfs*.itb' -print -quit | grep -q . || {
+find "$src/bin/targets/mediatek/filogic" -maxdepth 1 -type f -name '*h5000m*initramfs-kernel.bin' -exec cp {} "$artifacts/" \;
+find "$artifacts" -maxdepth 1 -type f -name '*h5000m*initramfs-kernel.bin' -print -quit | grep -q . || {
   echo 'BUILD_GATE FAIL: no H5000M initramfs image generated' >&2; exit 1;
 }
 H5000M_MANIFEST="$artifacts/BUILD-MANIFEST.json" "$root/scripts/generate-manifest.sh" "$profile" "$source_lock"
 "$root/scripts/generate-build-report.sh" "$artifacts/BUILD-MANIFEST.json" "$artifacts/BUILD-REPORT.md"
-(cd "$artifacts" && sha256sum *h5000m*initramfs*.itb BUILD-MANIFEST.json BUILD-REPORT.md resolved.config > SHA256SUMS)
+(cd "$artifacts" && sha256sum *h5000m*initramfs-kernel.bin BUILD-MANIFEST.json BUILD-REPORT.md resolved.config > SHA256SUMS)
 echo "Build artifacts ready in $artifacts"

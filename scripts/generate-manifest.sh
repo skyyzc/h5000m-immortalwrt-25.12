@@ -29,7 +29,7 @@ project_repo=(os.getenv('GITHUB_SERVER_URL')+'/'+os.getenv('GITHUB_REPOSITORY')
 kernel=cmd('make','-s','-C',src,'val.LINUX_VERSION')
 resolved=os.path.join(artifact_dir,'resolved.config')
 patches=sorted(glob.glob(os.path.join(root,'patches','immortalwrt','*.patch')))
-images=sorted(p for p in glob.glob(os.path.join(artifact_dir,'*h5000m*initramfs*.itb')) if os.path.isfile(p))
+images=sorted(p for p in glob.glob(os.path.join(artifact_dir,'*h5000m*initramfs-kernel.bin')) if os.path.isfile(p))
 unknown=[]
 for field, value in [('kernel.version',kernel),('github.run_id',os.getenv('GITHUB_RUN_ID')),
                      ('github.run_number',os.getenv('GITHUB_RUN_NUMBER')),('github.run_attempt',os.getenv('GITHUB_RUN_ATTEMPT'))]:

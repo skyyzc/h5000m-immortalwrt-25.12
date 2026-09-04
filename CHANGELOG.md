@@ -20,9 +20,26 @@
 - Run-specific GitHub Actions artifact identity and retained build log.
 - A deterministic 60-file frontend tree digest beside the preserved canonical
   historical frontend payload digest.
+- Codex Resource / Quota Governance: healthy long-running external builds enter
+  `WAITING_EXTERNAL`, repeated polling is prohibited, context is preserved
+  before waiting, resume requires Context Reload, and quota optimization cannot
+  weaken validation or evidence requirements. This is project governance, not
+  a firmware functional change.
 
 ### Fixed
 
+- ERROR: Run 19 (ID `33828304097`, attempt 1, project
+  `8bb925f39f27b547fd0b5d065fd5cd9ec20552b8`, Rescue/candidate, FAILURE after
+  about 1h52m) completed `make world` through `checksum`, then the project
+  artifact gate reported no H5000M initramfs image. ROOT CAUSE: artifact
+  collection and manifest generation assumed an `.itb` suffix, while the
+  locked H5000M image definition inherits the generic
+  `-initramfs-kernel.bin` suffix. DOWNSTREAM ERROR: BUILD-MANIFEST,
+  BUILD-REPORT, SHA256SUMS and success upload were not produced. WARNINGS: the
+  Node.js 20 Actions deprecation and unselected package dependency warnings are
+  deferred and were not causal. REPAIR: select and hash the exact H5000M
+  `initramfs-kernel.bin` output without changing source locks, configuration,
+  packages, or acceptance gates. REPAIR COMMIT and next Run: pending.
 - ERROR: Run 18 passed every source/config/H5000M/Higo/RG520 gate, then failed
   before download at unsupported make target `kernelversion`. ROOT CAUSE: this
   ImmortalWrt tree exposes evaluated variables through the generic `val.%`
