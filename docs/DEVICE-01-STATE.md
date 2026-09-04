@@ -19,10 +19,10 @@
 - Last Confirmed Gate: Run 20 Rescue is running from initramfs with exact embedded
   build identity; LAN/DHCP/SSH, dual UI reachability and RG520/QMI/QMAP data path
   passed the initial DEVICE-01B checks
-- Next Action: obtain real client association, DHCP, gateway and data evidence
-  for the 5 GHz Wi-Fi gate; the 2.4 GHz gate is complete and must not be repeated
-- Blocked Reason: none; authenticated Higo/LuCI operations and Wi-Fi client tests
-  still require user interaction
+- Next Action: complete authenticated Higo and LuCI status-read validation
+  without changing configuration
+- Blocked Reason: none; authenticated Higo/LuCI operations still require a
+  safely supplied local credential or user-authenticated UI session
 - Wait Reason: `NONE`
 - Persistent Storage Modified: `NO`
 
@@ -154,9 +154,11 @@ device configuration change.
 - Wi-Fi 2.4 GHz: `PASS`, maturity `FUNCTION_TESTED`. A real client associated,
   received a DHCP lease in the expected LAN subnet, opened Higo through the
   Wi-Fi path, and accessed the Internet. The exact client identity is omitted.
-- Wi-Fi 5 GHz: the AP interface is `RUNNING`, with its configured channel and
-  SSID visible to the kernel. Real client association, DHCP, gateway and data
-  traffic remain `UNVERIFIED`; the 2.4 GHz result is not extrapolated.
+- Wi-Fi 5 GHz: `PASS`, maturity `FUNCTION_TESTED`. A real client associated,
+  received a DHCP lease in the expected LAN subnet, opened Higo through the
+  Wi-Fi path, and accessed the Internet. The exact client identity is omitted.
+- Dual-band conclusion: 2.4 GHz and 5 GHz were each independently validated by
+  a real client; neither result is inferred from the other.
 - RG520 USB: `PASS`. The RG520N-CN enumerates as `2c7c:0801`; four ttyUSB nodes
   and `/dev/cdc-wdm0` exist.
 - QMI/QMAP: `PASS`. `qmi_wwan_q`, `wwan0`, and `wwan0_1` are active;

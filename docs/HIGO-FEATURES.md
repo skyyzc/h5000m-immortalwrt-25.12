@@ -18,7 +18,7 @@ build history or repairs in `CHANGELOG.md`.
 | SMS | yes | UNKNOWN | rescue | QModem | UNKNOWN | no direct evidence | functional test |
 | AT | yes | ttyUSB3 confirmed | rescue | QModem | PARTIAL | UI execution untested | safe AT test |
 | Lock band/network | yes | profile bands seeded | rescue | QModem | PARTIAL | mutation untested | controlled test |
-| Wi-Fi | yes | 2.4/5 GHz up | rescue | UCI/mac80211 | PRESERVED | historical open encryption | secured config test |
+| Wi-Fi | yes | Run 20: 2.4/5 GHz real clients passed association, DHCP, Higo and Internet | rescue | UCI/mac80211 | FUNCTION_TESTED | current Rescue defaults are open for isolated RAM validation | security design later; do not alter DEVICE-01 image |
 | LAN | yes | 192.168.88.1 works | rescue | netifd | PRESERVED | none known | regression test |
 | WAN | yes | eth1 no-link sample | rescue | netifd | UNKNOWN | no cable/link test | link test |
 | DHCP | yes | clients observed | rescue | dnsmasq | PRESERVED | none known | regression test |

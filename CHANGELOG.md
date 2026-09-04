@@ -4,9 +4,9 @@
 
 ### DEVICE-01B Validation
 
-- Run 20 Rescue passed a real 2.4 GHz client test: association, DHCP lease,
-  Higo access through Wi-Fi, and Internet traffic all succeeded. This promotes
-  only the 2.4 GHz Wi-Fi gate to `FUNCTION_TESTED`; 5 GHz and all unrelated
+- Run 20 Rescue passed independent real-client tests on both 2.4 GHz and 5 GHz:
+  association, DHCP lease, Higo access through Wi-Fi, and Internet traffic all
+  succeeded on each band. Both Wi-Fi gates are `FUNCTION_TESTED`; unrelated
   device gates retain their independently observed status.
 - Added project-scoped credential authorization to `AGENTS.md`. Explicitly
   provided or securely configured local H5000M credentials may be reused for
