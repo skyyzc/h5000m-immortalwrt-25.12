@@ -4,7 +4,7 @@
 - State: `REVIEW_REQUIRED`
 - Date: `2026-09-04`
 - Branch: `rebuild-v1`
-- Repository HEAD: `28bdcc6f5c5347d37b9a0c0e4039e55ab7f319df`
+- Repository HEAD at DEVICE-01 start: `28bdcc6f5c5347d37b9a0c0e4039e55ab7f319df`
 - Firmware Run: Run `20`, ID `33836565597`, attempt `1`
 - Firmware Profile / Source: `rescue` / `candidate`
 - Firmware Project SHA: `698aecdc52218c3565239e97bfd224b6c4af8f02`
@@ -13,11 +13,16 @@
 - Firmware Size: `19778796` bytes
 - Firmware SHA256: `af4f129d68cbb0b2e6d06ed2dbccd64e100bc7403cf69f62b95093d7e86af13e` (`CONFIRMED` locally)
 - Device: Hiveton H5000M / AirPi H5000M (`UNVERIFIED` current identity)
-- Current Firmware Baseline: `UNKNOWN`
-- Connection Method: direct Ethernet to the running original system (`PENDING`)
-- Last Confirmed Gate: authoritative Run 20 firmware filename, size, and SHA256
-- Next Action: user connects one PC Ethernet port directly to an H5000M LAN port while leaving the device powered and running; then resume read-only discovery
-- Blocked Reason: both PC Ethernet adapters report `Media disconnected`; historical `192.168.88.1` is unreachable from the current Wi-Fi network and TCP 22/80/8080 are closed from this path
+- Connection Method: direct Ethernet to the running original system (`CONFIRMED` link and DHCP)
+- Current Firmware Baseline: original-system LAN answered DHCP at the historical
+  `192.168.88.1/24` gateway; firmware and device identity remain `UNKNOWN`
+- Last Confirmed Gate: Ethernet link, client DHCP lease, IPv4 gateway, ARP, and
+  ICMP to `192.168.88.1` are `CONFIRMED`
+- Next Action: confirm the device has completed normal original-system boot,
+  then repeat the bounded read-only service reachability check
+- Blocked Reason: TCP 22, 80, and 8080 are not reachable and direct HTTP
+  requests fail immediately; SSH, Higo, LuCI, device identity, and the required
+  original-system baseline therefore cannot yet be collected
 - Persistent Storage Modified: `NO`
 
 ## DEVICE-01A Readiness
@@ -31,8 +36,20 @@
 - POWER_CYCLE_RECOVERY_CONFIRMED: `UNKNOWN`
 - NO_PERSISTENT_WRITE_PATH_CONFIRMED: `UNKNOWN`
 
-- DEVICE-01A: `BLOCKED` pending a physical network connection to the running
-  original system; no device identity or baseline conclusion has been inferred.
+- DEVICE-01A: `BLOCKED` pending availability of the running original system's
+  management services; no device identity or firmware
+  conclusion has been inferred.
+
+## Original-System Baseline (partial)
+
+- LAN link: `CONFIRMED`
+- DHCP lease: `CONFIRMED`
+- IPv4 gateway / ICMP: `CONFIRMED`
+- SSH: `BASELINE ISSUE` (TCP 22 unavailable)
+- Higo: `BASELINE ISSUE` (TCP 80 unavailable)
+- LuCI: `BASELINE ISSUE` (TCP 8080 unavailable)
+- Device identity, firmware, WAN, Wi-Fi, RG520, storage, and bootloader:
+  `UNKNOWN`
 
 No reboot, U-Boot command, RAM load, flash, sysupgrade, persistent write, or
 device configuration change has been performed.
