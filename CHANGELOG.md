@@ -23,6 +23,12 @@
 
 ### Fixed
 
+- ERROR: workflow dispatch returned HTTP 404 before creating a run. ROOT CAUSE:
+  BUILD-02 used a workflow filename not registered on the default branch.
+  CHANGED FILE: `.github/workflows/build-h5000m-private.yml`. FIX: place the
+  branch workflow at the already registered path and hard-code the authorized
+  candidate source while retaining the accepted Rescue profile input. IMPACT:
+  CI dispatch only; no source lock, Higo, RG520, network or Wi-Fi change.
 - Feed preparation now indexes exact locked commits and verifies every feed HEAD
   before package installation; the previous branch-index/late-checkout sequence
   could leave stale indexes even when final Git HEADs appeared locked.
