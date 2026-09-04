@@ -1,7 +1,7 @@
 # DEVICE-01 Current State
 
-- Phase: `DEVICE-01A`
-- State: `WAITING_EXTERNAL`
+- Phase: `DEVICE-01B`
+- State: `ACTIVE_ENGINEERING`
 - Date: `2026-09-04`
 - Branch: `rebuild-v1`
 - Repository HEAD at DEVICE-01 start: `28bdcc6f5c5347d37b9a0c0e4039e55ab7f319df`
@@ -16,13 +16,14 @@
 - Connection Method: direct Ethernet to the running original system (`CONFIRMED` link and DHCP)
 - Current Firmware Baseline: ImmortalWrt `24.10-SNAPSHOT`, revision
   `r33418-34bb738192`, Linux `6.6.94`, squashfs plus F2FS overlay on eMMC
-- Last Confirmed Gate: DEVICE-01A pre-RAM-boot readiness passed for the current
-  Yuzhii0718/bl-mt798x-dhcpd Recovery WebUI `Load initramfs` path
-- Next Action: wait for the user to enter the Recovery WebUI and manually use
-  only `Load initramfs` with the exact Run 20 image; DEVICE-01B may start only
-  after the user reports that Run 20 Rescue initramfs has started
-- Blocked Reason: none; waiting at the mandatory human authorization gate
-- Wait Reason: `USER_MANUAL_RECOVERY_WEBUI_LOAD_INITRAMFS`
+- Last Confirmed Gate: Run 20 Rescue is running from initramfs with exact embedded
+  build identity; LAN/DHCP/SSH, dual UI reachability and RG520/QMI/QMAP data path
+  passed the initial DEVICE-01B checks
+- Next Action: obtain real client association, DHCP, gateway and data evidence
+  for the 2.4 GHz Wi-Fi gate, followed separately by the 5 GHz gate
+- Blocked Reason: none; authenticated Higo/LuCI operations and Wi-Fi client tests
+  still require user interaction
+- Wait Reason: `NONE`
 - Persistent Storage Modified: `NO`
 
 ## DEVICE-01A Readiness
@@ -122,5 +123,57 @@
 - Human gate: Codex did not enter U-Boot, open or operate the Recovery WebUI,
   upload the image, or start initramfs. Only the user may perform that step.
 
-No reboot, U-Boot command, RAM load, flash, sysupgrade, persistent write, or
-device configuration change has been performed.
+The user performed the authorized Recovery WebUI RAM load. Codex has performed
+no reboot, U-Boot command, image upload, flash, sysupgrade, persistent write, or
+device configuration change.
+
+## DEVICE-01B Runtime Validation
+
+- Entry evidence: the device owner reported successful manual Recovery WebUI
+  `Load initramfs` startup of the exact Run 20 image.
+- Boot: `PASS`. Linux `6.12.103` reached usable userspace, identifies
+  `Hiveton H5000M` / `hiveton,h5000m`, and reports `rootfs_type=initramfs`.
+- Build identity: `PASS`. `/etc/h5000m-build.json` matches Run ID
+  `33836565597`, Run number `20`, project
+  `698aecdc52218c3565239e97bfd224b6c4af8f02`, ImmortalWrt
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`, and profile `rescue`.
+- Persistent safety: `PASS` so far. `/` is tmpfs; there is no persistent overlay.
+  The original squashfs partition is mounted read-only under `/mnt`; no
+  persistent write command or persistent WebUI function was used.
+- LAN/DHCP: `PASS`. The real Ethernet client obtained a lease and reached the
+  gateway; `eth0` and `br-lan` are up.
+- SSH: `PASS`. A real root SSH session executed read-only commands.
+- Higo: `UI_OK PARTIAL`. Port 80, the SPA document and its primary JavaScript/CSS
+  assets return HTTP 200. The API correctly returns 401 anonymously. Empty
+  password API login is rejected, so authenticated status/API reads remain
+  pending user UI validation; no credential or token was saved.
+- LuCI: `UI_OK PARTIAL`. Port 8080 and the LuCI login page respond. Authenticated
+  status reads remain pending user UI validation.
+- Higo/LuCI coexistence: `PASS` for simultaneous service/page availability;
+  authenticated coexistence remains `PARTIAL`.
+- Wi-Fi radios: both 2.4 GHz and 5 GHz AP interfaces are `RUNNING`, with the
+  configured channels and SSIDs visible to the kernel. Real client association,
+  DHCP, gateway and data traffic are pending.
+- RG520 USB: `PASS`. The RG520N-CN enumerates as `2c7c:0801`; four ttyUSB nodes
+  and `/dev/cdc-wdm0` exist.
+- QMI/QMAP: `PASS`. `qmi_wwan_q`, `wwan0`, and `wwan0_1` are active;
+  `quectel-CM-M` owns cdc-wdm, and QMAP byte counters advance.
+- IPv4/IPv6 cellular: `PASS`. Device-side IPv4 HTTP and DNS succeed, an IPv6
+  default route exists, and external IPv6 traffic succeeds. Public addresses
+  and carrier/SIM identity are intentionally omitted.
+- Port ownership: a bounded sample found `quectel-CM-M -> /dev/cdc-wdm0`; no
+  persistent ttyUSB owner was observed. No AT command or competing QMI command
+  was sent.
+- Higo/QModem race: no modem reset, QMI interruption or data-path loss was
+  observed during the initial bounded sample. Longer/reconnect behavior remains
+  `UNVERIFIED`.
+- Firewall: `PASS` baseline. nftables/fw4 is active with LAN and WAN zones,
+  default reject input/forward policy, LAN acceptance and WAN masquerading.
+- WAN: `BLOCKED_BY_ENVIRONMENT` because no wired WAN cable is connected.
+- Boot warnings retained for review: initial PCIe deferred-probe messages,
+  eMMC/GPT warnings, MT7992 EEPROM/default-bin fallback, a hostapd transient
+  interface/scan warning, and QModem scanner `profile not matched` messages.
+  The relevant Ethernet, Wi-Fi, storage and cellular functions are presently
+  running, so these are not promoted to functional failures without contrary
+  evidence.
+- Persistent Storage Modified: `NO`.
