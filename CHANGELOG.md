@@ -23,6 +23,13 @@
 
 ### Fixed
 
+- ERROR: Run 18 passed every source/config/H5000M/Higo/RG520 gate, then failed
+  before download at unsupported make target `kernelversion`. ROOT CAUSE: this
+  ImmortalWrt tree exposes evaluated variables through the generic `val.%`
+  target. CHANGED FILES: `scripts/build.sh`, `scripts/generate-manifest.sh`.
+  BEFORE: `make kernelversion`; AFTER: `make val.LINUX_VERSION`. IMPACT: build
+  identity only; no firmware selection or source/package behavior change.
+  EVIDENCE: Run 18 diagnostics and locked `include/toplevel.mk`.
 - ERROR: Run 17 failed the resolved-config gate before compile because
   `CONFIG_PACKAGE_mt7992-23-firmware` resolved to not selected. ROOT CAUSE: the
   requested symbol omitted the kernel-package `kmod-` prefix; the native device

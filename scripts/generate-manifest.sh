@@ -26,7 +26,7 @@ project_branch=os.getenv('GITHUB_REF_NAME') or cmd('git','-C',root,'branch','--s
 project_repo=(os.getenv('GITHUB_SERVER_URL')+'/'+os.getenv('GITHUB_REPOSITORY')
               if os.getenv('GITHUB_SERVER_URL') and os.getenv('GITHUB_REPOSITORY')
               else cmd('git','-C',root,'remote','get-url','origin'))
-kernel=cmd('make','-s','-C',src,'kernelversion')
+kernel=cmd('make','-s','-C',src,'val.LINUX_VERSION')
 resolved=os.path.join(artifact_dir,'resolved.config')
 patches=sorted(glob.glob(os.path.join(root,'patches','immortalwrt','*.patch')))
 images=sorted(p for p in glob.glob(os.path.join(artifact_dir,'*h5000m*initramfs*.itb')) if os.path.isfile(p))

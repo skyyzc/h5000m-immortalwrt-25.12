@@ -24,7 +24,7 @@ H5000M_SOURCE="$src" "$root/scripts/validate-rg520.sh" "$source_lock"
 
 project_sha=$(git -C "$root" rev-parse HEAD)
 source_sha=$(git -C "$src" rev-parse HEAD)
-kernel_version=$(make -s -C "$src" kernelversion)
+kernel_version=$(make -s -C "$src" val.LINUX_VERSION)
 timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 mkdir -p "$src/files/etc"
 "${PYTHON:-python3}" - "$src/files/etc/h5000m-build.json" "$profile" "$project_sha" "$source_sha" "$kernel_version" "$timestamp" <<'PY'
