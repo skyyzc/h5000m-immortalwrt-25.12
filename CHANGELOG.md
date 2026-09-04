@@ -1,6 +1,18 @@
 # Changelog
 
-## Rebuild V1 / DEVICE-01A
+## Rebuild V1 / DEVICE-01
+
+### DEVICE-01B Validation
+
+- Run 20 Rescue passed a real 2.4 GHz client test: association, DHCP lease,
+  Higo access through Wi-Fi, and Internet traffic all succeeded. This promotes
+  only the 2.4 GHz Wi-Fi gate to `FUNCTION_TESTED`; 5 GHz and all unrelated
+  device gates retain their independently observed status.
+- Added project-scoped credential authorization to `AGENTS.md`. Explicitly
+  provided or securely configured local H5000M credentials may be reused for
+  ordinary project authentication without repeated authorization, while
+  plaintext storage/logging/transmission remains prohibited and all persistent
+  or destructive device-operation gates remain unchanged.
 
 ### Pre-RAM-Boot Readiness
 

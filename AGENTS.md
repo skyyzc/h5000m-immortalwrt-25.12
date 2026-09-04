@@ -70,6 +70,38 @@ phone identifiers, unique MAC/serial values, carrier accounts, real Wi-Fi
 passwords, or askpass contents. The proprietary Higo payload is explicitly
 allowed in commits and pushes and is not itself a sensitive-data blocker.
 
+## Project-Scoped Credential Authorization
+
+`PROJECT_SCOPED_CREDENTIAL_USE = AUTHORIZED` for H5000M and
+`h5000m-immortalwrt-25.12` engineering only. Codex may reuse credentials that
+the user explicitly provides or securely configures locally for H5000M SSH,
+Higo, LuCI, device APIs, validation scripts, Rescue/Full device validation,
+diagnosis, and regression testing without requesting authorization for every
+ordinary login. This is not global credential authorization; any target outside
+this project requires new user authorization.
+
+Prefer a project-specific SSH key stored only in the local user's secure
+storage. A public key may be deployed to an H5000M when the current device task
+permits it. For Higo, LuCI, and APIs, prefer Windows Credential Manager or an
+equivalent OS secret store and a local helper that supplies authentication
+without printing secrets. If a password is technically required, use the
+minimum-exposure local mechanism and never expose it as a normal command-line
+argument, process-list value, shell history entry, stdout/stderr, debug/build/CI
+log, or external request unrelated to the target H5000M service.
+
+Never place a plaintext credential in repository files, tracked `.env` files,
+documentation, Git history, Actions workflows, artifacts, build outputs,
+manifests, or reports; never commit or push one. Do not upload a credential as a
+GitHub Actions secret unless the user separately requests that action. Never
+send it to a third-party service, external API, unrelated website, account,
+device, project, or model, and never reproduce it in a response or state record.
+
+Authentication authority does not authorize destructive or persistent device
+operations. Existing gates for configuration changes, eMMC/GPT/partition or
+factory writes, sysupgrade, U-Boot/BL2 updates, environment changes, and every
+other persistent or destructive action remain fully effective. Credentials
+must never be used to bypass or weaken those gates.
+
 ## Formal Build Ledger Rule
 
 Every formal GitHub firmware build must leave a durable record whether its
