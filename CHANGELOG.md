@@ -39,7 +39,7 @@
   Node.js 20 Actions deprecation and unselected package dependency warnings are
   deferred and were not causal. REPAIR: select and hash the exact H5000M
   `initramfs-kernel.bin` output without changing source locks, configuration,
-  packages, or acceptance gates. REPAIR COMMIT and next Run: pending.
+  packages, or acceptance gates. REPAIR COMMIT: `78f622f`. Next Run: pending.
 - ERROR: Run 18 passed every source/config/H5000M/Higo/RG520 gate, then failed
   before download at unsupported make target `kernelversion`. ROOT CAUSE: this
   ImmortalWrt tree exposes evaluated variables through the generic `val.%`
@@ -86,7 +86,7 @@
 ### Validation
 
 - SOURCE_LOCKED: CONFIRMED
-- CONFIG_RESOLVED: UNVERIFIED
+- CONFIG_RESOLVED: CONFIRMED (Run 19 exact resolved-config gate)
 - BUILD_OK: UNVERIFIED
 - RAM_BOOT_OK: UNVERIFIED
 - DEVICE_OK: UNVERIFIED
@@ -94,7 +94,11 @@
 
 ### Known Issues
 
-- Linux defconfig and compile gates have not yet run for this project.
+- Run 19 confirmed exact source/feed preparation, double apply, defconfig,
+  resolved configuration, H5000M, Higo and RG520/QModem gates, and completed
+  `make world`; artifact acceptance failed because the collector expected the
+  wrong suffix. A repaired clean run and complete artifact acceptance remain
+  required for `BUILD_OK`.
 
 ### Deferred
 
