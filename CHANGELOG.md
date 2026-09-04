@@ -39,7 +39,9 @@
   Node.js 20 Actions deprecation and unselected package dependency warnings are
   deferred and were not causal. REPAIR: select and hash the exact H5000M
   `initramfs-kernel.bin` output without changing source locks, configuration,
-  packages, or acceptance gates. REPAIR COMMIT: `78f622f`. Next Run: pending.
+  packages, or acceptance gates. REPAIR COMMIT: `78f622f`. Next Run: Run 20,
+  ID `33836565597`, attempt 1, project `698aecdc52218c3565239e97bfd224b6c4af8f02`,
+  Rescue/candidate.
 - ERROR: Run 18 passed every source/config/H5000M/Higo/RG520 gate, then failed
   before download at unsupported make target `kernelversion`. ROOT CAUSE: this
   ImmortalWrt tree exposes evaluated variables through the generic `val.%`
