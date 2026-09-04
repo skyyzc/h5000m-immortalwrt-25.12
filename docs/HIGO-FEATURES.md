@@ -22,7 +22,7 @@ build history or repairs in `CHANGELOG.md`.
 | LAN | yes | 192.168.88.1 works | rescue | netifd | PRESERVED | none known | regression test |
 | WAN | yes | eth1 no-link sample | rescue | netifd | UNKNOWN | no cable/link test | link test |
 | DHCP | yes | clients observed | rescue | dnsmasq | PRESERVED | none known | regression test |
-| IPv6 | yes | QMI /64 and LAN PD | rescue | netifd/odhcpd | PRESERVED | prefix-change untested | long-run test |
+| IPv6 | yes | Run 20 device-side IPv6 works; LAN client gets RA/default route but external IPv6 times out | rescue | netifd/odhcpd | PARTIAL / CLIENT_FAIL | delegated client data path fails despite address/route; not DNS-only | preserve evidence; diagnose in DEVICE-01 repair scope |
 | Device list | yes | cache exists; clients not proven | full | Higo/wrtbwmon | PARTIAL | data contract unverified | authenticated UI test |
 | Blacklist | yes | UNKNOWN | full | Higo/firewall | UNKNOWN | no operation evidence | functional test |
 | Traffic | yes | wrtbwmon collects | full | wrtbwmon/Higo | PARTIAL | Higo rendering unproven | adapter/UI test |

@@ -19,8 +19,8 @@
 - Last Confirmed Gate: Run 20 Rescue is running from initramfs with exact embedded
   build identity; LAN/DHCP/SSH, dual UI reachability and RG520/QMI/QMAP data path
   passed the initial DEVICE-01B checks
-- Next Action: complete authenticated LuCI login and basic status-read validation
-  without changing configuration
+- Next Action: continue safe read-only Higo Rescue feature-page validation while
+  preserving the independent LAN-client IPv6 failure for later repair review
 - Blocked Reason: none
 - Wait Reason: `NONE`
 - Persistent Storage Modified: `NO`
@@ -148,10 +148,11 @@ device configuration change.
   render useful data. Those components belong to later Full integrations in
   the current matrix and are not promoted to Rescue failures, but the observed
   gaps remain recorded.
-- LuCI: `UI_OK PARTIAL`. Port 8080 and the LuCI login page respond. Authenticated
-  status reads remain pending user UI validation.
-- Higo/LuCI coexistence: `PASS` for simultaneous service/page availability;
-  authenticated coexistence remains `PARTIAL`.
+- LuCI: `PASS`, maturity `UI_OK / FUNCTION_TESTED`. A real authenticated session
+  loaded Overview/status, network interfaces and system logs without changing
+  configuration.
+- Higo/LuCI coexistence: `PASS`. Both authenticated Higo and LuCI were usable in
+  the same Run 20 boot, with Higo on port 80 and LuCI on port 8080.
 - Wi-Fi 2.4 GHz: `PASS`, maturity `FUNCTION_TESTED`. A real client associated,
   received a DHCP lease in the expected LAN subnet, opened Higo through the
   Wi-Fi path, and accessed the Internet. The exact client identity is omitted.
@@ -167,9 +168,13 @@ device configuration change.
   and `/dev/cdc-wdm0` exist.
 - QMI/QMAP: `PASS`. `qmi_wwan_q`, `wwan0`, and `wwan0_1` are active;
   `quectel-CM-M` owns cdc-wdm, and QMAP byte counters advance.
-- IPv4/IPv6 cellular: `PASS`. Device-side IPv4 HTTP and DNS succeed, an IPv6
-  default route exists, and external IPv6 traffic succeeds. Public addresses
-  and carrier/SIM identity are intentionally omitted.
+- IPv4/IPv6 cellular: `PASS` at the device. Device-side IPv4 HTTP and DNS
+  succeed, an IPv6 default route exists, and external IPv6 traffic succeeds.
+  Public addresses and carrier/SIM identity are intentionally omitted.
+- LAN client IPv6: `FAIL`. A real Ethernet client received Router Advertisement
+  IPv6 addresses and a live default route, but both external IPv6 ICMP and an
+  HTTPS request to a numeric IPv6 endpoint timed out. This is distinct from the
+  working device-side IPv6 path and is not classified as DNS-only or ICMP-only.
 - Port ownership: a bounded sample found `quectel-CM-M -> /dev/cdc-wdm0`; no
   persistent ttyUSB owner was observed. No AT command or competing QMI command
   was sent.

@@ -12,6 +12,13 @@
   Device/connection/application widgets lacked useful data, and the CPE current
   configuration reported an unrecognized 4G/5G profile; these remain explicit
   feature/integration gaps rather than being hidden by the working data path.
+- Authenticated LuCI Overview, network-interface and system-log reads passed;
+  Higo and LuCI were usable concurrently on their required ports.
+- Run 20 device-side cellular IPv6 passed, but a real LAN client with RA-derived
+  IPv6 addresses and a live default route could not reach an external numeric
+  IPv6 endpoint by ICMP or HTTPS. The LAN-client IPv6 data path is a recorded
+  `FAIL`, distinct from the working device-side path and not attributed only to
+  DNS or ICMP filtering.
 - The user unintentionally performed one 5 GHz channel write and one AT command.
   Read-only follow-up found the channel at 44, the initramfs root in tmpfs, the
   original partition read-only, and Wi-Fi/RG520/data paths healthy. The channel
