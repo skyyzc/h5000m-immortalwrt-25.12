@@ -23,6 +23,14 @@
 
 ### Fixed
 
+- ERROR: Run 17 failed the resolved-config gate before compile because
+  `CONFIG_PACKAGE_mt7992-23-firmware` resolved to not selected. ROOT CAUSE: the
+  requested symbol omitted the kernel-package `kmod-` prefix; the native device
+  definition and mt76 Makefile use `kmod-mt7992-23-firmware`. CHANGED FILES:
+  `configs/rescue.config`, `scripts/validate-config.sh`. BEFORE: invalid symbol.
+  AFTER: exact package symbol. IMPACT: restores the mandatory MT7992 firmware
+  gate; no source lock, Higo, RG520 or network behavior change. EVIDENCE: Actions
+  Run 17 first causal error and locked source Makefiles.
 - ERROR: workflow dispatch returned HTTP 404 before creating a run. ROOT CAUSE:
   BUILD-02 used a workflow filename not registered on the default branch.
   CHANGED FILE: `.github/workflows/build-h5000m-private.yml`. FIX: place the
