@@ -16,11 +16,12 @@
 - Connection Method: direct Ethernet to the running original system (`CONFIRMED` link and DHCP)
 - Current Firmware Baseline: ImmortalWrt `24.10-SNAPSHOT`, revision
   `r33418-34bb738192`, Linux `6.6.94`, squashfs plus F2FS overlay on eMMC
-- Last Confirmed Gate: Run 20 Rescue is running from initramfs with exact embedded
-  build identity; LAN/DHCP/SSH, dual UI reachability and RG520/QMI/QMAP data path
-  passed the initial DEVICE-01B checks
-- Next Action: continue safe read-only Higo Rescue feature-page validation while
-  preserving the independent LAN-client IPv6 failure for later repair review
+- Last Confirmed Gate: the same Run 20 initramfs remained healthy for about
+  15h57m with core services/interfaces and the RG520 data path still running;
+  Higo CPE read-only page validation is recorded
+- Next Action: validate the remaining safe Higo Rescue system pages without
+  configuration changes, then perform the required user-controlled power-cycle
+  recovery and original-system integrity comparison
 - Blocked Reason: none
 - Wait Reason: `NONE`
 - Persistent Storage Modified: `NO`
@@ -164,6 +165,12 @@ device configuration change.
 - Higo CPE configuration: `PARTIAL`. Live network type and signal are readable,
   but the current configuration card reports an unrecognized 4G/5G profile.
   This is a real Run 20 compatibility gap even though dialing and traffic work.
+- Higo CPE pages: connection status `FUNCTION_TESTED`; SMS management, SIM-card
+  management, band lock and modem traffic management are `UI_OK` for read-only
+  display. SMS send/delete, SIM controls, band mutation and traffic-limit
+  mutation were not exercised and remain `UNVERIFIED`.
+- Higo neighbour-cell page: `FAIL / PARTIAL`; it continuously reports that no
+  neighbour-cell information was found despite the modem being registered.
 - RG520 USB: `PASS`. The RG520N-CN enumerates as `2c7c:0801`; four ttyUSB nodes
   and `/dev/cdc-wdm0` exist.
 - QMI/QMAP: `PASS`. `qmi_wwan_q`, `wwan0`, and `wwan0_1` are active;
@@ -197,6 +204,12 @@ device configuration change.
   The relevant Ethernet, Wi-Fi, storage and cellular functions are presently
   running, so these are not promoted to functional failures without contrary
   evidence.
+- Stability: `PASS` for a bounded observation of about 15h57m. The embedded Run
+  20 identity remained unchanged; Higo, uhttpd/LuCI, SSH, DHCP, QModem and
+  `quectel-CM-M` remained running; LAN, both APs and QMAP remained up; device-side
+  Internet remained available. No panic, oops, service crash, modem reset or
+  QMI failure was found in the bounded log review. Ordinary client disconnect
+  events were observed and are not failures by themselves.
 - Device eMMC/GPT/U-Boot persistent storage modified: `NO` based on current
   mount and action evidence. Modem-internal persistent state modified: `NO` by
   the classified read-only `ATI` query.

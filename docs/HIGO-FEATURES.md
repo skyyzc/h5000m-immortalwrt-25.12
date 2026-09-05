@@ -12,12 +12,14 @@ build history or repairs in `CHANGELOG.md`.
 |---|---|---|---|---|---|---|---|
 | Home | yes | Run 20 authenticated dashboard mostly renders | rescue | Higo API | UI_OK / PARTIAL | device distribution, connected devices and application ranking lack useful data; latter integrations belong to Full | preserve evidence; Full integration test later |
 | 5G status | yes | Run 20 network type and signal read successfully | rescue | QModem/Higo | FUNCTION_TESTED / PARTIAL | current configuration shows unrecognized 4G/5G profile; reconnect unproven | diagnose profile mapping after DEVICE-01 evidence review |
-| APN | yes | fixed profile works | rescue | QModem/UCI | PARTIAL | editing not tested | form/API test |
-| Signal | yes | data confirmed | rescue | QModem/Higo | PRESERVED | none known | regression test |
-| SIM | yes | modem registered | rescue | QModem | PARTIAL | controls not tested | SIM UI test |
-| SMS | yes | UNKNOWN | rescue | QModem | UNKNOWN | no direct evidence | functional test |
+| APN | yes | Run 20 network-settings page loads | rescue | QModem/UCI | UI_OK / PARTIAL | current configuration is reported as unrecognized 4G/5G; editing not tested | diagnose profile mapping; no mutation in DEVICE-01 |
+| Signal | yes | Run 20 live signal status reads normally | rescue | QModem/Higo | FUNCTION_TESTED | reconnect transition not observed | reconnect regression later |
+| SIM | yes | Run 20 SIM-management page displays normally | rescue | QModem | UI_OK / PARTIAL | controls not tested | controlled function test later |
+| SMS | yes | Run 20 SMS-management page displays normally | rescue | QModem | UI_OK / PARTIAL | send/delete not tested | controlled function test later |
 | AT | yes | Run 20 Higo `ATI` returned module identification | rescue | QModem | FUNCTION_TESTED | read-only query passed with no observed QMI/data interruption; mutating AT remains prohibited | retain safe-query evidence; reconnect/race test later |
-| Lock band/network | yes | profile bands seeded | rescue | QModem | PARTIAL | mutation untested | controlled test |
+| Lock band/network | yes | Run 20 band-lock page displays normally | rescue | QModem | UI_OK / PARTIAL | mutation untested | controlled test later |
+| Neighbour cells | yes | Run 20 continuously reports no neighbour information while registered | rescue | QModem/Higo | PARTIAL / FAIL | scanner/query returns no usable neighbour data | diagnose after DEVICE-01 evidence review |
+| CPE traffic management | yes | Run 20 page displays normally | rescue | QModem/Higo | UI_OK / PARTIAL | counters/limits not mutation-tested | controlled test later |
 | Wi-Fi | yes | Run 20: 2.4/5 GHz real clients passed association, DHCP, Higo and Internet | rescue | UCI/mac80211 | FUNCTION_TESTED | current Rescue defaults are open for isolated RAM validation | security design later; do not alter DEVICE-01 image |
 | LAN | yes | 192.168.88.1 works | rescue | netifd | PRESERVED | none known | regression test |
 | WAN | yes | eth1 no-link sample | rescue | netifd | UNKNOWN | no cable/link test | link test |
@@ -34,7 +36,7 @@ build history or repairs in `CHANGELOG.md`.
 | Fan | yes | dynamic PWM confirmed | full | fancontrol | PRESERVED | RPM sensor unavailable | clarify unsupported RPM |
 | Disk | yes | inventory API works | full | DiskMan | PARTIAL | writes intentionally untested | external USB disk only |
 | SMB | yes | service/port up | full | KSMBD | PARTIAL | no share/read-write test | external disk test |
-| Logs | yes | frontend/API present | rescue | logread/Higo | PARTIAL | page untested | UI test |
+| Logs | yes | frontend/API present | rescue | logread/Higo | PARTIAL | Higo page not yet tested; LuCI logs passed | Higo UI test |
 | Tasks | yes | frontend/API present | rescue | Higo | UNKNOWN | no operation evidence | UI test |
 | Terminal | yes | frontend/API present | rescue | Higo | UNKNOWN | security/function untested | isolated UI test |
 | Notifications | yes | frontend/API present | rescue | Higo | UNKNOWN | no evidence | UI test |

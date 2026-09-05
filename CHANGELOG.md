@@ -14,6 +14,16 @@
   feature/integration gaps rather than being hidden by the working data path.
 - Authenticated LuCI Overview, network-interface and system-log reads passed;
   Higo and LuCI were usable concurrently on their required ports.
+- Higo CPE connection status displayed correctly. SMS, SIM, band-lock and
+  traffic-management pages reached `UI_OK` for read-only display; their
+  mutating operations remain untested. The neighbour-cell page repeatedly
+  reported no neighbour data despite registration, and the existing
+  unrecognized-current-profile gap remained visible.
+- The same Run 20 initramfs remained stable for about 15h57m with its embedded
+  identity unchanged, persistent root still tmpfs, original squashfs still
+  read-only, core services/interfaces running, and RG520/QMAP Internet intact.
+  The bounded review found no panic, oops, service crash, modem reset or QMI
+  failure.
 - Run 20 device-side cellular IPv6 passed, but a real LAN client with RA-derived
   IPv6 addresses and a live default route could not reach an external numeric
   IPv6 endpoint by ICMP or HTTPS. The LAN-client IPv6 data path is a recorded
