@@ -164,21 +164,116 @@ mandatory.
 
 ## Proposed Run 22 boundary
 
-Run 22 remains Rescue/candidate and is not triggered. IPv6 is repair-designed,
-but CPE is not live-path closed, so a combined Run 22 changeset is not yet
-approved or fully designed. If the CPE evidence closes, the only mandatory
-candidates are the proved CPE live-render repair and the IPv6 dynamic-route
-helper. Notification, neighbour, Full packages, upgrades, refactors, and
-persistent deployment remain excluded.
+Run 22 remains Rescue/candidate and is not triggered. The later exact Run 21
+live-state evidence closed the existing CPE repair with no additional CPE code.
+The only proposed Run 22 firmware delta is therefore the IPv6 dynamic-route
+helper and its install/static-validation wiring. Notification, neighbour, Full
+packages, upgrades, refactors, source locks, and persistent deployment remain
+excluded.
+
+## IPV6-RUN22-PREIMPLEMENTATION-REVIEW
+
+### Lifecycle and ownership closure
+
+The locked ImmortalWrt source remains
+`1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`; its netifd package pins
+`cbb83a1857407a28a63dc09412a1f209195914ef`. Netifd's interface event path
+emits `ifup`, `ifupdate`, and `ifdown` to `/etc/hotplug.d/iface`; prefix changes
+on `ifupdate` are explicitly marked by `IFUPDATE_PREFIXES=1`. This is the
+selected lifecycle owner. The odhcp6c `dhcpv6` hotplug path is not selected:
+it emits route-oriented `ifup` callbacks and does not provide the complete
+prefix teardown/update contract required here.
+
+The minimal helper contract is:
+
+- install one PROJECT_LOCAL `/etc/hotplug.d/iface/` reconciler and one testable
+  helper; do not patch netifd, odhcp6c, QModem, firewall, RA, NDP, or upstream;
+- react only to the cellular logical interface's `ifup`, prefix-bearing
+  `ifupdate`, and `ifdown`; derive current state from one `ubus
+  network.interface dump` snapshot rather than trusting partial event fields;
+- accept only one canonical global unicast `/64` that is simultaneously the
+  current RFC 7278 delegated prefix and the shared cellular/LAN prefix; reject
+  malformed, link-local, ULA, multiple, absent, or non-shared candidates;
+- serialize reconciliation with an atomic lock and keep one runtime-only state
+  file under `/var/run`; write state by temporary file plus rename;
+- own exactly one main-table route identified by prefix, `dev br-lan`, metric
+  `1`, and a project-reserved numeric route protocol. Static/build validation
+  must prove the target `ip` implementation accepts the selected protocol;
+  otherwise implementation fails closed rather than falling back to a broad
+  deletion identity;
+- on add/update, install/replace the new exact route, verify its tuple and
+  route lookup, persist the new tuple, then remove a different previously owned
+  tuple. Repeated identical events are no-ops;
+- on prefix loss, ambiguity, interface down, modem teardown, or helper removal,
+  delete only the exact tuple recorded in the runtime state file and verify no
+  owned stale route remains. Never delete an automatic netifd route;
+- metric `1` is preferred over the observed automatic connected-route metric
+  while leaving the IPv6 local table, cellular link-local gateway/default,
+  source rules, and device-side traffic untouched;
+- a command, parse, ownership, or verification failure logs one sanitized
+  bounded error, removes no foreign route, and returns failure. It must not
+  restart networking or the modem, loop, or mask failure.
+
+This closes route ownership, preference, netifd/DHCPv6 lifecycle, renewal,
+modem reconnect, stale/duplicate prevention, rollback, failure isolation, and
+Rescue compatibility at design level. No implementation-time evidence requires
+owner assistance. Controlled prefix renewal or modem reconnect during later RAM
+acceptance remains a separately authorized state-changing validation action.
+
+### Minimal implementation delta
+
+1. Add the PROJECT_LOCAL IPv6 route reconciler/helper under the existing
+   H5000M package install tree.
+2. Add deterministic fixture tests for no-prefix, one valid shared `/64`,
+   malformed/multiple prefixes, unchanged state, prefix replacement, teardown,
+   foreign-route preservation, command failure, and stale-state recovery.
+3. Extend existing prepare/apply and Rescue validation gates to prove exact
+   installed files, executable mode, syntax, idempotence, route-ownership
+   constants, and absence of NAT66/proxy-NDP/firewall/QModem changes.
+4. Synchronize package provenance only when the helper is actually implemented;
+   no package/version/source lock changes are required.
+
+### Run 22 exact-run RAM acceptance contract
+
+- Build/artifact: exact Rescue/candidate Run/project/ImmortalWrt identity,
+  existing source/feed/config/H5000M/Higo/RG520 gates, clean compile, manifest,
+  report, resolved config, checksums, embedded identity, and artifact upload.
+- RAM safety: owner-only accepted initramfs load; exact Run 22 identity; tmpfs
+  root; original squashfs/eMMC read-only; no persistent overlay or write.
+- Route gate: exactly one owned preferred shared-prefix route, no stale owned
+  route, automatic cellular/LAN routes retained, and route lookup for each
+  sanitized client address selects `br-lan`.
+- Function gate: device-side IPv4 and IPv6 remain working; macOS plus Android
+  or Windows receive valid IPv6/default route and pass numeric IPv6 ICMP plus
+  numeric-address HTTPS; bounded overlapping `br-lan`/`wwan0_1` capture proves
+  request LAN -> QMAP and reply QMAP -> LAN.
+- Lifecycle gate: with separate authorization, one bounded prefix
+  renew/change fixture and one controlled modem/interface reconnect prove
+  add/update/remove, no duplicate/stale route, and data-path recovery. A
+  naturally occurring equivalent transition may replace an induced action.
+- Regression/safety: LAN/DHCP/SSH, Higo/LuCI coexistence, both Wi-Fi bands,
+  RG520/QMI/QMAP, CPE `4G + 5G`, critical logs, and failure isolation pass;
+  helper teardown returns the unmodified automatic route state.
+- Recovery: owner performs normal power cycle; original system, overlay,
+  services, radios and cellular data return; Run 22 identity is absent and no
+  persistent-storage/bootloader/factory change is observed.
+
+Run 22 succeeds only when every applicable gate passes. A single clean build
+does not establish byte-for-byte reproducibility, and successful LAN-client
+IPv6 does not prove unrelated Notification, neighbour, Full, or persistent
+features.
 
 ## Stop decision
 
-- `BLOCKER`: CPE browser-loaded asset/runtime identity was not captured.
-- `MISSING_EVIDENCE`: fresh-context loaded CPE URL, bytes/hash, cache metadata,
-  sanitized API response, and visible title from one Run 21 session.
-- `NEXT_ACTION`: separately authorize that read-only Run 21 evidence session.
-- `REPAIR_CONTINUATION_GATE`: confirm API -> served/loaded asset -> resolver ->
-  visible title, then select the CPE repair and complete Run 22 design review.
+- `BLOCKER`: none for IPv6 implementation design.
+- `MISSING_EVIDENCE`: none required before implementation; route-protocol
+  support is an implementation/static-build fail-closed gate.
+- `NEXT_ACTION`: owner review of this preimplementation contract.
+- `REPAIR_CONTINUATION_GATE`: explicit authorization to implement only the
+  reviewed IPv6 delta; build authorization remains separate.
+- `IPV6_IMPLEMENTATION_UNBLOCKED=YES`
+- `RUN22_CHANGESET_READY=YES`
+- `BUILD_WORTH_TRIGGERING=NO` (no implementation exists in this phase)
 
 Current implementation remains unauthorized. No confirmed IPv6 diagnosis
 should be repeated absent contradictory evidence.

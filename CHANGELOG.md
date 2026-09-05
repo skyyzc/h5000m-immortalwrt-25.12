@@ -2,6 +2,23 @@
 
 ## GOVERNANCE-02
 
+### IPV6-RUN22-PREIMPLEMENTATION-REVIEW
+
+- Reconfirmed Run 21's packet/route RCA as
+  `CONFIRMED_SAME_PREFIX_RETURN_ROUTE_COLLISION` and retained the selected
+  native `DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE` design.
+- Closed the implementation contract around the locked netifd `iface` events:
+  `ifup`, prefix-marked `ifupdate`, and `ifdown`; specified exact route
+  ownership, metric preference, serialized reconciliation, atomic runtime
+  state, renewal/reconnect replacement, stale/duplicate prevention, rollback,
+  fail-closed behavior, and foreign-route preservation.
+- Defined the IPv6-only minimal delta and exact Run 22 build/RAM/function/
+  lifecycle/regression/recovery contract. `IPV6_IMPLEMENTATION_UNBLOCKED=YES`
+  and `RUN22_CHANGESET_READY=YES`; `BUILD_WORTH_TRIGGERING=NO` until an
+  authorized implementation exists and passes static gates. No implementation,
+  firmware/config/package/source-lock, device, build/Run 22, Full, or
+  persistent change occurred.
+
 ### HUMAN_ASSIST_MINIMIZATION
 
 - Made autonomy-first execution permanent: human assistance is allowed only

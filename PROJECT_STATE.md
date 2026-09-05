@@ -26,12 +26,14 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `CPE-RUN21-LIVE-STATE-01 / COMPLETE`
-- `CURRENT_TASK`: Run 21 paused-scope and visible-title evidence are accepted;
-  synchronize evidence and stop for owner review.
+- `CURRENT_PHASE`: `IPV6-RUN22-PREIMPLEMENTATION-REVIEW / COMPLETE`
+- `CURRENT_TASK`: IPv6 RCA and selected dynamic preferred LAN shared-prefix
+  route design were reviewed to an implementation-ready contract; stop for
+  owner review without implementation or build.
 - `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: `CPE-RUN21-LIVE-STATE-01=PASS`; resolver, computed title,
-  badge, and resumed visible title all resolve to the intended 4G+5G state.
+- `CURRENT_GATE`: `IPV6_IMPLEMENTATION_UNBLOCKED=YES`;
+  `RUN22_CHANGESET_READY=YES`; `BUILD_WORTH_TRIGGERING=NO` until implementation
+  and its static gates exist and pass.
 - `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
   push; do not implement CPE/IPv6 repair, begin Full, build Run 22, change the
   device, or perform a persistent operation.
@@ -127,8 +129,9 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: owner review of the closed Run 21 CPE evidence. IPv6 design
-  remains ready but unimplemented; Run 22 remains unapproved and untriggered.
+- `NEXT_GATE`: owner review of the IPv6 Run 22 preimplementation contract.
+  Implementation and build each remain separately unauthorized; Run 22 is
+  untriggered.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets
