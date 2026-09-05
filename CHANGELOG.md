@@ -13,9 +13,23 @@
   single intended runtime-asset delta, unchanged QModem inputs,
   `tcpdump-mini` selection/provenance/no-autostart, and tracked-secret scan.
 - Initial workflow evidence confirms the correct branch and project SHA, with
-  checkout complete and dependency installation running normally. Result and
-  artifact identity remain `UNKNOWN` while the external build runs; no device,
-  Full, RAM-boot or persistent operation is authorized or performed.
+  checkout complete and dependency installation running normally. At dispatch,
+  result and artifact identity were `UNKNOWN`; no device, Full, RAM-boot or
+  persistent operation was authorized or performed.
+- Run 21 completed `SUCCESS` in 2h38m08s. The accepted GitHub artifact is
+  `h5000m-rescue-ab4d2cba-1d34e7b8-run21-attempt1` (artifact ID
+  `9967061702`, archive size 20037155 bytes, GitHub digest
+  `sha256:23f3c17efec1633621b30f4fdc002db2f5565931bc2dbfe2b56256afb3a26b82`).
+- Artifact acceptance passed for manifest, report, requested/resolved config,
+  SHA256SUMS and embedded build identity. The resulting H5000M Rescue initramfs
+  is 19970460 bytes with SHA256
+  `17d771fc5a1f469c0a56e5c92e8877bc0f8b700321de8860254304503b78d960`.
+- Firmware inspection confirmed the separately traced PROJECT_LOCAL CPE runtime
+  tree, preserved canonical vendor-source hashes, seven-case fixture gate,
+  `tcpdump-mini 4.99.6-r1` with `libpcap1 1.10.6-r1`, and no tcpdump autostart.
+  QModem, neighbour and Notification behavior were unchanged. Run 21 remains
+  untested on hardware. The Node.js 20 deprecation notice is deferred CI
+  maintenance and did not affect build or artifact success.
 
 ### DEVICE-01F-II implementation review
 
