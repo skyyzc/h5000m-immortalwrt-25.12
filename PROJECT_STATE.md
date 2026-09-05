@@ -26,15 +26,17 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `DEVICE-01G / RUN21 REPAIR DESIGN`
-- `CURRENT_TASK`: close the CPE live-render evidence boundary where possible,
-  design the confirmed IPv6 repair, and refine issue/authentication governance.
+- `CURRENT_PHASE`: `CPE-EVIDENCE-01 / REVIEW REQUIRED`
+- `CURRENT_TASK`: Run 21 live CPE resource/API evidence is captured as far as
+  the available browser evidence interface permits; exact loaded response
+  bytes remain the only unresolved live-resource boundary.
 - `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: one separately authorized fresh-browser Run 21 evidence
-  session before CPE repair selection and combined Run 22 design review.
-- `STOP_CONDITION`: stop after design/governance synchronization, commit, and
-  normal push; do not implement either repair, begin Full, build Run 22, boot
-  RAM firmware, access/change the device, or perform a persistent operation.
+- `CURRENT_GATE`: owner review of `docs/CPE-EVIDENCE-01.md`; capture the exact
+  browser-loaded CPE response body/hash (or equivalent evaluated-code proof)
+  before selecting another CPE repair.
+- `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
+  push; do not implement CPE/IPv6 repair, begin Full, build Run 22, change the
+  device, or perform a persistent operation.
 - `CURRENT_TASK_REQUIRED_FILES`: `AGENTS.md`, `PROJECT_STATE.md`, `README.md`,
   latest relevant `CHANGELOG.md` section, current summary in
   `docs/DEVICE-01-STATE.md`, and the current task specification.
@@ -100,9 +102,11 @@ their underlying facts; this file points to them and does not replace history.
 
 - `OPEN_P0`: none authorized in the current governance phase.
 - `OPEN_P1`:
-  - CPE fresh-context loaded chunk URL/hash and sanitized API evidence; current
-    leading hypothesis is stale cache/module selection, but RCA remains
-    `UNKNOWN` until the live resource is identified.
+  - CPE-EVIDENCE-01 captured the authenticated Run 21 API, actual browser
+    request URL, server response metadata, patched served-byte hash and the
+    still-unknown title. The available browser interface did not expose the
+    already loaded response bytes, so cache selection versus patched-runtime
+    data shape remains unresolved and `CPE_RCA=UNKNOWN`.
   - IPv6 dynamic preferred LAN route design for the confirmed same-prefix
     return-route collision; implementation is not authorized in DEVICE-01G.
   - Notification storage contract remains `UNKNOWN`; Run 21 change is `NO`.
@@ -125,9 +129,9 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: separately authorized Run 21 read-only CPE browser/resource
-  evidence, followed by repair continuation review. Detailed design and exact
-  blocker are in `docs/DEVICE-01G-RUN21-REPAIR-DESIGN.md`.
+- `NEXT_GATE`: owner review, then exact browser response-body hash or
+  equivalent debugger proof for the observed CPE module request. Evidence and
+  the remaining binary decision are in `docs/CPE-EVIDENCE-01.md`.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets

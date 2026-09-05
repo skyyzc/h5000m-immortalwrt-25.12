@@ -18,6 +18,25 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### CPE-EVIDENCE-01
+
+- Rebooted the already accepted Run 21 Rescue in RAM through the owner-only
+  gate and captured an authenticated HTTP 200 network-mode fixture. It remains
+  `mode=auto`, selected `4G + 5G`, supported `3G/4G/5G`, matching QModem
+  `3G=0,4G=1,5G=1`; no modem or network setting changed.
+- A new isolated Higo browser tab requested
+  `/assets/CPEManagement-CuEyMeyg.js` and still displayed `未识别配置`. The
+  device served the Run 21 patched bytes at that URL (85584 bytes, SHA256
+  `f8eef73d3abe39a5170c3d84f952bbf5683690b6f240a23a9d58a783d2e33ad0`),
+  not the canonical vendor bytes. Response metadata had a fixed epoch
+  `Last-Modified` and no observed explicit cache-control validator policy.
+- The browser inventory exposed the request URL but not the already evaluated
+  response body/hash. Therefore the evidence rejects a wrong server asset but
+  cannot yet choose between cached canonical bytes and patched-code runtime
+  data shape. `CPE_RCA=UNKNOWN`, `CPE_REPAIR_UNBLOCKED=NO`; no firmware,
+  package/config/source lock, Run 22, Full, device state, or persistent storage
+  changed. Details are in `docs/CPE-EVIDENCE-01.md`.
+
 ### DEVICE-01G Run 21 repair design and AUTH-FRICTION-02
 
 - Traced the CPE source path from the authenticated API through the sole

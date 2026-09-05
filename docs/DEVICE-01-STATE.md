@@ -349,6 +349,23 @@ device configuration change.
   `RUN21_FUNCTION_TESTED=NO` because the mandatory CPE repair function gate in
   this Run-scoped contract failed. Run 20 evidence is retained unchanged.
 
+## CPE-EVIDENCE-01 Run 21 follow-up
+
+- Run 21 identity and RAM-only safety were reconfirmed; `/` remained tmpfs and
+  the original eMMC squashfs remained read-only.
+- Authenticated HTTP 200 evidence again showed `mode=auto`, selected
+  `4G + 5G`, supported `3G/4G/5G`, matching QModem `3G=0,4G=1,5G=1`.
+- A newly created isolated Higo tab requested
+  `/assets/CPEManagement-CuEyMeyg.js` and visibly retained `未识别配置`.
+  The device currently serves the Run 21 patched 85584-byte chunk at that URL,
+  SHA256 `f8eef73d3abe39a5170c3d84f952bbf5683690b6f240a23a9d58a783d2e33ad0`.
+- The browser evidence interface did not expose the body/hash of the already
+  loaded response. Cache selection versus patched-resolver runtime input is
+  therefore still unresolved: `CPE_RCA=UNKNOWN`,
+  `CPE_REPAIR_UNBLOCKED=NO`. See `docs/CPE-EVIDENCE-01.md`.
+- This follow-up changed no device, modem, network, firmware, source, package,
+  configuration, lock, or persistent-storage state.
+
 RUN20_SOURCE_LOCKED: `YES`
 RUN20_CONFIG_RESOLVED: `YES`
 RUN20_BUILD_OK: `YES`
