@@ -2,6 +2,25 @@
 
 ## GOVERNANCE-02
 
+### HUMAN_ASSIST_MINIMIZATION
+
+- Made autonomy-first execution permanent: human assistance is allowed only
+  for required evidence after safe autonomous investigation, capability and
+  alternative-path checks, and reduction to the irreducible owner action.
+  Added mandatory browser capability/level prechecks and an evidence-specific
+  expanded assist contract without weakening evidence, authentication,
+  physical, RAM-first, persistent, or destructive-operation gates.
+- Reassessed the Run 21 CPE chain from API wrapper through the sole `F` state,
+  candidate resolver, and rendered title. No static second instance, hidden
+  normalization, watcher/effect mutation, or alternate title source was found;
+  the visible badge/title contradiction remains runtime evidence, not a proven
+  cause.
+- Paused and replaced the former nine-step owner flow. Current tools can cover
+  ordinary browser automation but expose no connected Chrome session,
+  DevTools debugger, breakpoint, or paused local scope, so only that final
+  paused-scope capture remains human-assisted. No firmware/device/build/Run 22,
+  Full, package/config/source-lock, or persistent change occurred.
+
 - Added `PROJECT_STATE.md` as a compact current-state index, explicitly
   separating Run 20's function-tested Rescue baseline from Run 21's accepted
   but device-unverified firmware generation.

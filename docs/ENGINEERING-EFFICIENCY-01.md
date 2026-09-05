@@ -36,46 +36,104 @@ persistent safety remain authoritative.
 
 ## Current CPE human-assist continuation
 
+### Autonomy-first rule and current reassessment
+
+`HUMAN_ASSIST_MINIMIZATION_RULE` now makes owner assistance an exception, not
+a routine engineering loop. Required evidence must first pass evidence reuse,
+safe autonomous investigation, actual tool/plugin/session capability checks,
+alternative-path review, and owner-action minimization. Browser evidence is
+classified from ordinary navigation through paused closure scope; Codex must
+complete every level its tools support. This does not relax any evidence,
+credential, modem, physical, build, RAM-first, or persistent gate.
+
+Static reassessment of the Run 21 CPE bundle established:
+
+1. `getNetworkMode()` performs GET `/cpe/network-mode` and returns the API
+   wrapper's unwrapped value.
+2. The only wrapper transform is `code`/`data` envelope removal; there is no
+   network-mode normalize/map step before the component.
+3. `F.value=h` is assigned by the read refresh. The only other whole-object
+   assignment is after explicitly state-changing `setNetworkMode`, which was
+   not invoked; no field mutation was found.
+4. No other `selectedNetworks` mutation path was found in this component.
+5. `mode` can match a `Ge` entry and return early; any such match returns a
+   non-null entry with a title, so it does not statically explain the unknown
+   fallback.
+6. `st` is a Vue computed depending on `Ge`, `F.value.mode`, and
+   `F.value.selectedNetworks`; its consumers evaluate it and those reactive
+   dependencies invalidate it. Initial state and asynchronous refresh can each
+   render, but the refreshed assignment invalidates the computed.
+7. `Tt` depends only on `st` and maps null/untitled state to `未识别配置`.
+8. Searches found one component-local `F`, one read assignment, one
+   save-response assignment, and no watcher/effect that mutates it. No static
+   evidence proves a second instance, second mode fetch, state replacement, or
+   alternate visible-title source. Since `Jt` and `Tt` consume the same state,
+   the observed `4G / 5G` badge plus unknown title remains a runtime
+   contradiction whose cause is `UNKNOWN`, not a confirmed static RCA.
+
+Actual browser autonomy precheck on 2026-09-06:
+
 ```text
-HUMAN_ASSIST_REQUIRED=YES
-ASSIST_ID=CPE-RUN21-LIVE-BODY-01
-BLOCKED_GATE=CPE browser-evaluated resource identity
-BLOCKER_CLASS=BROWSER_EVIDENCE_LIMIT
-WHY_HUMAN_IS_NEEDED=current browser tooling exposes the request URL but not the evaluated response body
-WHAT_CODEX_ALREADY_PROVED=API/QModem agree; device serves Run21 patched chunk; new tab still shows 未识别配置
-WHAT_CODEX_ALREADY_TRIED=isolated in-app tab, resource inventory, server-byte/hash and cache-metadata capture
-OWNER_ACTION_EXACT=fresh/private desktop browser DevTools Network capture for the exact CPE chunk
-EXPECTED_EVIDENCE=response body or HAR with content, or equivalent debugger resolver/live-input proof
-RETURN_TO_CODEX=the exported local evidence file
-DO_NOT=save/apply CPE; change network/APN/bands; reboot; flash; perform persistent actions
-SENSITIVE_DATA_HANDLING=keep credentials and identifiers local; Codex sanitizes durable records
-RESUME_CONDITION=loaded code identity or evaluated resolver/live-input branch becomes directly provable
-INDEPENDENT_WORK_CAN_CONTINUE=YES
+BROWSER_CAPABILITY_CHECK=COMPLETE
+CHROME_PLUGIN_AVAILABLE=NO
+CHROME_PLUGIN_CONNECTED=NO
+IN_APP_BROWSER_AVAILABLE=YES
+BROWSER_AUTOMATION_AVAILABLE=YES
+CURRENT_BROWSER_SESSION_ACCESSIBLE=NO
+AUTHENTICATED_SESSION_ACCESSIBLE=NO
+DEVTOOLS_ACCESS_AVAILABLE=NO
+DEBUGGER_ACCESS_AVAILABLE=NO
+BREAKPOINT_CAPABILITY_AVAILABLE=NO
+PAUSED_SCOPE_INSPECTION_AVAILABLE=NO
+EXACT_BROWSER_CAPABILITY_LIMIT=LEVEL_3_DOM_RUNTIME_VISIBLE_STATE_WITHOUT_EXISTING_SESSION; LEVEL_4_TO_6_DEVTOOLS_DEBUGGER_PAUSED_SCOPE_NOT_EXPOSED
 ```
 
-Codex already proved the authenticated API and QModem semantics agree, the
-device currently serves the Run 21 patched CPE chunk, and a new browser tab
-still displays `未识别配置`. At governance time the browser evidence interface
-had not exposed the already evaluated response body, so `CPE_RCA=UNKNOWN`,
-`CPE_REPAIR_UNBLOCKED=NO`, and `CPE_LOADED_CHUNK_IDENTITY=UNKNOWN` defined the
-assist's starting state. The later return closed loaded-code identity as
-recorded below, without closing RCA.
+The current browser inventory contained only an empty Codex in-app browser and
+no Chrome surface or tab. Previous exact-run evidence already covers the
+authenticated GET, requested chunk, response-body identity, and visible title,
+so repeating Levels 1-4 would add no evidence. Only live paused closure values
+at the already located resolver/title computation remain unavailable.
 
-Owner action for the next separately authorized task: use a fresh/private
-desktop browser; open Developer Tools -> Network before entering `/cpe`; enable
-Disable cache while DevTools is open if available; load `/cpe` once; select the
-exact `CPEManagement-CuEyMeyg.js` request; export its Response body or a HAR
-containing content. Equivalent debugger proof of the patched resolver and its
-exact live input is acceptable. Return the export to Codex for hashing and
-interpretation. Do not save/apply CPE settings, change network mode/APN/bands,
-reboot, flash, or perform persistent actions. Treat credentials and unique
-device data as local sensitive material; durable results must be sanitized.
+The old nine-step assist is therefore `REPLACED`, not invalidated. The reduced
+assist asks only for paused values of `F.value`,
+`Ie(F.value.selectedNetworks)`, `Ge.value`, `st.value`, and `Tt.value` at the
+already identified computation; the owner need not repeat API capture,
+response export, hashing, source search, or analysis.
 
-`RESUME_CONDITION`: identify the browser-evaluated code, or directly prove the
-resolver/live-input branch. The later `CPE-RUN21-LIVE-BODY-01` return proved
-the browser response contains the patched resolver, completing this assist's
-code-identity branch; it did not supply a byte-identical full response hash or
-the live Vue values.
+```text
+HUMAN_ASSIST_REQUIRED=YES
+ASSIST_ID=CPE-RUN21-LIVE-STATE-01
+BLOCKED_GATE=Run21 live Vue resolver/title state
+BLOCKER_CLASS=BROWSER_EVIDENCE_LIMIT
+AUTONOMOUS_WORK_COMPLETED=API wrapper/state/mutation/computed/render trace; loaded Run21 code and visible title already proved
+AUTONOMOUS_METHODS_ATTEMPTED=repository/minified-bundle tracing; evidence reuse; actual browser inventory and capability precheck
+AVAILABLE_TOOL_CAPABILITIES_CHECKED=in-app browser automation and current browser/tab/session inventory
+WHY_CODEX_CANNOT_OBTAIN_THIS_EVIDENCE=current tools expose no Chrome surface, DevTools debugger, breakpoint, or paused local scope
+WHY_THIS_EVIDENCE_IS_REQUIRED=the same reactive state statically implies a non-null patched result while the exact-run UI showed the fallback
+WHY_EXISTING_EVIDENCE_IS_INSUFFICIENT=loaded-code identity and API JSON do not reveal the values inside the evaluated Vue closure
+WHY_HUMAN_ACTION_IS_UNAVOIDABLE=only a desktop DevTools paused-scope capture crosses the verified Level-3 capability ceiling
+MINIMUM_OWNER_ACTION=in an authorized exact Run21 session, pause at the already located resolver and title computed expressions and return only sanitized paused-scope values/screenshots
+EXPECTED_RETURN_EVIDENCE=resolver F.value, local normalized key/candidates/result, then title-computed st.value; call stack identifies CPEManagement-CuEyMeyg.js
+WHAT_OWNER_MUST_NOT_DO=save/apply CPE; change network/APN/bands; edit JavaScript; reboot/flash; perform persistent actions; disclose credentials or unique identifiers
+WHAT_CODEX_WILL_DO_AFTER_RETURN=validate/sanitize evidence, classify the failing boundary, update durable state, and stop for repair review
+INDEPENDENT_WORK_CAN_CONTINUE=NO
+RESUME_CONDITION=sanitized paused values close the actual resolver-to-title branch
+BROWSER_CAPABILITY_CHECK=COMPLETE
+CHROME_PLUGIN_AVAILABLE=NO
+CHROME_PLUGIN_CONNECTED=NO
+IN_APP_BROWSER_AVAILABLE=YES
+BROWSER_AUTOMATION_AVAILABLE=YES
+DEVTOOLS_ACCESS_AVAILABLE=NO
+DEBUGGER_ACCESS_AVAILABLE=NO
+PAUSED_SCOPE_INSPECTION_AVAILABLE=NO
+EXACT_BROWSER_CAPABILITY_LIMIT=Level 3 without an existing authenticated session; Levels 4-6 unavailable
+```
+
+No owner action is requested by this governance phase itself. If the reduced
+gate is separately resumed, Codex must provide the two exact breakpoint
+locations and require only the resulting paused-scope captures; prior login,
+API, response-body, hash, and source-location evidence remain valid and must
+not be repeated.
 
 ```text
 CPE_API_CAPTURED=YES

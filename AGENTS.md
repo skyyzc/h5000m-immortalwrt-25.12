@@ -440,6 +440,26 @@ separately without cause or hard-code future batch membership here.
 
 ### Stalls, retries, and human assistance
 
+`HUMAN_ASSIST_MINIMIZATION_RULE`: `CODEX_AUTONOMY_FIRST`,
+`HUMAN_ASSIST_LAST_RESORT`, `EVIDENCE_QUALITY_UNCHANGED`, and
+`SAFETY_GATES_UNCHANGED`. The owner is not a routine shell, Git, HTTP/API,
+SSH, browser, log, comparison, hash, or evidence-collection operator. Before
+requesting assistance, Codex must establish that the evidence is required,
+reuse valid exact-run evidence, exhaust relevant safe read-only autonomous
+paths, inspect available tools/plugins/connections and genuinely different
+alternatives, identify the concrete capability boundary, and reduce the owner
+action to the irreducible human or physical step. Convenience or a first
+failure is not a valid reason for assistance.
+
+For browser work, `BROWSER_AUTONOMY_PRECHECK=REQUIRED`. Record actual access to
+Chrome/plugin connection, the in-app browser, automation, current and
+authenticated sessions, DevTools, debugger/breakpoints, and paused local-scope
+inspection. Classify the evidence level: (1) navigation/read, (2)
+authenticated/API/network, (3) DOM/runtime-visible state, (4) DevTools/network
+response, (5) debugger/breakpoint, or (6) paused closure/local scope. Codex
+must autonomously complete every supported lower level and may delegate only
+the necessary portion above the verified capability ceiling.
+
 `NO_BLIND_RETRY_RULE`: for SSH, authentication, browser/UI, API, or other
 interactive work, attempt the preferred path once and capture its boundary.
 Retry once only for a plausible transient or meaningful correction. After two
@@ -485,17 +505,28 @@ HUMAN_ASSIST_REQUIRED=YES
 ASSIST_ID=
 BLOCKED_GATE=
 BLOCKER_CLASS=
-WHY_HUMAN_IS_NEEDED=
-WHAT_CODEX_ALREADY_PROVED=
-WHAT_CODEX_ALREADY_TRIED=
-OWNER_ACTION_EXACT=
-EXPECTED_EVIDENCE=
-RETURN_TO_CODEX=
-DO_NOT=
-SENSITIVE_DATA_HANDLING=
-RESUME_CONDITION=
+AUTONOMOUS_WORK_COMPLETED=
+AUTONOMOUS_METHODS_ATTEMPTED=
+AVAILABLE_TOOL_CAPABILITIES_CHECKED=
+WHY_CODEX_CANNOT_OBTAIN_THIS_EVIDENCE=
+WHY_THIS_EVIDENCE_IS_REQUIRED=
+WHY_EXISTING_EVIDENCE_IS_INSUFFICIENT=
+WHY_HUMAN_ACTION_IS_UNAVOIDABLE=
+MINIMUM_OWNER_ACTION=
+EXPECTED_RETURN_EVIDENCE=
+WHAT_OWNER_MUST_NOT_DO=
+WHAT_CODEX_WILL_DO_AFTER_RETURN=
 INDEPENDENT_WORK_CAN_CONTINUE=YES/NO
+RESUME_CONDITION=
 ```
+
+Browser assistance additionally records `BROWSER_CAPABILITY_CHECK`,
+`CHROME_PLUGIN_AVAILABLE`, `CHROME_PLUGIN_CONNECTED`,
+`IN_APP_BROWSER_AVAILABLE`, `BROWSER_AUTOMATION_AVAILABLE`,
+`DEVTOOLS_ACCESS_AVAILABLE`, `DEBUGGER_ACCESS_AVAILABLE`,
+`PAUSED_SCOPE_INSPECTION_AVAILABLE`, and `EXACT_BROWSER_CAPABILITY_LIMIT`.
+These fields must name the observed boundary rather than merely saying that a
+tool cannot complete the task.
 
 Ask for the smallest action and exact return material, say what must not be
 changed, require sanitization where needed, and interpret raw engineering

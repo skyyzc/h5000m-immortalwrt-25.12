@@ -26,13 +26,14 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `CPE-RUN21-LIVE-BODY-01 / PARTIAL`
-- `CURRENT_TASK`: human-assisted loaded-code identity is closed; live Vue
-  resolver state/input/output remains the sole CPE evidence blocker.
+- `CURRENT_PHASE`: `HUMAN_ASSIST_MINIMIZATION / CPE STATIC REASSESSMENT`
+- `CURRENT_TASK`: autonomy-first reassessment closed every repository and
+  ordinary-browser portion; only paused Vue closure/local-scope evidence
+  remains the CPE evidence blocker.
 - `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: `CPE-RUN21-LIVE-STATE-01` human-assisted read-only debugger
-  evidence for `F.value`, normalized networks, `Ge`, `st`, and `Tt` before
-  selecting another CPE repair.
+- `CURRENT_GATE`: reduced `CPE-RUN21-LIVE-STATE-01` read-only paused-scope
+  evidence for `F.value`, normalized networks, `Ge`, `st`, and `Tt`; the old
+  nine-step owner workflow is paused and replaced by this minimum remainder.
 - `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
   push; do not implement CPE/IPv6 repair, begin Full, build Run 22, change the
   device, or perform a persistent operation.
@@ -128,10 +129,11 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: `CPE-RUN21-LIVE-STATE-01`, a minimal read-only debugger capture
-  of the exact Vue network-mode object, normalized key, candidate modes,
-  resolved mode, and visible-title computed value. CPE remains unready; the
-  IPv6 repair design remains ready; Run 22 remains unapproved and untriggered.
+- `NEXT_GATE`: `CPE-RUN21-LIVE-STATE-01`, reduced to paused closure/local-scope
+  capture at the already located resolver/title computations. Repository,
+  API-wrapper, loaded-resource and ordinary-browser evidence must not be
+  repeated. CPE remains unready; IPv6 design remains ready; Run 22 remains
+  unapproved and untriggered.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets
