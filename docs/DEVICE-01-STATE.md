@@ -366,6 +366,15 @@ device configuration change.
 - This follow-up changed no device, modem, network, firmware, source, package,
   configuration, lock, or persistent-storage state.
 
+`CPE-RUN21-LIVE-BODY-01` subsequently supplied human-assisted Chrome Incognito
+DevTools response evidence for the exact CPE chunk request. The excerpt contains
+the Run 21 patched resolver and excludes the canonical resolver, so
+`CPE_LOADED_CHUNK_IDENTITY=RUN21_PATCHED` and stale canonical cache selection is
+rejected. Because the excerpt is not the full byte-identical response,
+`CPE_LOADED_CHUNK_HASH=UNKNOWN` remains. The live title still failed;
+`CPE_RCA=UNKNOWN`, `CPE_REPAIR_UNBLOCKED=NO`, and the next gate is bounded live
+Vue resolver-state evidence. No device or persistent state changed.
+
 RUN20_SOURCE_LOCKED: `YES`
 RUN20_CONFIG_RESOLVED: `YES`
 RUN20_BUILD_OK: `YES`
@@ -478,7 +487,10 @@ RUN21_NEXT_ACTION: `OWNER_REVIEW_BEFORE_SEPARATE_REPAIR_DESIGN`
 READY_FOR_NEXT_REPAIR_DESIGN: `YES`
 DEVICE_01G_REPAIR_DESIGN: `PASS`
 CPE_LIVE_PATH_CLOSED: `NO`
-CPE_RCA: `UNKNOWN` (leading hypothesis: `CACHE_OR_ASSET_SELECTION`)
+CPE_LOADED_CHUNK_IDENTITY: `RUN21_PATCHED`
+CPE_LOADED_CHUNK_HASH: `UNKNOWN` (human evidence is a curated resolver excerpt)
+CPE_BROWSER_CACHE_OLD_CANONICAL_HYPOTHESIS: `REJECTED`
+CPE_RCA: `UNKNOWN` (remaining boundary: live Vue resolver state/execution)
 CPE_ADDITIONAL_DEVICE_EVIDENCE_REQUIRED: `YES`
 IPV6_REPAIR_DESIGNED: `YES`
 IPV6_SELECTED_DESIGN: `DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE`
@@ -487,6 +499,6 @@ IPV6_NAT66_REQUIRED: `NO`
 IPV6_PROXY_NDP_REQUIRED: `NO`
 AUTH_FRICTION_02: `PASS`
 ISSUE_CLOSURE_RULE: `PASS`
-RUN22_CHANGESET_DESIGNED: `NO` (blocked by CPE live-resource identity)
+RUN22_CHANGESET_DESIGNED: `NO` (blocked by CPE live resolver-state identity)
 RUN22_TRIGGERED: `NO`
 CURRENT_PHASE_IMPLEMENTATION_AUTHORIZED: `NO`

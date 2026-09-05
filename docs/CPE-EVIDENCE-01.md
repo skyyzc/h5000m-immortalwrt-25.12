@@ -74,18 +74,43 @@ evidence is an actual browser response-body capture/hash for the observed
 request (or equivalent debugger proof of the evaluated resolver and its live
 input). No speculative repair is authorized by this record.
 
+## Human-assisted loaded-code follow-up
+
+`CPE-RUN21-LIVE-BODY-01` returned a Chrome Incognito / DevTools Network
+response excerpt for the exact observed CPE request. The supplied excerpt is
+not a byte-identical export of the complete 85584-byte response and therefore
+cannot establish the full loaded-body SHA256. It is nevertheless sufficient
+for code identity: the exact Run 21 synthetic `4G|5G -> 4G + 5G` resolver
+anchor appears once, the canonical `...||null` resolver appears zero times,
+and the excerpt retains the same `st -> Tt -> 未识别配置` chain. This matches the
+repository patch anchor and is incompatible with the canonical vendor
+resolver.
+
+Consequently `CPE_LOADED_CHUNK_IDENTITY=RUN21_PATCHED` and the stale canonical
+browser-cache hypothesis is rejected. `CPE_LOADED_CHUNK_HASH` remains
+`UNKNOWN` because hashing a curated excerpt would not identify the complete
+browser response.
+
+The unresolved boundary is now strictly live runtime state/execution:
+`getNetworkMode() -> F.value -> mode/selectedNetworks -> Ie() -> Ge -> st ->
+Tt -> visible title`. The independent API fixture must not be assumed to equal
+the Vue values at resolver execution time. Direct debugger proof of
+`F.value.mode`, `F.value.selectedNetworks`, `Ie(...)`, `Ge.value`, `st.value`,
+and `Tt.value` is required before RCA or repair selection.
+
 ## Status
 
-- `CPE_LIVE_RESOURCE_CAPTURED=PARTIAL`
+- `CPE_LIVE_RESOURCE_CAPTURED=YES`
 - `CPE_LOADED_CHUNK_URL=http://192.168.88.1/assets/CPEManagement-CuEyMeyg.js`
 - `CPE_LOADED_CHUNK_HASH=UNKNOWN`
 - `CPE_SERVED_CHUNK_HASH=f8eef73d3abe39a5170c3d84f952bbf5683690b6f240a23a9d58a783d2e33ad0`
-- `CPE_LOADED_CHUNK_IDENTITY=UNKNOWN`
+- `CPE_LOADED_CHUNK_IDENTITY=RUN21_PATCHED`
 - `CPE_SERVED_CHUNK_IDENTITY=RUN21_PATCHED`
+- `CPE_BROWSER_CACHE_OLD_CANONICAL_HYPOTHESIS=REJECTED`
 - `CPE_API_CAPTURED=YES`
 - `CPE_VISIBLE_TITLE=未识别配置`
 - `CPE_RCA=UNKNOWN`
 - `CPE_REPAIR_UNBLOCKED=NO`
-- `MISSING_EVIDENCE=BROWSER_RESPONSE_BODY_HASH_OR_EQUIVALENT_EVALUATED_CODE_PROOF`
+- `MISSING_EVIDENCE=LIVE_VUE_STATE_AND_RESOLVER_INPUT_OUTPUT_PROOF`
 - `DEVICE_MODIFIED=NO`
 - `PERSISTENT_STORAGE_MODIFIED=NO`

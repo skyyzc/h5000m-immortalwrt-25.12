@@ -55,9 +55,11 @@ INDEPENDENT_WORK_CAN_CONTINUE=YES
 
 Codex already proved the authenticated API and QModem semantics agree, the
 device currently serves the Run 21 patched CPE chunk, and a new browser tab
-still displays `未识别配置`. The browser evidence interface did not expose the
-already evaluated response body. `CPE_RCA=UNKNOWN`,
-`CPE_REPAIR_UNBLOCKED=NO`, and `CPE_LOADED_CHUNK_IDENTITY=UNKNOWN` remain.
+still displays `未识别配置`. At governance time the browser evidence interface
+had not exposed the already evaluated response body, so `CPE_RCA=UNKNOWN`,
+`CPE_REPAIR_UNBLOCKED=NO`, and `CPE_LOADED_CHUNK_IDENTITY=UNKNOWN` defined the
+assist's starting state. The later return closed loaded-code identity as
+recorded below, without closing RCA.
 
 Owner action for the next separately authorized task: use a fresh/private
 desktop browser; open Developer Tools -> Network before entering `/cpe`; enable
@@ -70,16 +72,19 @@ reboot, flash, or perform persistent actions. Treat credentials and unique
 device data as local sensitive material; durable results must be sanitized.
 
 `RESUME_CONDITION`: identify the browser-evaluated code, or directly prove the
-resolver/live-input branch. This assist is prepared, not completed.
+resolver/live-input branch. The later `CPE-RUN21-LIVE-BODY-01` return proved
+the browser response contains the patched resolver, completing this assist's
+code-identity branch; it did not supply a byte-identical full response hash or
+the live Vue values.
 
 ```text
 CPE_API_CAPTURED=YES
 CPE_SERVED_CHUNK_IDENTITY=RUN21_PATCHED
-CPE_LOADED_CHUNK_IDENTITY=UNKNOWN
+CPE_LOADED_CHUNK_IDENTITY=RUN21_PATCHED
 CPE_VISIBLE_TITLE=未识别配置
 CPE_RCA=UNKNOWN
 CPE_REPAIR_UNBLOCKED=NO
-CPE_NEXT_GATE=CPE-RUN21-LIVE-BODY-01
+CPE_NEXT_GATE=CPE-RUN21-LIVE-STATE-01
 IPV6_ROOT_CAUSE=CONFIRMED_SAME_PREFIX_RETURN_ROUTE_COLLISION
 IPV6_REPAIR_DESIGN=DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE
 IPV6_REPAIR_DESIGN_READY=YES

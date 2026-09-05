@@ -26,13 +26,13 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `ENGINEERING-EFFICIENCY-01 / GOVERNANCE COMPLETE`
-- `CURRENT_TASK`: durable execution-efficiency, batching, dependency-aware
-  continuation, and human-assist governance is synchronized.
+- `CURRENT_PHASE`: `CPE-RUN21-LIVE-BODY-01 / PARTIAL`
+- `CURRENT_TASK`: human-assisted loaded-code identity is closed; live Vue
+  resolver state/input/output remains the sole CPE evidence blocker.
 - `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: `CPE-RUN21-LIVE-BODY-01` human-assisted read-only evidence;
-  capture the exact browser-loaded CPE response/hash or equivalent evaluated
-  resolver/live-input proof before selecting another CPE repair.
+- `CURRENT_GATE`: `CPE-RUN21-LIVE-STATE-01` human-assisted read-only debugger
+  evidence for `F.value`, normalized networks, `Ge`, `st`, and `Tt` before
+  selecting another CPE repair.
 - `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
   push; do not implement CPE/IPv6 repair, begin Full, build Run 22, change the
   device, or perform a persistent operation.
@@ -101,11 +101,11 @@ their underlying facts; this file points to them and does not replace history.
 
 - `OPEN_P0`: none authorized in the current governance phase.
 - `OPEN_P1`:
-  - CPE-EVIDENCE-01 captured the authenticated Run 21 API, actual browser
-    request URL, server response metadata, patched served-byte hash and the
-    still-unknown title. The available browser interface did not expose the
-    already loaded response bytes, so cache selection versus patched-runtime
-    data shape remains unresolved and `CPE_RCA=UNKNOWN`.
+  - CPE-RUN21-LIVE-BODY-01 proved the browser response contains the Run 21
+    patched resolver and rejects stale canonical cache selection. The supplied
+    excerpt is not a full byte-identical response, so its full loaded SHA256 is
+    `UNKNOWN`. The title still fails; live Vue state/resolver proof remains and
+    `CPE_RCA=UNKNOWN`.
   - IPv6 dynamic preferred LAN route design for the confirmed same-prefix
     return-route collision; implementation is not authorized in DEVICE-01G.
   - Notification storage contract remains `UNKNOWN`; Run 21 change is `NO`.
@@ -128,10 +128,10 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: `CPE-RUN21-LIVE-BODY-01`. Follow the human-assist contract in
-  `docs/ENGINEERING-EFFICIENCY-01.md`, then resume only the blocked CPE gate.
-  CPE remains unready; the IPv6 repair design remains ready; Run 22 remains
-  unapproved and untriggered.
+- `NEXT_GATE`: `CPE-RUN21-LIVE-STATE-01`, a minimal read-only debugger capture
+  of the exact Vue network-mode object, normalized key, candidate modes,
+  resolved mode, and visible-title computed value. CPE remains unready; the
+  IPv6 repair design remains ready; Run 22 remains unapproved and untriggered.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets

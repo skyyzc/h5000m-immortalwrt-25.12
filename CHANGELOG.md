@@ -18,6 +18,23 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### CPE-RUN21-LIVE-BODY-01
+
+- Accepted human-assisted Chrome Incognito / DevTools Network evidence for the
+  exact Run 21 CPE chunk request. Its response excerpt contains the Run 21
+  patched `4G|5G -> 4G + 5G` resolver exactly once and no canonical fallback
+  resolver, independently matching the repository patch anchor.
+- Promoted `CPE_LOADED_CHUNK_IDENTITY=RUN21_PATCHED` and rejected the stale
+  canonical browser-cache hypothesis. The supplied file is a curated excerpt,
+  not the complete byte-identical 85584-byte response, so
+  `CPE_LOADED_CHUNK_HASH=UNKNOWN` remains rather than hashing the excerpt as if
+  it were the loaded chunk.
+- The patched resolver still accompanied the visible `未识别配置` title.
+  `CPE_RCA=UNKNOWN` and `CPE_REPAIR_UNBLOCKED=NO`; the next evidence gate is
+  live Vue state/resolver input-output proof. No firmware, device, build,
+  Run 22, Full, source/package/config/lock, workflow, or persistent change was
+  made.
+
 ### ENGINEERING-EFFICIENCY-01
 
 - Added permanent evidence-preserving execution classes, readiness-based build
