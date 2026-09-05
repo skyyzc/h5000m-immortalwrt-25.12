@@ -278,6 +278,14 @@ device configuration change.
   response and safe notification storage contract remain unknown. No raw AT,
   firmware/source change or Run 21 occurred. Details are in
   `docs/DEVICE-01F-E-EVIDENCE.md`.
+- DEVICE-01F-E2 closed the authenticated CPE and observed neighbour boundaries.
+  Higo HTTP `200` reported `mode=auto` and selected `4G + 5G`, exactly matching
+  QModem `3G=0,4G=1,5G=1`; the frontend has no preset for that combination, so
+  `FRONTEND_NORMALIZATION` is confirmed. One bounded QModem-owned raw neighbour
+  query returned `OK` without any data row, confirming `MODEM_RAW_EMPTY` for
+  this sample. QMI/QMAP session continuity passed. Notification storage and
+  IPv6 root cause remain unknown. Details are in
+  `docs/DEVICE-01F-E2-EVIDENCE.md`.
 
 SOURCE_LOCKED: `YES`
 CONFIG_RESOLVED: `YES`
@@ -310,9 +318,19 @@ DEVICE-01F-I: `BLOCKED`
 NOTIFICATION_IMPLEMENTATION: `BLOCKED`
 RG520_PROFILE_IMPLEMENTATION: `BLOCKED`
 DEVICE-01F-E: `PARTIAL`
-CPE_NETWORK_MODE_FIXTURE: `PARTIAL`
+CPE_NETWORK_MODE_FIXTURE: `CONFIRMED`
+CPE_FAILURE_BOUNDARY: `FRONTEND_NORMALIZATION`
+CPE_CONTRACT_CLOSED: `YES`
 NOTIFICATION_STORAGE_CONTRACT: `UNKNOWN`
 IPV6_ROOT_CAUSE: `UNKNOWN`
-NEIGHBOUR_FAILURE_BOUNDARY: `QMODEM_CONTROLLER_EMPTY`
-NEIGHBOUR_ROOT_CAUSE: `UNKNOWN`
-NEIGHBOUR_RAW_AT_REQUIRED: `YES`
+IPV6_PACKET_EVIDENCE_REQUIRED: `YES`
+NEIGHBOUR_FAILURE_BOUNDARY: `MODEM_OR_RADIO_ENVIRONMENT`
+NEIGHBOUR_ROOT_CAUSE: `MODEM_RAW_EMPTY_AT_SAMPLE`
+NEIGHBOUR_RAW_AT_REQUIRED: `NO`
+DEVICE-01F-E2: `COMPLETE`
+NEIGHBOUR_OWNERSHIP_GATE: `PASS`
+NEIGHBOUR_RAW_AT: `EXECUTED`
+NEIGHBOUR_RAW_RESULT: `MODEM_RAW_EMPTY`
+NEIGHBOUR_CONTRACT_CLOSED: `YES`
+QMI_QMAP_AFTER_AT: `PASS`
+READY_FOR_DEVICE-01F-II: `PARTIAL`

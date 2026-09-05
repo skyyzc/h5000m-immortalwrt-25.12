@@ -2,6 +2,21 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### DEVICE-01F-E2 evidence closure
+
+- Captured an authenticated Run 20 CPE network-mode fixture and correlated it
+  with QModem in the same window. The backend/API correctly represented
+  `4G + 5G`; the Higo frontend lacks a matching preset, confirming the failure
+  boundary at frontend normalization.
+- Proved the existing QModem AT ownership path and executed exactly one bounded
+  read-only neighbour query. The modem returned `OK` without a neighbour data
+  row; Higo and QModem consistently returned empty LTE/NR arrays. QMI/QMAP
+  session continuity passed after the query.
+- Kept notification storage `UNKNOWN` because no callable end-to-end
+  typed/atomic UCI transaction boundary exists. Kept IPv6 root cause `UNKNOWN`
+  and recorded the need for packet-attributed evidence. No firmware, source
+  lock, Run 21, Full build or persistent state was changed.
+
 ### Project authorization policy
 
 - Made H5000M authentication, read-only evidence acquisition and local raw
