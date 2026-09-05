@@ -2,6 +2,21 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### BUILD-03 / Run 21 dispatched
+
+- Owner-approved Rescue/candidate build dispatched as GitHub Actions Run 21
+  (`33951063311`), attempt 1, from `rebuild-v1` project commit
+  `ab4d2cbaa8e1b9fa8742ae397b15399f535a50d1` with locked ImmortalWrt
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`.
+- Pre-build gates passed for the seven-case CPE fixture, strict patch-anchor
+  rejection and idempotence, canonical/vendor and PROJECT_LOCAL runtime hashes,
+  single intended runtime-asset delta, unchanged QModem inputs,
+  `tcpdump-mini` selection/provenance/no-autostart, and tracked-secret scan.
+- Initial workflow evidence confirms the correct branch and project SHA, with
+  checkout complete and dependency installation running normally. Result and
+  artifact identity remain `UNKNOWN` while the external build runs; no device,
+  Full, RAM-boot or persistent operation is authorized or performed.
+
 ### DEVICE-01F-II implementation review
 
 - Prepared the minimal Run 21 Rescue delta without triggering a build: a
