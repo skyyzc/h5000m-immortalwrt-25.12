@@ -36,10 +36,10 @@ build history or repairs in `CHANGELOG.md`.
 | Fan | yes | dynamic PWM confirmed | full | fancontrol | PRESERVED | RPM sensor unavailable | clarify unsupported RPM |
 | Disk | yes | inventory API works | full | DiskMan | PARTIAL | writes intentionally untested | external USB disk only |
 | SMB | yes | service/port up | full | KSMBD | PARTIAL | no share/read-write test | external disk test |
-| Logs | yes | frontend/API present | rescue | logread/Higo | PARTIAL | Higo page not yet tested; LuCI logs passed | Higo UI test |
-| Tasks | yes | frontend/API present | rescue | Higo | UNKNOWN | no operation evidence | UI test |
-| Terminal | yes | frontend/API present | rescue | Higo | UNKNOWN | security/function untested | isolated UI test |
-| Notifications | yes | frontend/API present | rescue | Higo | UNKNOWN | no evidence | UI test |
+| Logs | yes | Run 20 Higo log page reads normally | rescue | logread/Higo | FUNCTION_TESTED | clear operation intentionally untested | retain read-only evidence |
+| Tasks | yes | Run 20 runtime task create/delete passed | rescue | Higo | FUNCTION_TESTED | tested only in initramfs; no residual task found | persistent behavior deferred |
+| Terminal | yes | Run 20 Higo terminal returned `uptime` | rescue | Higo | FUNCTION_TESTED | only one safe read-only command tested | retain restricted-command evidence |
+| Notifications | yes | Run 20 page displays, but every attempted operation returns `not found` | rescue | Higo | UI_OK / FUNCTION_FAIL | backend route/adapter missing or mismatched | diagnose in DEVICE-01 repair scope |
 | Firmware upgrade | yes | code present | deferred | sysupgrade | BLOCKED | eMMC safety unverified | do not use |
 | Backup/Restore | yes | code present | deferred | sysupgrade/config | BLOCKED | persistent path unverified | design later |
 | Watchcat | yes | process running | full | watchcat | PARTIAL | failure recovery untested | fault test later |

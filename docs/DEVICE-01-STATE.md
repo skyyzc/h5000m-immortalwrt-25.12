@@ -1,7 +1,7 @@
 # DEVICE-01 Current State
 
 - Phase: `DEVICE-01B`
-- State: `ACTIVE_ENGINEERING`
+- State: `WAITING_EXTERNAL`
 - Date: `2026-09-04`
 - Branch: `rebuild-v1`
 - Repository HEAD at DEVICE-01 start: `28bdcc6f5c5347d37b9a0c0e4039e55ab7f319df`
@@ -16,14 +16,15 @@
 - Connection Method: direct Ethernet to the running original system (`CONFIRMED` link and DHCP)
 - Current Firmware Baseline: ImmortalWrt `24.10-SNAPSHOT`, revision
   `r33418-34bb738192`, Linux `6.6.94`, squashfs plus F2FS overlay on eMMC
-- Last Confirmed Gate: the same Run 20 initramfs remained healthy for about
-  15h57m with core services/interfaces and the RG520 data path still running;
-  Higo CPE read-only page validation is recorded
-- Next Action: validate the remaining safe Higo Rescue system pages without
-  configuration changes, then perform the required user-controlled power-cycle
-  recovery and original-system integrity comparison
+- Last Confirmed Gate: Higo logs, scheduled tasks and terminal passed real UI
+  checks at about 16h05m uptime; notification actions reproduced a `not found`
+  failure while the same Run 20 initramfs and read-only original mount remained
+  intact
+- Next Action: user performs one normal power cycle; after the original system
+  returns, verify original firmware identity, Higo/LuCI/network recovery,
+  mounts/partitions and absence of persistent DEVICE-01 changes
 - Blocked Reason: none
-- Wait Reason: `NONE`
+- Wait Reason: `USER_POWER_CYCLE_RECOVERY`
 - Persistent Storage Modified: `NO`
 
 ## DEVICE-01A Readiness
@@ -171,6 +172,15 @@ device configuration change.
   mutation were not exercised and remain `UNVERIFIED`.
 - Higo neighbour-cell page: `FAIL / PARTIAL`; it continuously reports that no
   neighbour-cell information was found despite the modem being registered.
+- Higo logs: `PASS / FUNCTION_TESTED`; the page displays runtime logs normally.
+- Higo scheduled tasks: `PASS / FUNCTION_TESTED` for runtime create/delete. The
+  user created one task and then deleted it. A read-only follow-up found no task
+  state file; `/` remains tmpfs and the original partition remains read-only.
+- Higo notifications: page display is `UI_OK`, but every attempted notification
+  operation fails with `system configuration operation failed: not found`.
+  Operational maturity is `FAIL`.
+- Higo terminal: `PASS / FUNCTION_TESTED` for the read-only `uptime` command,
+  which returned normally at about 16h04m uptime.
 - RG520 USB: `PASS`. The RG520N-CN enumerates as `2c7c:0801`; four ttyUSB nodes
   and `/dev/cdc-wdm0` exist.
 - QMI/QMAP: `PASS`. `qmi_wwan_q`, `wwan0`, and `wwan0_1` are active;
@@ -195,6 +205,9 @@ device configuration change.
   in this boot. `ATI` returned module identification and is a read-only query;
   it did not modify modem configuration. No additional AT command was sent by
   Codex.
+- Additional runtime action: the user created and deleted one Higo scheduled
+  task. The task is no longer present, and all inspected state remained in the
+  initramfs/tmpfs environment. This action is recorded rather than omitted.
 - Firewall: `PASS` baseline. nftables/fw4 is active with LAN and WAN zones,
   default reject input/forward policy, LAN acceptance and WAN masquerading.
 - WAN: `BLOCKED_BY_ENVIRONMENT` because no wired WAN cable is connected.

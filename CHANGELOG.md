@@ -19,6 +19,11 @@
   mutating operations remain untested. The neighbour-cell page repeatedly
   reported no neighbour data despite registration, and the existing
   unrecognized-current-profile gap remained visible.
+- Higo logs and the safe terminal `uptime` command passed. A runtime scheduled
+  task was created successfully and then deleted; no residual task state was
+  found and the original partition remained read-only. The notifications page
+  rendered, but every attempted operation failed with a `not found` system
+  configuration error, establishing a backend integration gap.
 - The same Run 20 initramfs remained stable for about 15h57m with its embedded
   identity unchanged, persistent root still tmpfs, original squashfs still
   read-only, core services/interfaces running, and RG520/QMAP Internet intact.
