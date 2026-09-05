@@ -2,6 +2,24 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### DEVICE-01F-E Missing Evidence Acquisition
+
+- Completed a read-only Run 20 Rescue RAM evidence session without firmware,
+  source-lock, persistent-device or build changes. Identity, tmpfs/read-only
+  storage, LAN/SSH and RG520/QMI/QMAP sanity gates passed.
+- Captured QModem network preference (`3G=0`, `4G=1`, `5G=1`) and the Higo
+  current/pending presentation contradiction. The credential-safe boundary did
+  not expose authenticated raw API JSON, so no profile/mode fix is inferred.
+- Confirmed DHCPv6 delegation to LAN, forwarding and fw4/QMAP paths while a
+  real client failed numeric IPv6 ICMP and numeric IPv6 HTTPS. Root cause stays
+  `UNKNOWN` without packet-attributed evidence.
+- Confirmed successful structured QModem neighbour output with empty LTE/NR
+  arrays, closing the first empty boundary at `QMODEM_CONTROLLER_EMPTY` but not
+  modem-versus-parser root cause. No raw AT command was issued.
+- Found no callable typed/atomic UCI transaction contract for a PROJECT_LOCAL
+  notification adapter. DEVICE-01F-II remains blocked and Run 21 was not
+  triggered.
+
 ### DEVICE-01F-I Implementation Review
 
 - Applied the approved CASE C rather than manufacturing a Run 21 changeset.

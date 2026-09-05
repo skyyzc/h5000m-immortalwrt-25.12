@@ -270,6 +270,14 @@ device configuration change.
   whose Run 20 fixture is unavailable. Both repairs remain `BLOCKED`, no
   speculative firmware change was made, and Run 21 was not triggered. Details
   are in `docs/DEVICE-01F-I-IMPLEMENTATION.md`.
+- DEVICE-01F-E completed one Run 20 RAM evidence session. It confirmed the
+  QModem network preference (`3G=0, 4G=1, 5G=1`), the contradictory Higo
+  network-mode presentation, delegated IPv6 topology, two-protocol real-client
+  IPv6 failure, and empty LTE/NR arrays from the formal QModem neighbour call.
+  The authenticated network-mode JSON, IPv6 packet boundary, raw neighbour
+  response and safe notification storage contract remain unknown. No raw AT,
+  firmware/source change or Run 21 occurred. Details are in
+  `docs/DEVICE-01F-E-EVIDENCE.md`.
 
 SOURCE_LOCKED: `YES`
 CONFIG_RESOLVED: `YES`
@@ -301,3 +309,10 @@ RUN21_TRIGGERED: `NO`
 DEVICE-01F-I: `BLOCKED`
 NOTIFICATION_IMPLEMENTATION: `BLOCKED`
 RG520_PROFILE_IMPLEMENTATION: `BLOCKED`
+DEVICE-01F-E: `PARTIAL`
+CPE_NETWORK_MODE_FIXTURE: `PARTIAL`
+NOTIFICATION_STORAGE_CONTRACT: `UNKNOWN`
+IPV6_ROOT_CAUSE: `UNKNOWN`
+NEIGHBOUR_FAILURE_BOUNDARY: `QMODEM_CONTROLLER_EMPTY`
+NEIGHBOUR_ROOT_CAUSE: `UNKNOWN`
+NEIGHBOUR_RAW_AT_REQUIRED: `YES`
