@@ -275,5 +275,49 @@ features.
 - `RUN22_CHANGESET_READY=YES`
 - `BUILD_WORTH_TRIGGERING=NO` (no implementation exists in this phase)
 
-Current implementation remains unauthorized. No confirmed IPv6 diagnosis
-should be repeated absent contradictory evidence.
+At preimplementation-review completion, implementation was still unauthorized.
+No confirmed IPv6 diagnosis should be repeated absent contradictory evidence.
+
+## IPV6-RUN22-IMPLEMENTATION-01
+
+Owner review accepted the preimplementation contract and authorized only the
+IPv6 implementation/static-validation delta. The implementation adds:
+
+- `/usr/libexec/h5000m-ipv6-route-reconcile`, a PROJECT_LOCAL reconciler with
+  a single `ubus network.interface dump` snapshot, canonical shared-GUA `/64`
+  selection, atomic `/var/run` lock/state, exact `br-lan` metric `1` protocol
+  `242` ownership, verified add/update/remove, stale cleanup, idempotence, and
+  bounded sanitized errors;
+- `/etc/hotplug.d/iface/95-h5000m-ipv6-shared-prefix`, restricted to logical
+  interface `wwan0_1` and `ifup`, prefix-marked `ifupdate`, and `ifdown`;
+- 16 deterministic fixture cases plus shell/static/install validation wired
+  into the existing build gate.
+
+Protocol `242` is reserved by this project for this one route owner. Locked
+BusyBox 1.37 has `FEATURE_IP_ROUTE=y`; its `ip route` implementation parses
+`proto` through `rtnl_rtprot_a2n`, including numeric protocol bytes. The helper
+additionally executes the read-only parser probe `ip -6 route show proto 242`
+before any mutation and fails closed if the exact target implementation rejects
+it. It never falls back to prefix-only deletion.
+
+The fixture matrix covers no prefix, one valid shared `/64`, malformed, ULA,
+link-local, multiple, non-shared, unchanged repeated event, replacement,
+ifdown, stale-state recovery, foreign-route preservation, command failure,
+verification failure, ownership mismatch, and idempotence. Static gates also
+prove exact installed executable files and reject NAT66, proxy-NDP, firewall,
+QModem, modem, or network-reload mutation tokens. Double apply and installed
+file comparison passed against the locked source tree.
+
+No config/profile/package selection, source lock, upstream netifd/odhcp6c,
+firmware build, device state, or persistent storage changed. The previously
+approved Run 22 exact-run acceptance contract above remains unchanged.
+
+- `IPV6_IMPLEMENTATION_PERFORMED=YES`
+- `IMPLEMENTATION_CONFORMS_TO_REVIEWED_DESIGN=YES`
+- `FIXTURE_TESTS=PASS`
+- `STATIC_GATES=PASS`
+- `ROUTE_PROTOCOL_SUPPORT=PASS`
+- `RUN22_BUILD_READY=YES`
+- `BUILD_WORTH_TRIGGERING=YES`
+- `RUN22_TRIGGERED=NO`
+- `NEXT_GATE=Owner review for Run22 build authorization`

@@ -26,17 +26,18 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `IPV6-RUN22-PREIMPLEMENTATION-REVIEW / COMPLETE`
-- `CURRENT_TASK`: IPv6 RCA and selected dynamic preferred LAN shared-prefix
-  route design were reviewed to an implementation-ready contract; stop for
-  owner review without implementation or build.
+- `CURRENT_PHASE`: `IPV6-RUN22-IMPLEMENTATION-01 / COMPLETE`
+- `CURRENT_TASK`: the reviewed IPv6-only dynamic preferred LAN shared-prefix
+  route helper, iface lifecycle hook, deterministic fixtures, and static/build
+  gates are implemented; stop for owner review without building Run 22.
 - `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: `IPV6_IMPLEMENTATION_UNBLOCKED=YES`;
-  `RUN22_CHANGESET_READY=YES`; `BUILD_WORTH_TRIGGERING=NO` until implementation
-  and its static gates exist and pass.
-- `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
-  push; do not implement CPE/IPv6 repair, begin Full, build Run 22, change the
-  device, or perform a persistent operation.
+- `CURRENT_GATE`: `IPV6_IMPLEMENTATION_COMPLETE=YES`;
+  `RUN22_CHANGESET_READY=YES`; `STATIC_GATES_PASS=YES`;
+  `BUILD_WORTH_TRIGGERING=YES`. Run 22 remains separately unauthorized and
+  untriggered.
+- `STOP_CONDITION`: stop after implementation/evidence synchronization,
+  validation, commit, and normal push; do not build Run 22, begin Full, change
+  the device, or perform a persistent operation.
 - `CURRENT_TASK_REQUIRED_FILES`: `AGENTS.md`, `PROJECT_STATE.md`, `README.md`,
   latest relevant `CHANGELOG.md` section, current summary in
   `docs/DEVICE-01-STATE.md`, and the current task specification.
@@ -66,8 +67,8 @@ their underlying facts; this file points to them and does not replace history.
 - `RUN20_RAM_BOOT_OK`: `YES`
 - `RUN20_DEVICE_OK`: `YES`
 - `RUN20_FUNCTION_TESTED`: `YES`
-- Run 20 remains the last Rescue whose defined validation contract passed as a
-  whole and is the `LAST_FUNCTION_TESTED_DEVICE_BASELINE`.
+- Run 20 remains the prior function-tested Rescue baseline; Run 21 below is
+  the latest Rescue whose defined validation contract passed as a whole.
 - Detailed Run 20 device proof: `docs/DEVICE-01-STATE.md`.
 
 - `RUN21_BUILD_OK`: `YES`
@@ -107,8 +108,9 @@ their underlying facts; this file points to them and does not replace history.
     title produce `4G + 5G`. The earlier unknown-title observation remains a
     `PARTIAL_TIMING_OR_STATE_EVALUATION_BOUNDARY`; no additional CPE repair is
     currently required.
-  - IPv6 dynamic preferred LAN route design for the confirmed same-prefix
-    return-route collision; implementation is not authorized in DEVICE-01G.
+  - IPv6 dynamic preferred LAN route implementation for the confirmed
+    same-prefix return-route collision is statically ready; Run 22 build and
+    exact-run RAM/lifecycle validation require separate owner authorization.
   - Notification storage contract remains `UNKNOWN`; Run 21 change is `NO`.
   - Neighbour repair remains `NO`; the observed Run 20 sample was modem-raw
     empty and does not prove non-empty parser behavior.
@@ -116,12 +118,13 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Authorization and prohibitions
 
-- `CURRENT_AUTHORIZATION`: documentation/evidence edits, validation, commit,
-  and normal fast-forward push to `rebuild-v1` only.
+- `CURRENT_AUTHORIZATION`: completed IPv6-only implementation, static
+  validation, documentation/evidence edits, commit, and normal fast-forward
+  push to `rebuild-v1`; no build or device action.
 - Project-scoped authentication and read-only evidence rules are in
   `AGENTS.md`; they do not authorize state-changing operations.
-- `CURRENT_PROHIBITIONS`: no build/Run 22, further RAM boot, repair
-  implementation, device change, Full, stable promotion,
+- `CURRENT_PROHIBITIONS`: no build/Run 22, further RAM boot, device change,
+  Full, stable promotion,
   source-lock/package/profile/firmware changes,
   sysupgrade, eMMC/GPT/U-Boot/BL2/Factory or other persistent operations.
 - Persistent storage modified: `NO`.
@@ -129,9 +132,8 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: owner review of the IPv6 Run 22 preimplementation contract.
-  Implementation and build each remain separately unauthorized; Run 22 is
-  untriggered.
+- `NEXT_GATE`: owner review for Run 22 build authorization. The IPv6-only
+  implementation and static gates pass; Run 22 is untriggered.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets

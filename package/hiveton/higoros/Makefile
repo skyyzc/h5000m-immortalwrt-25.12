@@ -31,8 +31,12 @@ define Package/higoros/install
 	$(INSTALL_BIN) ./files/etc/uci-defaults/97-h5000m-wireless $(1)/etc/uci-defaults/97-h5000m-wireless
 	$(INSTALL_BIN) ./files/etc/uci-defaults/98-h5000m-network $(1)/etc/uci-defaults/98-h5000m-network
 	$(INSTALL_BIN) ./files/etc/uci-defaults/99-h5000m-qmodem $(1)/etc/uci-defaults/99-h5000m-qmodem
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	$(INSTALL_BIN) ./files/etc/hotplug.d/iface/95-h5000m-ipv6-shared-prefix $(1)/etc/hotplug.d/iface/95-h5000m-ipv6-shared-prefix
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) ./files/usr/bin/higorosd $(1)/usr/bin/higorosd
+	$(INSTALL_DIR) $(1)/usr/libexec
+	$(INSTALL_BIN) ./files/usr/libexec/h5000m-ipv6-route-reconcile $(1)/usr/libexec/h5000m-ipv6-route-reconcile
 	$(INSTALL_DIR) $(1)/usr/share/higoros
 	$(CP) ./files/usr/share/higoros/. $(1)/usr/share/higoros/
 	$(INSTALL_DIR) $(1)/www/higoros

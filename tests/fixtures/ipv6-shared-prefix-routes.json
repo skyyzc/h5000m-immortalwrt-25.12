@@ -1,0 +1,27 @@
+{
+  "constants": {
+    "cellular_interface": "wwan0_1",
+    "lan_interface": "lan",
+    "lan_device": "br-lan",
+    "metric": 1,
+    "protocol": 242
+  },
+  "cases": [
+    {"name":"no prefix","cell":[],"lan":[],"state":null,"owned":[],"expect":"fail_closed"},
+    {"name":"one valid shared /64","cell":["2001:db8:10:20::/64"],"lan":["2001:db8:10:20::/64"],"state":null,"owned":[],"expect":"add"},
+    {"name":"malformed prefix","cell":["not-a-prefix"],"lan":["not-a-prefix"],"state":null,"owned":[],"expect":"fail_closed"},
+    {"name":"multiple prefixes","cell":["2001:db8:10:20::/64","2001:db8:10:21::/64"],"lan":["2001:db8:10:20::/64","2001:db8:10:21::/64"],"state":null,"owned":[],"expect":"fail_closed"},
+    {"name":"non-shared prefix","cell":["2001:db8:10:20::/64"],"lan":["2001:db8:10:21::/64"],"state":null,"owned":[],"expect":"fail_closed"},
+    {"name":"ula rejected","cell":["fd00:1:2:3::/64"],"lan":["fd00:1:2:3::/64"],"state":null,"owned":[],"expect":"fail_closed"},
+    {"name":"link-local rejected","cell":["fe80::/64"],"lan":["fe80::/64"],"state":null,"owned":[],"expect":"fail_closed"},
+    {"name":"unchanged repeated event","cell":["2001:db8:10:20::/64"],"lan":["2001:db8:10:20::/64"],"state":"2001:db8:10:20::/64","owned":["2001:db8:10:20::/64"],"expect":"noop"},
+    {"name":"prefix replacement","cell":["2001:db8:10:21::/64"],"lan":["2001:db8:10:21::/64"],"state":"2001:db8:10:20::/64","owned":["2001:db8:10:20::/64"],"expect":"replace"},
+    {"name":"ifdown teardown","action":"teardown","cell":[],"lan":[],"state":"2001:db8:10:20::/64","owned":["2001:db8:10:20::/64"],"expect":"teardown"},
+    {"name":"stale state recovery","cell":["2001:db8:10:21::/64"],"lan":["2001:db8:10:21::/64"],"state":null,"owned":["2001:db8:10:20::/64"],"expect":"add_cleanup_stale"},
+    {"name":"foreign route preservation","cell":["2001:db8:10:21::/64"],"lan":["2001:db8:10:21::/64"],"state":null,"owned":[],"foreign":["2001:db8:10:20::/64"],"expect":"add_preserve_foreign"},
+    {"name":"command failure","cell":["2001:db8:10:20::/64"],"lan":["2001:db8:10:20::/64"],"state":null,"owned":[],"inject":"route_replace","expect":"error_no_state"},
+    {"name":"route verification failure","cell":["2001:db8:10:20::/64"],"lan":["2001:db8:10:20::/64"],"state":null,"owned":[],"inject":"route_verify","expect":"error_no_state"},
+    {"name":"ownership mismatch","cell":["2001:db8:10:20::/64"],"lan":["2001:db8:10:20::/64"],"state":null,"owned":[],"conflict":true,"expect":"fail_closed"},
+    {"name":"idempotence","cell":["2001:db8:10:20::/64"],"lan":["2001:db8:10:20::/64"],"state":"2001:db8:10:20::/64","owned":["2001:db8:10:20::/64"],"repeat":3,"expect":"noop"}
+  ]
+}

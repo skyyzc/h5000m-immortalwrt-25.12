@@ -16,6 +16,7 @@ H5000M_SOURCE="$src" "$root/scripts/apply.sh"
 # Apply twice: native checks and identical package state must remain safe.
 H5000M_SOURCE="$src" "$root/scripts/apply.sh"
 "${PYTHON:-python3}" "$root/tests/test-higo-cpe-normalization.py"
+H5000M_SOURCE="$src" "$root/scripts/validate-ipv6-route.sh"
 cp "$root/configs/$profile.config" "$src/.config"
 make -C "$src" defconfig
 cp "$src/.config" "$artifacts/resolved.config"

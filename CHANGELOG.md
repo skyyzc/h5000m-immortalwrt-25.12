@@ -1,5 +1,25 @@
 # Changelog
 
+## IPV6-RUN22-IMPLEMENTATION-01
+
+- Implemented the approved IPv6-only PROJECT_LOCAL shared-prefix route
+  reconciler and locked netifd iface hotplug entry. It accepts exactly one
+  canonical global-unicast shared RFC7278 `/64`, owns only the `br-lan` metric
+  `1` protocol `242` route, uses atomic runtime-only lock/state, reconciles
+  renewal/reconnect/teardown, preserves foreign routes, and fails closed on
+  malformed/ambiguous state, ownership conflicts, command failures, or target
+  numeric-protocol parser rejection.
+- Added 16 deterministic fixtures covering valid, absent, malformed, multiple,
+  non-shared, ULA/link-local, repeat/idempotence, replacement, teardown, stale
+  recovery, foreign preservation, command/verification failure, and ownership
+  mismatch paths. Added exact-file, executable-mode, shell syntax, BusyBox
+  numeric route-protocol, install, lifecycle, ownership, and prohibited-
+  mutation gates to the existing build preparation flow.
+- Registered the helper as PROJECT_LOCAL provenance and retained the approved
+  Run 22 exact-run RAM acceptance contract. No source lock, package/profile
+  selection, unrelated firmware feature, device, persistent storage, build,
+  Run 22, Full, CPE, Notification, or neighbour change occurred.
+
 ## GOVERNANCE-02
 
 ### IPV6-RUN22-PREIMPLEMENTATION-REVIEW
