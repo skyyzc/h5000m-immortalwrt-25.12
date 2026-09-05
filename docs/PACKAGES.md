@@ -30,6 +30,11 @@ not Higo feature gaps or build chronology.
 
 ## FULL
 
+DEVICE-01R confirms that every Full row below still requires an exact source
+resolution before a formal Full build. `UNKNOWN` is retained rather than
+inventing a SHA. Package installation alone will not close the Higo adapter
+gaps documented in `DEVICE-01R-GAP-AUDIT.md`.
+
 | Package | Origin / Ownership | Historical version | Source / exact SHA | Profile / purpose | Integration / patch | Build validation | Device validation / known issue | Update policy |
 |---|---|---|---|---|---|---|---|---|
 | wrtbwmon | IMMORTALWRT_FEED | 1.2.1-r3 | UNKNOWN | full; per-client traffic | Historical Higo integration; current adapter contract UNKNOWN | Current Full build UNVERIFIED | Historical collection PARTIAL; Higo rendering UNVERIFIED | Lock exact source before Full; require build and UI/data validation |

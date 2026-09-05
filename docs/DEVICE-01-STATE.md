@@ -255,6 +255,10 @@ device configuration change.
   Higo notification-operation failure, unrecognized CPE profile and absent
   neighbour-cell data remain explicit repair candidates. Wired WAN remains
   `BLOCKED_BY_ENVIRONMENT`.
+- DEVICE-01R root-cause and Original -> Rescue -> Full audit is `COMPLETE` in
+  `docs/DEVICE-01R-GAP-AUDIT.md`. It preserves all Rescue core PASS evidence,
+  separates per-feature maturity, and leaves the four demonstrated issues for
+  review rather than starting an implicit repair or Full build.
 
 SOURCE_LOCKED: `YES`
 CONFIG_RESOLVED: `YES`
@@ -275,3 +279,8 @@ IPV4_OK: `YES`
 IPV6_OK: `NO` (device-side cellular IPv6 passed; LAN-client external IPv6 failed)
 PERSISTENT_STORAGE_MODIFIED: `NO`
 POWER_CYCLE_RECOVERY_OK: `YES`
+RESCUE_CORE_VALIDATED: `YES`
+FINAL_FEATURE_COMPLETE: `NO`
+FULL_INTEGRATION_COMPLETE: `NO`
+DEVICE-01R_ANALYSIS: `COMPLETE`
+REPAIR_PLAN_READY: `YES`

@@ -2,6 +2,27 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### DEVICE-01R Analysis
+
+- Added a durable Original 24.10 -> Run 20 Rescue -> expected Full feature-gap
+  audit with an explicit Rescue/Full contract, per-feature frontend/backend,
+  ownership, provenance, validation, dependency and priority classification.
+- Preserved all accepted Rescue core evidence while clarifying that
+  `DEVICE_OK=YES` and `FUNCTION_TESTED=YES` do not mean final feature
+  completeness. `RESCUE_CORE_VALIDATED=YES`, `FINAL_FEATURE_COMPLETE=NO`, and
+  `FULL_INTEGRATION_COMPLETE=NO` are now explicit.
+- Traced the Higo notification failure to frontend routes without matching
+  handlers in the current hash-pinned Lua dispatcher, and the CPE profile label
+  to the generic project-seeded RG520N-CN profile lacking a canonical shared
+  Higo/QModem mapping. LAN-client IPv6 and neighbour cells remain accurately
+  `ROOT_CAUSE=UNKNOWN` with narrowed boundaries and explicit evidence plans.
+- Confirmed read-only on the restored original system that the original Full
+  package set includes wrtbwmon, OAF, fancontrol, DiskMan, KSMBD, UPnP, DDNS,
+  Watchcat and ZeroTier foundations. Presence was not promoted to function
+  evidence, and unknown source SHAs remain unknown.
+- No firmware/config/source lock was changed; no Run 21, Full build, device
+  write or mutating AT command was performed.
+
 ### DEVICE-01B Validation
 
 - Completed the mandatory power-cycle recovery test. The device returned to the
