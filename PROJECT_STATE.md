@@ -26,14 +26,15 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `RUN21 RESCUE RAM VALIDATION`
-- `CURRENT_TASK`: Run 21 RAM-only core regression, CPE repair function test,
-  IPv6 packet attribution, and power-cycle recovery evidence.
+- `CURRENT_PHASE`: `DEVICE-01G / RUN21 REPAIR DESIGN`
+- `CURRENT_TASK`: close the CPE live-render evidence boundary where possible,
+  design the confirmed IPv6 repair, and refine issue/authentication governance.
 - `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: owner review before a separate repair-design phase.
-- `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
-  push; do not implement a repair, begin Full, build Run 22, or perform any
-  persistent operation.
+- `CURRENT_GATE`: one separately authorized fresh-browser Run 21 evidence
+  session before CPE repair selection and combined Run 22 design review.
+- `STOP_CONDITION`: stop after design/governance synchronization, commit, and
+  normal push; do not implement either repair, begin Full, build Run 22, boot
+  RAM firmware, access/change the device, or perform a persistent operation.
 - `CURRENT_TASK_REQUIRED_FILES`: `AGENTS.md`, `PROJECT_STATE.md`, `README.md`,
   latest relevant `CHANGELOG.md` section, current summary in
   `docs/DEVICE-01-STATE.md`, and the current task specification.
@@ -99,9 +100,11 @@ their underlying facts; this file points to them and does not replace history.
 
 - `OPEN_P0`: none authorized in the current governance phase.
 - `OPEN_P1`:
-  - Repair-design review for the failed Run 21 CPE display normalization.
-  - Repair-design review for the confirmed IPv6 same-prefix return-route
-    collision; no IPv6 fix is authorized in the completed validation phase.
+  - CPE fresh-context loaded chunk URL/hash and sanitized API evidence; current
+    leading hypothesis is stale cache/module selection, but RCA remains
+    `UNKNOWN` until the live resource is identified.
+  - IPv6 dynamic preferred LAN route design for the confirmed same-prefix
+    return-route collision; implementation is not authorized in DEVICE-01G.
   - Notification storage contract remains `UNKNOWN`; Run 21 change is `NO`.
   - Neighbour repair remains `NO`; the observed Run 20 sample was modem-raw
     empty and does not prove non-empty parser behavior.
@@ -122,8 +125,9 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: owner-reviewed, separately authorized repair design for the
-  Run 21 CPE function failure and confirmed IPv6 return-route collision.
+- `NEXT_GATE`: separately authorized Run 21 read-only CPE browser/resource
+  evidence, followed by repair continuation review. Detailed design and exact
+  blocker are in `docs/DEVICE-01G-RUN21-REPAIR-DESIGN.md`.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets

@@ -49,6 +49,37 @@ When evidence conflicts, prefer: current device test; current candidate test;
 latest-full analysis; run13; run10; older material; inference. Preserve the old
 conclusion and record `OLD`, `NEW`, `EVIDENCE`, `REASON`, and `IMPACT`.
 
+### Issue closure and repair-path rules
+
+`ISSUE_CLOSURE_RULE`: the project goal is issue closure, not issue
+identification. For every in-scope defect, progress through `DISCOVERED` ->
+`EVIDENCE_COLLECTED` -> `ROOT_CAUSE_CONFIRMED` -> `REPAIR_DESIGNED` ->
+`IMPLEMENTED` -> `BUILT` -> `DEVICE_TESTED` -> `FUNCTION_TESTED` -> `CLOSED`.
+Diagnosis is not completion. Neither `ROOT_CAUSE_CONFIRMED` nor `BUILT` closes
+an issue. Close it only after the target function passes on its applicable
+real-device/runtime path and all required regression gates pass.
+
+Continue from diagnosis into design and implementation when the root cause is
+sufficiently supported, the next action is authorized, and safety, evidence,
+and provenance gates are satisfied. Stop before implementation only when
+critical evidence is missing; materially different designs remain unresolved;
+the implementation exceeds current scope or an owner gate; persistent,
+destructive, or state-changing risk requires approval; or source, provenance,
+or safety cannot be satisfied. On such a stop, record `BLOCKER`,
+`MISSING_EVIDENCE`, `NEXT_ACTION`, and `REPAIR_CONTINUATION_GATE`. Do not
+re-diagnose a confirmed cause without new contradictory evidence.
+
+`VENDOR_UI_REPAIR_RULE`: before building a vendor UI repair, prove the chain
+API -> loaded asset -> runtime resolver/renderer -> visible field whenever
+technically possible. Build-time patch and hash success alone do not prove the
+live UI path or function.
+
+`CLIENT_NETWORK_VALIDATION`: final function validation for network-stack fixes
+should use at least two client OS families where practical. The next H5000M
+IPv6 repair must include macOS and either Android or Windows. This diversity
+gate does not invalidate a root cause already confirmed by router-side packet
+and route evidence.
+
 ## Permanent product requirements
 
 Target Hiveton H5000M with ImmortalWrt 25.12, MT7987A, MT7992 and RG520N-CN
@@ -181,6 +212,35 @@ authenticated Higo/API GETs; local authenticated fixture capture; logs and
 process/interface status; IP address/rule/route, nft counter, sysctl and UCI
 reads; QModem controller and QMI status reads; ownership inspection; browser
 inspection; and local source/binary analysis.
+
+`H5000M_DEFAULT_CREDENTIAL_PROBING = AUTHORIZED_FINITE`. For H5000M project
+targets only, use this authentication order without first asking the owner:
+
+1. Level A: an existing SSH key, authenticated connection/session or cookie;
+   then the known project username with an empty password.
+2. Level B: the finite project default supplied out of band by the owner, then
+   any securely stored project credential. Never spell the default secret in a
+   tracked file merely to document this authorization.
+3. Level C: if those explicitly authorized candidates fail, stop with
+   `AUTH_BLOCKED` and request owner intervention.
+
+SSH uses username `root`; Higo/LuCI/API use the known project username when one
+is required. No dictionary attack, brute force, password spraying, repeated
+loop, or use against another target is authorized.
+
+`H5000M_EPHEMERAL_HOSTKEY_POLICY`: original and Rescue firmware may expose
+different Dropbear host keys. Use project-local or temporary `known_hosts` for
+an explicitly known original <-> Rescue transition, after establishing the
+direct/local H5000M target context. Never edit or delete the user's global
+`~/.ssh/known_hosts`, and never globally disable host-key verification. An
+expected key change at such a known transition is not by itself compromise;
+an unexpected change outside it requires review.
+
+`AUTH_SESSION_REUSE = REQUIRED_WHEN_SAFE`. Reuse a safe project SSH connection
+and authenticate Higo/LuCI/API once per related read-only evidence session,
+reusing the local cookie/session rather than logging in per endpoint. Keys,
+passwords, cookies, and tokens retain all existing no-log, no-Git, no-artifact,
+no-firmware, no-CI, and no-public-output restrictions.
 
 Bounded query-only AT commands are default-authorized only through a proved
 existing owner/arbitration path. This includes `ATI`, `AT+CSQ`, `AT+COPS?`,

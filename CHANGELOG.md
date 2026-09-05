@@ -18,6 +18,31 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### DEVICE-01G Run 21 repair design and AUTH-FRICTION-02
+
+- Traced the CPE source path from the authenticated API through the sole
+  CPE chunk resolver to the visible current-configuration title. The title and
+  `4G / 5G` badge are separate computed paths; no second renderer was found.
+- Confirmed the Run 21 patch changed the CPE chunk bytes but retained the same
+  content-hashed filename and unchanged lazy-load reference. Stale normal
+  browser cache or an already evaluated Run 20 module is the leading cause,
+  but the Run 21 browser-loaded bytes were not captured. CPE RCA therefore
+  remains `UNKNOWN`, with an exact fresh-context URL/hash/API evidence gate;
+  no speculative CPE repair or Run 22 delta was approved.
+- Preserved the confirmed IPv6 same-prefix return-route collision and compared
+  three native approaches. Selected a future dynamic, uniquely owned,
+  lower-metric LAN route for the current RFC 7278 shared `/64`, maintained on
+  DHCPv6/netifd lease events. NAT66 and proxy-NDP remain unnecessary because
+  Run 21 proved that matching client replies already arrive over QMAP.
+- Added permanent issue-closure lifecycle, vendor UI live-path proof, and
+  two-client-OS network validation rules. Added finite H5000M-only default
+  credential candidates, explicit authentication levels, safe session reuse,
+  and temporary/project-local host-key handling without weakening global SSH
+  verification or persistent/state-changing operation gates.
+- Created `docs/DEVICE-01G-RUN21-REPAIR-DESIGN.md`. This phase changed only
+  governance/design evidence; no firmware, source/config/package/version lock,
+  device state, build, Run 22, Full, or persistent storage changed.
+
 ### Run 21 Rescue RAM validation
 
 - The owner manually loaded the accepted Run 21 initramfs through U-Boot
