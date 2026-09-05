@@ -2,6 +2,24 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### DEVICE-01F-I Implementation Review
+
+- Applied the approved CASE C rather than manufacturing a Run 21 changeset.
+  Both compatibility implementations are blocked on missing proof; no firmware,
+  profile, package or source-lock input changed and Run 21 was not triggered.
+- Confirmed the Higo loader can select a PROJECT_LOCAL `api.lua` wrapper and
+  delegate to an unchanged vendor dispatcher, but found no proved safe typed/
+  atomic UCI transaction boundary for notification settings. An in-memory or
+  shell-based speculative implementation was rejected.
+- Corrected the CPE current-configuration contract from the earlier inferred
+  `profileName` model to the frontend's proved `/cpe/network-mode` `mode` or
+  normalized `selectedNetworks` match. The actual failing Run 20 response and
+  closed-backend conversion remain `UNKNOWN`, so no profile/mode UCI change was
+  made and the proven QMI/QMAP path remains untouched.
+- Retained IPv6 and neighbour work as manual, bounded diagnostic plans. Image-
+  resident collectors alone do not justify a complete build and would not
+  resolve either unknown root cause.
+
 ### DEVICE-01F Repair Design
 
 - Added a review-only Rescue compatibility repair design covering exactly the

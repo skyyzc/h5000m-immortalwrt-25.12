@@ -20,8 +20,8 @@ build history or repairs in `CHANGELOG.md`.
 | Feature | Vendor | Latest Full | Target | Backend | Preserved | Gap / reason | Next step |
 |---|---|---|---|---|---|---|---|
 | Home | yes | Run 20 authenticated dashboard mostly renders | rescue | Higo API | UI_OK / PARTIAL | device distribution, connected devices and application ranking lack useful data; latter integrations belong to Full | preserve evidence; Full integration test later |
-| 5G status | yes | Run 20 network type and signal read successfully | rescue | QModem/Higo | FUNCTION_TESTED / PARTIAL | current configuration shows unrecognized 4G/5G profile; reconnect unproven | diagnose profile mapping after DEVICE-01 evidence review |
-| APN | yes | Run 20 network-settings page loads | rescue | QModem/UCI | UI_OK / PARTIAL | current configuration is reported as unrecognized 4G/5G; editing not tested | diagnose profile mapping; no mutation in DEVICE-01 |
+| 5G status | yes | Run 20 network type and signal read successfully | rescue | QModem/Higo | FUNCTION_TESTED / PARTIAL | current configuration label is unrecognized; frontend proves it matches `/cpe/network-mode` `mode` or normalized `selectedNetworks`, while the failing Run 20 response remains UNKNOWN; reconnect unproven | capture sanitized API/QModem fixture before repair |
+| APN | yes | Run 20 network-settings page loads | rescue | QModem/UCI | UI_OK / PARTIAL | network-mode configuration label is unrecognized; this is not proved to depend on APN or `profileName`; editing not tested | preserve APN; capture network-mode fixture without mutation |
 | Signal | yes | Run 20 live signal status reads normally | rescue | QModem/Higo | FUNCTION_TESTED | reconnect transition not observed | reconnect regression later |
 | SIM | yes | Run 20 SIM-management page displays normally | rescue | QModem | UI_OK / PARTIAL | controls not tested | controlled function test later |
 | SMS | yes | Run 20 SMS-management page displays normally | rescue | QModem | UI_OK / PARTIAL | send/delete not tested | controlled function test later |
@@ -48,7 +48,7 @@ build history or repairs in `CHANGELOG.md`.
 | Logs | yes | Run 20 Higo log page reads normally | rescue | logread/Higo | FUNCTION_TESTED | clear operation intentionally untested | retain read-only evidence |
 | Tasks | yes | Run 20 runtime task create/delete passed | rescue | Higo | FUNCTION_TESTED | tested only in initramfs; no residual task found | persistent behavior deferred |
 | Terminal | yes | Run 20 Higo terminal returned `uptime` | rescue | Higo | FUNCTION_TESTED | only one safe read-only command tested | retain restricted-command evidence |
-| Notifications | yes | Run 20 page displays, but every attempted operation returns `not found` | rescue | Higo | UI_OK / FUNCTION_FAIL | backend route/adapter missing or mismatched | diagnose in DEVICE-01 repair scope |
+| Notifications | yes | Run 20 page displays, but every attempted operation returns `not found` | rescue | Higo | UI_OK / FUNCTION_FAIL | settings routes are missing; wrapper delegation is proved, but no safe atomic UCI primitive/helper contract is yet proved | implementation BLOCKED pending typed storage boundary |
 | Firmware upgrade | yes | code present | deferred | sysupgrade | BLOCKED | eMMC safety unverified | do not use |
 | Backup/Restore | yes | code present | deferred | sysupgrade/config | BLOCKED | persistent path unverified | design later |
 | Watchcat | yes | process running | full | watchcat | PARTIAL | failure recovery untested | fault test later |

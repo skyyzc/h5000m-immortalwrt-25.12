@@ -264,6 +264,12 @@ device configuration change.
   are ready for owner review; IPv6 and neighbour-cell root causes remain
   `UNKNOWN` and therefore have evidence-first plans rather than speculative
   fixes. Run 21 has not been triggered.
+- DEVICE-01F-I implementation review applied approved CASE C. Notification
+  request delegation is statically proved, but its safe atomic UCI backend is
+  not; the RG520 label predicate was corrected to the network-mode response,
+  whose Run 20 fixture is unavailable. Both repairs remain `BLOCKED`, no
+  speculative firmware change was made, and Run 21 was not triggered. Details
+  are in `docs/DEVICE-01F-I-IMPLEMENTATION.md`.
 
 SOURCE_LOCKED: `YES`
 CONFIG_RESOLVED: `YES`
@@ -292,3 +298,6 @@ REPAIR_PLAN_READY: `YES`
 DEVICE-01F_DESIGN: `COMPLETE`
 RUN21_CHANGESET_DESIGN: `READY`
 RUN21_TRIGGERED: `NO`
+DEVICE-01F-I: `BLOCKED`
+NOTIFICATION_IMPLEMENTATION: `BLOCKED`
+RG520_PROFILE_IMPLEMENTATION: `BLOCKED`
