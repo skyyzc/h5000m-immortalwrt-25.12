@@ -4,6 +4,17 @@
 
 ### DEVICE-01B Validation
 
+- Completed the mandatory power-cycle recovery test. The device returned to the
+  original ImmortalWrt `24.10-SNAPSHOT` / Linux `6.6.94` system with its
+  squashfs/F2FS storage layout, five-partition eMMC layout, Higo, LuCI, SSH,
+  both radios and RG520/QMI data path intact. The original 2.4/5 GHz channels
+  are 6/44, and the Run 20 embedded build-identity file is absent as expected.
+  No persistent eMMC, GPT, U-Boot, BL2, factory or modem change was found.
+- DEVICE-01 RAM validation is recorded as `PASS_WITH_KNOWN_ISSUES` with
+  `RAM_BOOT_OK=YES`, `DEVICE_OK=YES`, and power-cycle recovery passed. It remains
+  `REVIEW_REQUIRED` because LAN-client IPv6, Higo notification operations, CPE
+  profile recognition and neighbour-cell reporting have explicit unresolved
+  results; no repair or new build is implied by this evidence update.
 - Run 20 Rescue passed independent real-client tests on both 2.4 GHz and 5 GHz:
   association, DHCP lease, Higo access through Wi-Fi, and Internet traffic all
   succeeded on each band. Both Wi-Fi gates are `FUNCTION_TESTED`; unrelated

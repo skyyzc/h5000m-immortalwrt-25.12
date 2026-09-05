@@ -1,8 +1,8 @@
 # DEVICE-01 Current State
 
-- Phase: `DEVICE-01B`
-- State: `WAITING_EXTERNAL`
-- Date: `2026-09-04`
+- Phase: `DEVICE-01`
+- State: `REVIEW_REQUIRED`
+- Date: `2026-09-05`
 - Branch: `rebuild-v1`
 - Repository HEAD at DEVICE-01 start: `28bdcc6f5c5347d37b9a0c0e4039e55ab7f319df`
 - Firmware Run: Run `20`, ID `33836565597`, attempt `1`
@@ -16,15 +16,13 @@
 - Connection Method: direct Ethernet to the running original system (`CONFIRMED` link and DHCP)
 - Current Firmware Baseline: ImmortalWrt `24.10-SNAPSHOT`, revision
   `r33418-34bb738192`, Linux `6.6.94`, squashfs plus F2FS overlay on eMMC
-- Last Confirmed Gate: Higo logs, scheduled tasks and terminal passed real UI
-  checks at about 16h05m uptime; notification actions reproduced a `not found`
-  failure while the same Run 20 initramfs and read-only original mount remained
-  intact
-- Next Action: user performs one normal power cycle; after the original system
-  returns, verify original firmware identity, Higo/LuCI/network recovery,
-  mounts/partitions and absence of persistent DEVICE-01 changes
+- Last Confirmed Gate: normal power-cycle recovery returned to the original
+  ImmortalWrt 24.10 system with its expected identity, storage layout, radios,
+  management services and RG520/QMI data path intact
+- Next Action: review the recorded LAN-client IPv6 and Higo integration gaps;
+  do not begin repair, another build, Full, or persistent deployment implicitly
 - Blocked Reason: none
-- Wait Reason: `USER_POWER_CYCLE_RECOVERY`
+- Wait Reason: `NONE`
 - Persistent Storage Modified: `NO`
 
 ## DEVICE-01A Readiness
@@ -38,8 +36,8 @@
 - WEBUI_LOAD_INITRAMFS_AVAILABLE: `YES` (current UI plus upstream documentation)
 - WEBUI_RAM_ONLY_PATH_CONFIRMED: `YES`
 - POWER_CYCLE_RECOVERY_DESIGN_CONFIRMED: `YES`
-- POWER_CYCLE_RECOVERY_FUNCTION_TESTED: `NO` (pending DEVICE-01B proof)
-- POWER_CYCLE_RECOVERY_CONFIRMED: `PENDING_DEVICE-01B_PROOF`
+- POWER_CYCLE_RECOVERY_FUNCTION_TESTED: `YES`
+- POWER_CYCLE_RECOVERY_CONFIRMED: `YES`
 - NO_PERSISTENT_WRITE_PATH_CONFIRMED: `YES`
 - NO_TTL_CONSTRAINT_RECORDED: `YES`
 - RAM_LOAD_METHOD_CONFIRMED: `YES` (`Recovery WebUI -> Load initramfs`)
@@ -226,3 +224,54 @@ device configuration change.
 - Device eMMC/GPT/U-Boot persistent storage modified: `NO` based on current
   mount and action evidence. Modem-internal persistent state modified: `NO` by
   the classified read-only `ATI` query.
+
+## Power-Cycle Recovery and DEVICE-01 Decision
+
+- Recovery: `PASS / FUNCTION_TESTED`. After the user performed a normal power
+  cycle, the device returned to its original ImmortalWrt `24.10-SNAPSHOT`,
+  revision `r33418-34bb738192`, Linux `6.6.94`, board `hiveton,h5000m`, with
+  `rootfs_type=squashfs`.
+- Storage: `PASS`. The original `/dev/mmcblk0p5` squashfs is mounted read-only at
+  `/rom`; the original F2FS overlay is active. The 7.3 GiB eMMC and its five
+  partitions retain the baseline sizes. The Run 20 `/etc/h5000m-build.json` is
+  absent, as expected on the original system.
+- Services and networking: `PASS`. SSH, Higo on port 80 and LuCI on port 8080
+  are reachable; Higo, uhttpd, dropbear, DHCP/DNS, odhcpd, QModem and
+  `quectel-CM-M` are running. LAN and both AP interfaces are up.
+- Radio recovery: `PASS`. The original system reports 2.4 GHz channel 6 and
+  5 GHz channel 44, matching the captured baseline; the temporary Rescue
+  channel action did not survive the power cycle.
+- Cellular recovery: `PASS`. RG520N-CN remains enumerated as `2c7c:0801`, the
+  ttyUSB and cdc-wdm nodes exist, and `wwan0_1` is up with IPv4 and IPv6.
+- Critical recovery log gate: `PASS` for the bounded check; no panic, oops,
+  segmentation fault, storage I/O error or MMC error matched after startup.
+- Persistent modification conclusion: `NO`. No evidence of a persistent change
+  to eMMC, GPT, U-Boot, BL2, factory data or modem configuration was found.
+- DEVICE-01 core RAM-validation gates passed, including boot, identity,
+  traceability, LAN/DHCP/SSH, Higo/LuCI coexistence, dual-band real-client
+  traffic, RG520/QMI/QMAP, stability and power-cycle recovery.
+- Overall validation result: `PASS_WITH_KNOWN_ISSUES`; state is
+  `REVIEW_REQUIRED`, not automatic repair. The observed LAN-client IPv6 failure,
+  Higo notification-operation failure, unrecognized CPE profile and absent
+  neighbour-cell data remain explicit repair candidates. Wired WAN remains
+  `BLOCKED_BY_ENVIRONMENT`.
+
+SOURCE_LOCKED: `YES`
+CONFIG_RESOLVED: `YES`
+BUILD_OK: `YES`
+RAM_BOOT_OK: `YES`
+DEVICE_OK: `YES`
+FUNCTION_TESTED: `YES`
+HIGO_UI_OK: `PARTIAL`
+LUCI_UI_OK: `YES`
+LAN_OK: `YES`
+DHCP_OK: `YES`
+WIFI_2G_OK: `YES`
+WIFI_5G_OK: `YES`
+RG520_USB_OK: `YES`
+QMI_OK: `YES`
+QMAP_OK: `YES`
+IPV4_OK: `YES`
+IPV6_OK: `NO` (device-side cellular IPv6 passed; LAN-client external IPv6 failed)
+PERSISTENT_STORAGE_MODIFIED: `NO`
+POWER_CYCLE_RECOVERY_OK: `YES`
