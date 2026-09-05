@@ -2,6 +2,21 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### Project authorization policy
+
+- Made H5000M authentication, read-only evidence acquisition and local raw
+  analysis default-authorized while retaining sanitized durable records.
+  Credentials may be used through normal protected local mechanisms without
+  repeated approval, but remain prohibited from Git, documentation, firmware,
+  CI, artifacts and public/shared logs.
+- Classified bounded query-only AT commands by semantics rather than the
+  presence of `=`. They are allowed only through a proved existing ownership
+  path with before/after data-path checks; competing direct tty access remains
+  prohibited. Persistent, destructive and state-changing operations retain
+  their explicit owner gates.
+- `AUTH_POLICY_UPDATED = YES`. This governance change does not modify firmware,
+  configuration, packages, profiles or source locks.
+
 ### DEVICE-01F-E Missing Evidence Acquisition
 
 - Completed a read-only Run 20 Rescue RAM evidence session without firmware,

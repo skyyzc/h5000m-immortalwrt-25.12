@@ -102,6 +102,67 @@ factory writes, sysupgrade, U-Boot/BL2 updates, environment changes, and every
 other persistent or destructive action remain fully effective. Credentials
 must never be used to bypass or weaken those gates.
 
+### Authentication and local evidence policy
+
+For H5000M project targets, `AUTHENTICATION`, `READ_ONLY_EVIDENCE`, and
+`LOCAL_RAW_ANALYSIS` are default-authorized. Do not block ordinary evidence
+acquisition merely because a credential, cookie, bearer/session token, or raw
+device identifier participates locally. Reuse an explicitly provided,
+currently authenticated, locally secured, or project-helper credential for
+SSH, Higo/LuCI, authenticated HTTP/API, browser automation, and read-only
+runtime debugging without repeated owner approval.
+
+Credentials may exist transiently in stdin, environment, process memory, a
+permission-protected temporary file, an authenticated client/session, OS secret
+storage, or a project-local credential helper. Prefer mechanisms that keep them
+out of shell history, command-line process listings, stdout/stderr, and debug
+logs. If accidental credential output occurs, stop durable persistence and
+sanitize it. Passwords, cookies, bearer/session/API tokens, private credential
+material, and other secrets remain prohibited in Git, Markdown, source,
+firmware, manifests/reports, Actions, uploaded artifacts, and public/shared
+logs.
+
+Raw local analysis may contain IMEI, ICCID, IMSI, SIM identifiers, unique MAC,
+public IPv6, cell ID, PCI, ARFCN, carrier/operator data, device serial, and
+other device-specific identifiers. Codex may read and correlate these locally;
+before any Git record, durable Markdown, uploaded artifact, build report, or
+public/shared log, sanitize them. `LOCAL_RAW_ANALYSIS = ALLOWED` and
+`DURABLE_PROJECT_RECORD = SANITIZED`.
+
+Default-authorized read-only operations include SSH commands; ubus calls;
+authenticated Higo/API GETs; local authenticated fixture capture; logs and
+process/interface status; IP address/rule/route, nft counter, sysctl and UCI
+reads; QModem controller and QMI status reads; ownership inspection; browser
+inspection; and local source/binary analysis.
+
+Bounded query-only AT commands are default-authorized only through a proved
+existing owner/arbitration path. This includes `ATI`, `AT+CSQ`, `AT+COPS?`,
+`AT+QNWINFO`, `AT+QENG="servingcell"`, and
+`AT+QENG="neighbourcell"`. The presence of `=` does not make a command a
+mutation; classify its semantics. Confirm the modem/data path before and after,
+run once or a stated finite count, never poll, and prefer the existing
+QModem/Higo/controller path. An apparently idle tty is not ownership proof;
+never create a competing direct serial writer when arbitration is unproved.
+
+The following still require a separate explicit owner gate: sysupgrade,
+firmware/eMMC/GPT/partition/U-Boot/BL2/Factory writes, persistent configuration
+migration or original-system package installation; band/cell lock, network
+mode/APN/SIM mutation, modem reset, USB unbind, connectivity-impacting service
+stop/restart, write/configuration AT, persistent modem NVRAM changes; and every
+other persistent, destructive, or state-changing operation.
+
+Project authorization summary:
+
+- `AUTHENTICATION_FRICTION = MINIMIZED`
+- `AUTHENTICATION = DEFAULT_AUTHORIZED`
+- `READ_ONLY_EVIDENCE = DEFAULT_AUTHORIZED`
+- `LOCAL_RAW_ANALYSIS = ALLOWED`
+- `DURABLE_PUBLIC_RECORD = SANITIZED`
+- `READ_ONLY_AT = DEFAULT_AUTHORIZED_WITH_SAFE_OWNERSHIP`
+- `PERSISTENT_CHANGE = EXPLICIT_GATE`
+- `DESTRUCTIVE_CHANGE = EXPLICIT_GATE`
+- `STATE_CHANGING_MODEM_OPERATION = EXPLICIT_GATE`
+
 ## Formal Build Ledger Rule
 
 Every formal GitHub firmware build must leave a durable record whether its
