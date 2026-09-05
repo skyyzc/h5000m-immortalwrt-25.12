@@ -287,6 +287,68 @@ device configuration change.
   IPv6 root cause remain unknown. Details are in
   `docs/DEVICE-01F-E2-EVIDENCE.md`.
 
+## Run 21 Rescue RAM Validation
+
+- Session identity: accepted Run 21 (`33951063311`, number `21`, attempt `1`),
+  profile `rescue`, source `candidate`, build-input project
+  `ab4d2cbaa8e1b9fa8742ae397b15399f535a50d1`, and locked ImmortalWrt
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`. The exact local initramfs was
+  `19970460` bytes with SHA256
+  `17d771fc5a1f469c0a56e5c92e8877bc0f8b700321de8860254304503b78d960`.
+- Human gate: the owner alone used Recovery WebUI `Load initramfs`. Codex did
+  not operate U-Boot, upload firmware, or invoke a persistent WebUI action.
+- Identity and RAM safety: `PASS`. The runtime identified Hiveton H5000M,
+  ImmortalWrt 25.12-SNAPSHOT / Linux 6.12.103 and `rootfs_type=initramfs`.
+  `/` was tmpfs, with the original eMMC squashfs mounted read-only. Embedded
+  build identity matched every Run/project/source/profile value above.
+- Core regression: `PASS`. LAN, DHCP, SSH, authenticated Higo, authenticated
+  LuCI, Higo/LuCI coexistence, RG520 `2c7c:0801`, `qmi_wwan_q`, `wwan0_1`,
+  QModem, QMI/QMAP, device-side IPv4, and device-side IPv6 were operational.
+  Final bounded log review found no panic, oops, service crash, modem reset, or
+  new critical storage failure.
+- Wi-Fi 2.4 GHz: `PASS / FUNCTION_TESTED`. A real Android client associated,
+  obtained DHCP, reached Higo, and reached the Internet. Client identity and
+  address are omitted.
+- Wi-Fi 5 GHz: `PASS / FUNCTION_TESTED`. A real Mac client associated, obtained
+  DHCP, reached Higo, and completed an IPv4 HTTPS request with HTTP 200. Client
+  identity and addresses are omitted.
+- LuCI: `PASS / FUNCTION_TESTED` for authenticated Overview. DHCPv4 leases were
+  visible; the DHCPv6 lease table was empty. The latter is retained as an
+  observation and is not treated as the IPv6 root cause because the client
+  independently held SLAAC global addresses and an IPv6 default route.
+- CPE repair gate: `FAIL / FUNCTION_TESTED`. The same-window QModem read-only
+  action returned `3G=0,4G=1,5G=1`. The live Higo page showed a `4G / 5G` badge
+  but still rendered `未识别配置` as the current-configuration title. Backend
+  semantics were not changed, no save/apply action was used, and the built
+  display normalization did not close the actual live presentation path.
+- IPv6 client preconditions: `PASS`. The real Wi-Fi client had SLAAC global and
+  ULA addresses plus a link-local IPv6 default gateway. Numeric IPv6 ICMP and
+  numeric-target HTTPS both failed, while router-side cellular IPv6 passed.
+- IPv6 packet attribution: `PASS / ROOT_CAUSE_CONFIRMED`. Four controlled echo
+  requests appeared on `br-lan` and left `wwan0_1`; matching replies arrived on
+  `wwan0_1`, but none returned through `br-lan`. The same delegated `/64` was
+  installed as connected on both LAN and cellular; read-only route lookup for
+  the client destination selected `wwan0_1`, whose connected route had the
+  preferred metric. This confirms a local same-prefix return-route collision,
+  not an absent upstream reply. The failing boundary is
+  `ROUTER/QMAP/ROUTING_RETURN_PATH`.
+- Packet safety: captures were short and bounded, written only to initramfs
+  `/tmp`, inspected locally, never uploaded or committed, and deleted before
+  session end. Durable evidence omits public and device-unique addresses.
+- Non-targets: Notification received no Run 21 change and its storage contract
+  remains `UNKNOWN`. Neighbour received no Run 21 change and raw AT was not
+  repeated. No repair, Full work, or Run 22 was started.
+- Power-cycle recovery: `PASS`. After the owner performed a normal physical
+  power cycle, the original ImmortalWrt 24.10-SNAPSHOT / Linux 6.6.94 returned
+  with `rootfs_type=squashfs`, read-only `/rom`, and the original F2FS overlay.
+  Run 21 build identity was absent. Higo/LuCI, LAN, both APs, RG520,
+  `qmi_wwan_q`, QModem/QMI/QMAP, and device-side IPv4/IPv6 recovered.
+- Persistent safety conclusion: `PASS`; no evidence of modification to eMMC,
+  GPT, U-Boot, BL2, factory data, persistent firmware, or modem configuration.
+- Overall Run 21 decision: `RUN21_RAM_BOOT_OK=YES`, `RUN21_DEVICE_OK=YES`, but
+  `RUN21_FUNCTION_TESTED=NO` because the mandatory CPE repair function gate in
+  this Run-scoped contract failed. Run 20 evidence is retained unchanged.
+
 RUN20_SOURCE_LOCKED: `YES`
 RUN20_CONFIG_RESOLVED: `YES`
 RUN20_BUILD_OK: `YES`
@@ -367,12 +429,33 @@ RUN21_FIRMWARE_SHA256: `17d771fc5a1f469c0a56e5c92e8877bc0f8b700321de886025430450
 RUN21_ARTIFACT_ACCEPTANCE: `PASS`
 RUN21_BUILD_OK: `YES`
 RUN21_CPE_REPAIR_BUILT: `YES`
-RUN21_CPE_FUNCTION_TESTED: `UNVERIFIED`
+RUN21_CPE_BACKEND_UNCHANGED: `PARTIAL` (QModem and rendered `4G / 5G` semantics
+matched; a sanitized raw authenticated API response was not captured)
+RUN21_CPE_LABEL: `未识别配置 (4G / 5G)`
+RUN21_CPE_FUNCTION_TESTED: `NO`
 RUN21_IPV6_PACKET_TOOL_BUILT: `YES`
-RUN21_IPV6_ROOT_CAUSE: `UNKNOWN`
-RUN21_RAM_BOOT_OK: `UNVERIFIED`
-RUN21_DEVICE_OK: `UNVERIFIED`
-RUN21_FUNCTION_TESTED: `UNVERIFIED`
-RUN21_LAST_CONFIRMED_GATE: `ARTIFACT_ACCEPTANCE_PASS`
+RUN21_CLIENT_IPV6_RESULT: `FAIL`
+RUN21_IPV6_PACKET_BOUNDARY: `ROUTER_QMAP_ROUTING_RETURN_PATH`
+RUN21_IPV6_ROOT_CAUSE: `CONFIRMED_SAME_PREFIX_RETURN_ROUTE_COLLISION`
+RUN21_RAM_BOOT_OK: `YES`
+RUN21_IDENTITY_OK: `YES`
+RUN21_PERSISTENT_SAFETY_OK: `YES`
+RUN21_LAN_OK: `YES`
+RUN21_DHCP_OK: `YES`
+RUN21_SSH_OK: `YES`
+RUN21_HIGO_OK: `YES`
+RUN21_LUCI_OK: `YES`
+RUN21_WIFI_2G_OK: `YES`
+RUN21_WIFI_5G_OK: `YES`
+RUN21_RG520_OK: `YES`
+RUN21_QMI_OK: `YES`
+RUN21_QMAP_OK: `YES`
+RUN21_DEVICE_IPV4_OK: `YES`
+RUN21_DEVICE_IPV6_OK: `YES`
+RUN21_DEVICE_OK: `YES`
+RUN21_FUNCTION_TESTED: `NO`
+POWER_CYCLE_RECOVERY_RUN21_OK: `YES`
+RUN21_LAST_CONFIRMED_GATE: `POWER_CYCLE_RECOVERY_PASS`
 RUN21_WAIT_REASON: `NONE_BUILD_COMPLETE`
-RUN21_NEXT_ACTION: `OWNER_REVIEW_BEFORE_SEPARATE_RAM_VALIDATION`
+RUN21_NEXT_ACTION: `OWNER_REVIEW_BEFORE_SEPARATE_REPAIR_DESIGN`
+READY_FOR_NEXT_REPAIR_DESIGN: `YES`

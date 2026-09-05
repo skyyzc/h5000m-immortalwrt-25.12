@@ -26,15 +26,14 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `GOVERNANCE-02`
-- `CURRENT_TASK`: consolidate current state, run-scoped maturity, selective
-  context retrieval, upstream lifecycle, online-update target, and modular
-  plugin architecture.
-- `CURRENT_RUN`: Run 21 is complete and accepted; no external run is active.
-- `CURRENT_GATE`: owner review of GOVERNANCE-02 before separate Run 21 RAM
-  validation authorization.
-- `STOP_CONDITION`: stop after governance validation, commit, and normal push;
-  do not begin RAM validation, Full, another build, or device operations.
+- `CURRENT_PHASE`: `RUN21 RESCUE RAM VALIDATION`
+- `CURRENT_TASK`: Run 21 RAM-only core regression, CPE repair function test,
+  IPv6 packet attribution, and power-cycle recovery evidence.
+- `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
+- `CURRENT_GATE`: owner review before a separate repair-design phase.
+- `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
+  push; do not implement a repair, begin Full, build Run 22, or perform any
+  persistent operation.
 - `CURRENT_TASK_REQUIRED_FILES`: `AGENTS.md`, `PROJECT_STATE.md`, `README.md`,
   latest relevant `CHANGELOG.md` section, current summary in
   `docs/DEVICE-01-STATE.md`, and the current task specification.
@@ -64,25 +63,31 @@ their underlying facts; this file points to them and does not replace history.
 - `RUN20_RAM_BOOT_OK`: `YES`
 - `RUN20_DEVICE_OK`: `YES`
 - `RUN20_FUNCTION_TESTED`: `YES`
-- Run 20 is the `LAST_FUNCTION_TESTED_DEVICE_BASELINE`.
+- Run 20 remains the last Rescue whose defined validation contract passed as a
+  whole and is the `LAST_FUNCTION_TESTED_DEVICE_BASELINE`.
 - Detailed Run 20 device proof: `docs/DEVICE-01-STATE.md`.
 
 - `RUN21_BUILD_OK`: `YES`
 - `RUN21_ARTIFACT_ACCEPTANCE`: `PASS`
-- `RUN21_RAM_BOOT_OK`: `UNVERIFIED`
-- `RUN21_DEVICE_OK`: `UNVERIFIED`
-- `RUN21_FUNCTION_TESTED`: `UNVERIFIED`
+- `RUN21_RAM_BOOT_OK`: `YES`
+- `RUN21_DEVICE_OK`: `YES`
+- `RUN21_FUNCTION_TESTED`: `NO` (mandatory CPE repair gate failed)
 - `RUN21_CPE_REPAIR_BUILT`: `YES`
-- `RUN21_CPE_FUNCTION_TESTED`: `UNVERIFIED`
+- `RUN21_CPE_FUNCTION_TESTED`: `NO`; live UI still displayed the unknown
+  fallback even though QModem remained `3G=0,4G=1,5G=1`.
 - `RUN21_IPV6_PACKET_TOOL_BUILT`: `YES`
-- `RUN21_IPV6_ROOT_CAUSE`: `UNKNOWN`
+- `RUN21_IPV6_ROOT_CAUSE`: `CONFIRMED_RETURN_ROUTE_PREFIX_COLLISION`; packet
+  capture saw requests on LAN and cellular, replies on cellular but not LAN,
+  and route lookup selected the cellular interface for the LAN client because
+  the same delegated `/64` was installed on both interfaces.
 - Run 20 device maturity is not inherited by Run 21.
 
 ## Current firmware candidate
 
 - `CURRENT_FIRMWARE_CANDIDATE`: accepted Run 21 Rescue initramfs above.
 - CPE repair: display-only `[4G,5G] -> 4G + 5G` frontend normalization is built
-  and hash-traced, not device-function-tested.
+  and hash-traced, but its Run 21 real-device function test failed: the UI
+  still shows the unknown fallback.
 - IPv6 evidence tool: manual-only `tcpdump-mini 4.99.6-r1` with
   `libpcap1 1.10.6-r1` is built; no automatic capture exists.
 - Higo CPE implementation evidence:
@@ -94,8 +99,9 @@ their underlying facts; this file points to them and does not replace history.
 
 - `OPEN_P0`: none authorized in the current governance phase.
 - `OPEN_P1`:
-  - Run 21 RAM validation of the CPE display repair.
-  - Bounded Run 21 IPv6 packet attribution; root cause remains `UNKNOWN`.
+  - Repair-design review for the failed Run 21 CPE display normalization.
+  - Repair-design review for the confirmed IPv6 same-prefix return-route
+    collision; no IPv6 fix is authorized in the completed validation phase.
   - Notification storage contract remains `UNKNOWN`; Run 21 change is `NO`.
   - Neighbour repair remains `NO`; the observed Run 20 sample was modem-raw
     empty and does not prove non-empty parser behavior.
@@ -103,22 +109,21 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Authorization and prohibitions
 
-- `CURRENT_AUTHORIZATION`: governance/documentation edits, validation, commit,
+- `CURRENT_AUTHORIZATION`: documentation/evidence edits, validation, commit,
   and normal fast-forward push to `rebuild-v1` only.
 - Project-scoped authentication and read-only evidence rules are in
   `AGENTS.md`; they do not authorize state-changing operations.
-- `CURRENT_PROHIBITIONS`: no build/Run 22, RAM boot, device access/change,
-  Full, stable promotion, source-lock/package/profile/firmware changes,
+- `CURRENT_PROHIBITIONS`: no build/Run 22, further RAM boot, repair
+  implementation, device change, Full, stable promotion,
+  source-lock/package/profile/firmware changes,
   sysupgrade, eMMC/GPT/U-Boot/BL2/Factory or other persistent operations.
 - Persistent storage modified: `NO`.
 - Full started: `NO`.
 
 ## Next gate
 
-- `NEXT_GATE`: owner-reviewed, separately authorized Run 21 Rescue RAM
-  validation.
-- That validation must establish Run 21 maturity independently and must not
-  reuse Run 20 `RUNNING`, `UI_OK`, or `FUNCTION_TESTED` conclusions.
+- `NEXT_GATE`: owner-reviewed, separately authorized repair design for the
+  Run 21 CPE function failure and confirmed IPv6 return-route collision.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets

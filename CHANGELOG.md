@@ -18,6 +18,41 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### Run 21 Rescue RAM validation
+
+- The owner manually loaded the accepted Run 21 initramfs through U-Boot
+  Recovery WebUI. Runtime identity matched Run ID `33951063311`, Run number
+  `21`, project `ab4d2cbaa8e1b9fa8742ae397b15399f535a50d1`, ImmortalWrt
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`, and profile `rescue`.
+- RAM/persistent-safety gates passed: `/` was tmpfs, the original squashfs was
+  mounted read-only, and no persistent overlay or persistent operation was
+  used. LAN, DHCP, SSH, authenticated Higo and LuCI, both real-client Wi-Fi
+  bands, RG520 USB, `qmi_wwan_q`, QModem/QMI/QMAP, and device-side IPv4/IPv6
+  passed bounded regression.
+- The mandatory CPE repair function test failed. QModem remained
+  `3G=0,4G=1,5G=1`, and the UI exposed a `4G / 5G` badge, but the live current
+  configuration title still displayed `未识别配置`. This is retained as a
+  Run 21 repair failure; no modem/network setting was changed.
+- Bounded concurrent ICMPv6 captures localized the client failure. Requests
+  appeared on `br-lan` and `wwan0_1`; matching replies arrived on `wwan0_1`
+  but never returned through `br-lan`. The same delegated `/64` was installed
+  on LAN and cellular, and read-only route lookup selected `wwan0_1` for the
+  LAN-client destination. Root cause is therefore confirmed as a local
+  same-prefix return-route collision; no IPv6 repair was attempted.
+- The client IPv6 ICMP and numeric-target HTTPS tests failed, while client IPv4
+  and device-side IPv4/IPv6 remained working. Raw PCAP and unique addresses
+  were kept temporary, sanitized from durable evidence, and deleted.
+- Final RAM-session logs showed no panic, oops, core crash, modem reset, or new
+  critical storage failure. After the owner performed a normal physical power
+  cycle, original ImmortalWrt 24.10 squashfs/overlay, Higo/LuCI, LAN, radios,
+  RG520/QMI/QMAP, and device-side IPv4/IPv6 returned; Run 21 identity was
+  absent. No eMMC, GPT, U-Boot, BL2, factory, or firmware state was modified.
+- Run 21 RAM boot, identity, persistent safety, core device regression, and
+  power-cycle recovery pass. `RUN21_FUNCTION_TESTED=NO` because the defined
+  validation contract included the mandatory CPE repair gate, which failed.
+  Notification and neighbour received no Run 21 change. No Run 22 or Full
+  build was started.
+
 ### BUILD-03 / Run 21 dispatched
 
 - Owner-approved Rescue/candidate build dispatched as GitHub Actions Run 21
