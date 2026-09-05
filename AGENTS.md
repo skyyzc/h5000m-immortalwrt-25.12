@@ -1,17 +1,33 @@
 # H5000M project rules
 
-## Reload context first
+## Three-layer context reload
 
-At every new or resumed task, after context compaction, and after an interrupted
-build, read `AGENTS.md`, `README.md`, `CHANGELOG.md`,
-`docs/HIGO-FEATURES.md`, `docs/PACKAGES.md`, `versions/candidate.json` and
-`versions/stable.json`. Then run `git status`, `git branch --show-current`,
-`git log -5 --oneline` and `git remote -v`. Treat the repository as project
-memory; never rely on chat history alone.
+Treat repository evidence as project memory; never rely on chat history alone.
+At every new/resumed task, after compaction, and after an interrupted build:
 
-Read `docs/REFERENCE_EVIDENCE.md`, `docs/H5000M-ASSET-MAP-V1.md` and
-`docs/H5000M-MIGRATION-BLUEPRINT.md` only when hardware, partitions, historical
-behavior, Higo/RG520 origins, or migration provenance are relevant.
+1. Layer 1, always read: `AGENTS.md`, `PROJECT_STATE.md`, and the current task
+   specification. Then inspect `git status`, branch, HEAD, its tracked remote
+   SHA, and a short log.
+2. Layer 2, task-scoped: read only current files named by `PROJECT_STATE.md`,
+   the task, and the applicable Skill. Higo work normally needs
+   `docs/HIGO-FEATURES.md`; provenance work needs `docs/PACKAGES.md` and the
+   relevant version lock; device work needs the current run's device evidence.
+3. Layer 3, on demand: read historical evidence, old build reports/logs, full
+   CHANGELOG history, reference/asset/migration documents, old investigations,
+   and recovery evidence only for conflict, regression, root cause, provenance,
+   recovery, historical comparison, or an uncertain current-state pointer.
+
+`CHANGELOG.md` remains mandatory output where required, but a full read is not
+mandatory startup context. Search by run, phase, commit, or subsystem, read the
+latest relevant section, and expand only the needed range. Context minimization
+means selective durable retrieval, never skipped verification.
+
+Every active phase must keep the lightweight Current Task contract in
+`PROJECT_STATE.md`: `CURRENT_TASK`, `CURRENT_TASK_REQUIRED_FILES`,
+`CURRENT_GATE`, and `STOP_CONDITION`. Future work orders should normally state
+only `TASK`, `BASELINE`, `SCOPE`, `REQUIRED_CONTEXT`, `DO`, `DO_NOT`,
+`ACCEPTANCE`, and `STOP`, referencing permanent rules rather than repeating
+them.
 
 ## Evidence and maturity
 
@@ -22,6 +38,12 @@ never promote inference or unknown state without new direct evidence.
 Keep maturity distinct: `CONFIGURED`, `BUILT`, `INSTALLED`, `RUNNING`, `UI_OK`,
 `FUNCTION_TESTED`. A build does not prove device behavior, package presence does
 not prove a running service, and a visible page does not prove functionality.
+
+Maturity is scoped to the exact firmware run and evidence generation. Current
+and future state must namespace `BUILD_OK`, `RAM_BOOT_OK`, `DEVICE_OK`, and
+`FUNCTION_TESTED` by run. A later build may inherit design intent and source
+history, but must not inherit `RUNNING`, `UI_OK`, or `FUNCTION_TESTED` maturity
+without new evidence from that exact firmware.
 
 When evidence conflicts, prefer: current device test; current candidate test;
 latest-full analysis; run13; run10; older material; inference. Preserve the old
@@ -39,6 +61,30 @@ builds require exact source SHA, profile, project commit and Actions Run ID;
 never use `latest` as identity. Flow is upstream check -> candidate -> build ->
 RAM validation -> manual promote -> stable. Stable promotion is always manual.
 
+`UPSTREAM_LIFECYCLE = REQUIRED`. This is an evolving product, not a one-time
+25.12 build. Controlled updates follow detection -> candidate -> source and
+provenance review -> static compatibility gates -> build -> RAM regression ->
+manual stable promotion. Never replace or deploy stable merely because an
+upstream changed; automation may later detect/build updates but cannot silently
+promote them.
+
+`ONLINE_UPDATE_TARGET = REQUIRED`, while
+`ONLINE_UPDATE_STATUS = BLOCKED_BY_PERSISTENT_SAFETY`. Online update and Higo
+firmware-upgrade paths remain prohibited until validated Full -> persistent
+storage model -> backup -> recovery -> rollback/failure recovery -> sysupgrade
+compatibility -> artifact identity/integrity -> explicit owner authorization
+have all passed. A current prohibition does not remove online update from the
+long-term goal.
+
+`PLUGIN_ARCHITECTURE = MODULAR / OPTIONAL / INDEPENDENTLY_PROVENANCED`.
+`CORE_RESCUE` must not depend on optional plugins. `FULL_REQUIRED` contains
+hardware/product-critical integrations such as fan management and required Higo
+Full integrations; current candidates include wrtbwmon/Higo client integration,
+OAF, fan, and DiskMan/KSMBD. `FULL_OPTIONAL` may include owner-selected
+ZeroTier, Watchcat, and future integrations. Categories can evolve, but every
+component retains independent provenance, adaptation, build/device evidence,
+and update policy.
+
 ## Documentation and scope
 
 Firmware-affecting changes update `CHANGELOG.md`; package/source/profile changes
@@ -46,11 +92,12 @@ also update `docs/PACKAGES.md`; Higo behavior or implementation changes update
 `docs/HIGO-FEATURES.md`. Keep README architectural and durable.
 
 `CHANGELOG.md` owns actual engineering changes, formal build history, failures,
-and repairs. `docs/PACKAGES.md` owns component provenance, ownership class, and
-integration state. `docs/HIGO-FEATURES.md` remains the Higo feature gap and next
-step matrix. `versions/candidate.json` and `versions/stable.json` own exact
-version locks. Do not create overlapping records when these files can carry the
-evidence.
+and repairs. `PROJECT_STATE.md` is the compact current-state index and points to
+detailed evidence without replacing it. `docs/PACKAGES.md` owns component
+provenance, ownership class, and integration state. `docs/HIGO-FEATURES.md`
+remains the Higo feature gap and next step matrix. `versions/candidate.json` and
+`versions/stable.json` own exact version locks. Do not create overlapping
+records when these files can carry the evidence.
 
 The permanent project mainline is: ImmortalWrt 25.12 upstream -> H5000M
 hardware adaptation -> permanent Higo compatibility -> LuCI coexistence ->
@@ -238,6 +285,12 @@ to `WAITING_EXTERNAL`.
 GitHub Actions `SUCCESS` does not itself establish `BUILD_OK`. Firmware,
 `BUILD-MANIFEST`, `BUILD-REPORT`, `resolved.config`, `SHA256SUMS`, embedded build
 identity, and documentation consistency must all pass acceptance first.
+
+For repository investigation, search for the exact run, phase, commit,
+subsystem, or heading before reading large files when practical. Do not
+re-parse historical evidence that has a valid `PROJECT_STATE.md` pointer unless
+conflict or the active task requires the underlying proof. After an external
+state change, reload Layer 1 and retrieve only task-relevant evidence.
 
 Quota governance eliminates low-value waiting. It must never be used to skip
 validation, log analysis, documentation, artifact verification, or necessary

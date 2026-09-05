@@ -1,5 +1,21 @@
 # Changelog
 
+## GOVERNANCE-02
+
+- Added `PROJECT_STATE.md` as a compact current-state index, explicitly
+  separating Run 20's function-tested Rescue baseline from Run 21's accepted
+  but device-unverified firmware generation.
+- Replaced the mandatory full-history startup reload with three layers:
+  `AGENTS.md` + `PROJECT_STATE.md` + current task always, task-scoped evidence
+  as needed, and historical evidence only for conflict, regression, root cause,
+  provenance, recovery or comparison. CHANGELOG writing remains mandatory;
+  full CHANGELOG reading does not.
+- Made run-scoped maturity, the lightweight Current Task contract, controlled
+  upstream lifecycle, the persistent-safety-blocked online-update target, and
+  modular independently provenanced plugin architecture permanent rules.
+  Context reduction is retrieval-only and does not weaken engineering,
+  evidence, provenance, security, build, device or owner-authorization gates.
+
 ## Rebuild V1 / DEVICE-01
 
 ### BUILD-03 / Run 21 dispatched

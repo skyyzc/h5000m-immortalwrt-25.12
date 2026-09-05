@@ -18,6 +18,12 @@ only after recovery and rollback are proven.
 This is the permanent project mainline; individual build or validation phases
 must not replace or shorten it.
 
+This is also a maintained upstream lifecycle, not a one-time build:
+`detect upstream update -> candidate -> provenance review -> static gates ->
+build -> RAM regression -> manual stable promotion`. Detection and build
+orchestration may be automated later, but stable promotion remains manual and
+evidence-gated.
+
 The locked ImmortalWrt source contains the board DTS, image definition, LED,
 Ethernet and generated MAC handling. This repository owns the source locks,
 profiles, Higo package and compatibility defaults. It never stores a complete
@@ -30,13 +36,19 @@ ImmortalWrt or U-Boot tree.
 - `full`: rescue plus wrtbwmon, OpenAppFilter, fan control, DiskMan, KSMBD,
   UPnP, DDNS, Watchcat and ZeroTier.
 
+Integrations are modular and independently provenanced. `CORE_RESCUE` carries
+hardware adaptation, Higo/LuCI coexistence and RG520 base connectivity.
+`FULL_REQUIRED` carries product/hardware requirements such as fan management
+and required Higo Full integrations; `FULL_OPTIONAL` and `FUTURE_PLUGIN` remain
+owner-selected and must not become dependencies of Rescue.
+
 The release flow is `candidate -> build -> RAM test -> manual promote -> stable`.
 `versions/stable.json` currently describes historical validation only; no build
 from this repository has been promoted.
 
-The candidate has passed source reconstruction, config resolution, and one
-Linux clean Rescue build. This is not evidence of byte-for-byte reproducibility,
-which remains unverified.
+The candidate has passed source reconstruction, config resolution, and Linux
+clean Rescue builds in Runs 20 and 21. This is not evidence of byte-for-byte
+reproducibility, which remains unverified.
 
 ## Build interface
 
@@ -52,3 +64,9 @@ refuses any lock with unknown Rescue feed or QModem commits.
 The current safe development path is RAM initramfs. eMMC installation and
 sysupgrade are not established as safe. Do not write eMMC, GPT or U-Boot based
 on this project. Device-unique identifiers and credentials must never be added.
+
+Device-side online update remains a required long-term target, currently
+`BLOCKED_BY_PERSISTENT_SAFETY`. It may proceed only after validated Full,
+persistent-storage and backup models, recovery and rollback testing,
+sysupgrade compatibility, artifact identity/integrity validation, and explicit
+owner authorization. The Higo firmware-upgrade path remains blocked until then.
