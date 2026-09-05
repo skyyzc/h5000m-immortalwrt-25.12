@@ -375,6 +375,19 @@ rejected. Because the excerpt is not the full byte-identical response,
 `CPE_RCA=UNKNOWN`, `CPE_REPAIR_UNBLOCKED=NO`, and the next gate is bounded live
 Vue resolver-state evidence. No device or persistent state changed.
 
+## CPE-RUN21-LIVE-STATE-01 closure
+
+Later exact Run 21 read-only debugger evidence closed the outstanding CPE gate.
+At the completed render boundary, `F.mode=auto`, selected networks were
+`[4G,5G]`, the normalized key was `4G|5G`, `st.value.title` and `Tt.value` were
+`4G + 5G`, and `Jt.value` was `4G / 5G`. After execution resumed, the real Higo
+current-configuration card visibly showed `4G + 5G`. No save/apply or device
+state change occurred. Earlier intermediate `undefined` reads were taken while
+the computed getters were paused/running and are debugger re-entry artifacts.
+The earlier unknown-title observation remains historical evidence; its precise
+timing/state cause is only `PARTIAL`, but it no longer blocks the demonstrated
+Run 21 function result.
+
 RUN20_SOURCE_LOCKED: `YES`
 RUN20_CONFIG_RESOLVED: `YES`
 RUN20_BUILD_OK: `YES`
@@ -457,8 +470,8 @@ RUN21_BUILD_OK: `YES`
 RUN21_CPE_REPAIR_BUILT: `YES`
 RUN21_CPE_BACKEND_UNCHANGED: `PARTIAL` (QModem and rendered `4G / 5G` semantics
 matched; a sanitized raw authenticated API response was not captured)
-RUN21_CPE_LABEL: `未识别配置 (4G / 5G)`
-RUN21_CPE_FUNCTION_TESTED: `NO`
+RUN21_CPE_LABEL: `4G + 5G (4G / 5G)`
+RUN21_CPE_FUNCTION_TESTED: `YES`
 RUN21_IPV6_PACKET_TOOL_BUILT: `YES`
 RUN21_CLIENT_IPV6_RESULT: `FAIL`
 RUN21_IPV6_PACKET_BOUNDARY: `ROUTER_QMAP_ROUTING_RETURN_PATH`
@@ -479,7 +492,7 @@ RUN21_QMAP_OK: `YES`
 RUN21_DEVICE_IPV4_OK: `YES`
 RUN21_DEVICE_IPV6_OK: `YES`
 RUN21_DEVICE_OK: `YES`
-RUN21_FUNCTION_TESTED: `NO`
+RUN21_FUNCTION_TESTED: `YES`
 POWER_CYCLE_RECOVERY_RUN21_OK: `YES`
 RUN21_LAST_CONFIRMED_GATE: `POWER_CYCLE_RECOVERY_PASS`
 RUN21_WAIT_REASON: `NONE_BUILD_COMPLETE`
@@ -490,8 +503,8 @@ CPE_LIVE_PATH_CLOSED: `NO`
 CPE_LOADED_CHUNK_IDENTITY: `RUN21_PATCHED`
 CPE_LOADED_CHUNK_HASH: `UNKNOWN` (human evidence is a curated resolver excerpt)
 CPE_BROWSER_CACHE_OLD_CANONICAL_HYPOTHESIS: `REJECTED`
-CPE_RCA: `UNKNOWN` (remaining boundary: live Vue resolver state/execution)
-CPE_ADDITIONAL_DEVICE_EVIDENCE_REQUIRED: `YES`
+CPE_RCA: `PARTIAL` (initial unknown-title timing/state discrepancy not reproduced)
+CPE_ADDITIONAL_DEVICE_EVIDENCE_REQUIRED: `NO` for the Run 21 CPE function gate
 IPV6_REPAIR_DESIGNED: `YES`
 IPV6_SELECTED_DESIGN: `DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE`
 IPV6_NATIVE_ROUTED_DESIGN: `YES`

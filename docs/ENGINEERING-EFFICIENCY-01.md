@@ -139,24 +139,26 @@ not be repeated.
 CPE_API_CAPTURED=YES
 CPE_SERVED_CHUNK_IDENTITY=RUN21_PATCHED
 CPE_LOADED_CHUNK_IDENTITY=RUN21_PATCHED
-CPE_VISIBLE_TITLE=未识别配置
-CPE_RCA=UNKNOWN
-CPE_REPAIR_UNBLOCKED=NO
-CPE_NEXT_GATE=CPE-RUN21-LIVE-STATE-01
+CPE_VISIBLE_TITLE=4G + 5G
+CPE_RCA=PARTIAL_TIMING_OR_STATE_EVALUATION_BOUNDARY
+CPE_RUNTIME_CHAIN=PASS
+CPE_FUNCTION_TESTED=YES
+CPE_ADDITIONAL_REPAIR_REQUIRED=NO
+CPE_NEXT_GATE=OWNER_REVIEW
 IPV6_ROOT_CAUSE=CONFIRMED_SAME_PREFIX_RETURN_ROUTE_COLLISION
 IPV6_REPAIR_DESIGN=DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE
 IPV6_REPAIR_DESIGN_READY=YES
 IPV6_IMPLEMENTED=NO
 IPV6_READY_FOR_BATCH=YES
-CPE_READY_FOR_BATCH=NO
+CPE_READY_FOR_BATCH=NOT_APPLICABLE_NO_ADDITIONAL_REPAIR
 ```
 
 ## Run 22 scheduling
 
 ```text
 READY_FIXES=IPv6 native shared-prefix return-route repair design
-BLOCKED_FIXES=CPE live-render repair
-BATCHABLE_FIXES=NONE_YET_FOR_COMBINED_CPE_AND_IPV6
+BLOCKED_FIXES=NONE_IN_CURRENT_CPE_GATE
+BATCHABLE_FIXES=IPV6_ONLY_IF_SEPARATELY_AUTHORIZED
 DEFERRED_NON_BLOCKING=Notification,Neighbour,Wired_WAN
 WHY_SEPARATE_BUILD_REQUIRED=NOT_APPLICABLE
 EXPECTED_BUILD_SCOPE=UNAPPROVED
@@ -166,10 +168,10 @@ RUN22_CHANGESET_READY=NO
 RUN22_TRIGGERED=NO
 ```
 
-The confirmed IPv6 design remains ready; CPE is not ready. After direct CPE
-evidence closes the boundary, review whether both repairs are still safe to
-batch. Do not add Notification, neighbour, Full packages, upgrades, refactors,
-or persistent work simply to enlarge the run.
+The confirmed IPv6 design remains ready; Run 21 CPE function evidence is now
+closed and requires no additional repair. Any future IPv6 implementation/build
+still requires separate authorization. Do not add Notification, neighbour,
+Full packages, upgrades, refactors, or persistent work merely to enlarge a run.
 
 ## Temporary diagnostic decision
 

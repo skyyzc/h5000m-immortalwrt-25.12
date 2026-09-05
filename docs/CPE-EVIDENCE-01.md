@@ -114,3 +114,53 @@ and `Tt.value` is required before RCA or repair selection.
 - `MISSING_EVIDENCE=LIVE_VUE_STATE_AND_RESOLVER_INPUT_OUTPUT_PROOF`
 - `DEVICE_MODIFIED=NO`
 - `PERSISTENT_STORAGE_MODIFIED=NO`
+
+## CPE-RUN21-LIVE-STATE-01 closure
+
+The reduced owner assist captured paused Vue scope from the exact Run 21
+patched component. At the resolver boundary, the sanitized state was
+`mode=auto`, selected networks `[4G,5G]`, normalized key `4G|5G`, and no direct
+mode match. The patched fallback returned `{value: 4g-5g, title: 4G + 5G,
+networks: [4G,5G]}`.
+
+Two intermediate debugger reads returned `undefined` for `st`/`Tt` while their
+computed getters had flags `6`; these were re-entrant reads made while the
+computed was paused in execution and are debugger artifacts, not product
+outputs. A subsequent conditional breakpoint after title/badge evaluation
+showed stable flags `132` and:
+
+```json
+{
+  "mode": "auto",
+  "selectedNetworks": ["4G", "5G"],
+  "normalizedKey": "4G|5G",
+  "resolvedMode": {
+    "value": "4g-5g",
+    "title": "4G + 5G",
+    "networks": ["4G", "5G"]
+  },
+  "computedTitle": "4G + 5G",
+  "computedBadge": "4G / 5G"
+}
+```
+
+After resuming execution and closing DevTools, the real Higo network-settings
+card visibly displayed `4G + 5G` with badge `4G / 5G`. No save/apply action or
+device setting change occurred. This closes the Run 21 live state and visible
+function gate. The earlier `未识别配置` observation remains valid historical
+evidence, but the exact timing/state transition that produced it was not
+reproduced; classify that initial discrepancy as `PARTIAL / TIMING_OR_STATE_EVALUATION_BOUNDARY`,
+not a confirmed cache, API, resolver, or firmware defect.
+
+- `CPE_LIVE_STATE_CAPTURED=YES`
+- `CPE_RESOLVER_RESULT=4G_PLUS_5G`
+- `CPE_COMPUTED_TITLE=4G + 5G`
+- `CPE_VISIBLE_TITLE_CURRENT=4G + 5G`
+- `CPE_RUNTIME_CHAIN=PASS`
+- `RUN21_CPE_FUNCTION_TESTED=YES`
+- `CPE_INITIAL_UNKNOWN_TITLE_RCA=PARTIAL_TIMING_OR_STATE_EVALUATION_BOUNDARY`
+- `CPE_ADDITIONAL_REPAIR_REQUIRED=NO`
+- `CPE_REPAIR_UNBLOCKED=NOT_APPLICABLE`
+- `MISSING_EVIDENCE=NONE_FOR_RUN21_CPE_FUNCTION_GATE`
+- `DEVICE_MODIFIED=NO`
+- `PERSISTENT_STORAGE_MODIFIED=NO`

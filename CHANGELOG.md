@@ -21,6 +21,20 @@
   paused-scope capture remains human-assisted. No firmware/device/build/Run 22,
   Full, package/config/source-lock, or persistent change occurred.
 
+### CPE-RUN21-LIVE-STATE-01
+
+- Accepted the reduced paused-scope evidence. Run 21 supplied `mode=auto`,
+  selected `[4G,5G]`, normalized key `4G|5G`, no direct preset match, and the
+  patched resolver returned the synthetic `4G + 5G` entry.
+- At a post-computed render boundary, `st` and `Tt` resolved `4G + 5G`, `Jt`
+  resolved `4G / 5G`, and the resumed real Higo UI visibly displayed
+  `4G + 5G`. Intermediate undefined values captured while the computed getters
+  were paused/running are debugger re-entry artifacts, not product outputs.
+- Closed `RUN21_CPE_FUNCTION_TESTED=YES` and the Run 21 validation contract.
+  Retained the earlier unknown-title observation as a non-reproduced partial
+  timing/state discrepancy; no unsupported exact RCA is claimed. No repair,
+  firmware, build/Run 22, Full, device-setting, or persistent change occurred.
+
 - Added `PROJECT_STATE.md` as a compact current-state index, explicitly
   separating Run 20's function-tested Rescue baseline from Run 21's accepted
   but device-unverified firmware generation.

@@ -26,14 +26,12 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `HUMAN_ASSIST_MINIMIZATION / CPE STATIC REASSESSMENT`
-- `CURRENT_TASK`: autonomy-first reassessment closed every repository and
-  ordinary-browser portion; only paused Vue closure/local-scope evidence
-  remains the CPE evidence blocker.
+- `CURRENT_PHASE`: `CPE-RUN21-LIVE-STATE-01 / COMPLETE`
+- `CURRENT_TASK`: Run 21 paused-scope and visible-title evidence are accepted;
+  synchronize evidence and stop for owner review.
 - `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: reduced `CPE-RUN21-LIVE-STATE-01` read-only paused-scope
-  evidence for `F.value`, normalized networks, `Ge`, `st`, and `Tt`; the old
-  nine-step owner workflow is paused and replaced by this minimum remainder.
+- `CURRENT_GATE`: `CPE-RUN21-LIVE-STATE-01=PASS`; resolver, computed title,
+  badge, and resumed visible title all resolve to the intended 4G+5G state.
 - `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
   push; do not implement CPE/IPv6 repair, begin Full, build Run 22, change the
   device, or perform a persistent operation.
@@ -74,10 +72,11 @@ their underlying facts; this file points to them and does not replace history.
 - `RUN21_ARTIFACT_ACCEPTANCE`: `PASS`
 - `RUN21_RAM_BOOT_OK`: `YES`
 - `RUN21_DEVICE_OK`: `YES`
-- `RUN21_FUNCTION_TESTED`: `NO` (mandatory CPE repair gate failed)
+- `RUN21_FUNCTION_TESTED`: `YES` (mandatory CPE repair gate closed by the
+  later exact-run paused-scope and resumed visible-title evidence)
 - `RUN21_CPE_REPAIR_BUILT`: `YES`
-- `RUN21_CPE_FUNCTION_TESTED`: `NO`; live UI still displayed the unknown
-  fallback even though QModem remained `3G=0,4G=1,5G=1`.
+- `RUN21_CPE_FUNCTION_TESTED`: `YES`; live state resolved `mode=auto` and
+  `[4G,5G]` to `4G + 5G`, and the resumed UI visibly displayed that title.
 - `RUN21_IPV6_PACKET_TOOL_BUILT`: `YES`
 - `RUN21_IPV6_ROOT_CAUSE`: `CONFIRMED_RETURN_ROUTE_PREFIX_COLLISION`; packet
   capture saw requests on LAN and cellular, replies on cellular but not LAN,
@@ -88,9 +87,9 @@ their underlying facts; this file points to them and does not replace history.
 ## Current firmware candidate
 
 - `CURRENT_FIRMWARE_CANDIDATE`: accepted Run 21 Rescue initramfs above.
-- CPE repair: display-only `[4G,5G] -> 4G + 5G` frontend normalization is built
-  and hash-traced, but its Run 21 real-device function test failed: the UI
-  still shows the unknown fallback.
+- CPE repair: display-only `[4G,5G] -> 4G + 5G` frontend normalization is built,
+  hash-traced, and function-tested on Run 21. The earlier unknown-title
+  observation is retained as a non-reproduced timing/state discrepancy.
 - IPv6 evidence tool: manual-only `tcpdump-mini 4.99.6-r1` with
   `libpcap1 1.10.6-r1` is built; no automatic capture exists.
 - Higo CPE implementation evidence:
@@ -102,11 +101,10 @@ their underlying facts; this file points to them and does not replace history.
 
 - `OPEN_P0`: none authorized in the current governance phase.
 - `OPEN_P1`:
-  - CPE-RUN21-LIVE-BODY-01 proved the browser response contains the Run 21
-    patched resolver and rejects stale canonical cache selection. The supplied
-    excerpt is not a full byte-identical response, so its full loaded SHA256 is
-    `UNKNOWN`. The title still fails; live Vue state/resolver proof remains and
-    `CPE_RCA=UNKNOWN`.
+  - CPE live-state evidence proved the Run 21 resolver and computed/rendered
+    title produce `4G + 5G`. The earlier unknown-title observation remains a
+    `PARTIAL_TIMING_OR_STATE_EVALUATION_BOUNDARY`; no additional CPE repair is
+    currently required.
   - IPv6 dynamic preferred LAN route design for the confirmed same-prefix
     return-route collision; implementation is not authorized in DEVICE-01G.
   - Notification storage contract remains `UNKNOWN`; Run 21 change is `NO`.
@@ -129,11 +127,8 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: `CPE-RUN21-LIVE-STATE-01`, reduced to paused closure/local-scope
-  capture at the already located resolver/title computations. Repository,
-  API-wrapper, loaded-resource and ordinary-browser evidence must not be
-  repeated. CPE remains unready; IPv6 design remains ready; Run 22 remains
-  unapproved and untriggered.
+- `NEXT_GATE`: owner review of the closed Run 21 CPE evidence. IPv6 design
+  remains ready but unimplemented; Run 22 remains unapproved and untriggered.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets
