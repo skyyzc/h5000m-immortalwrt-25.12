@@ -2,6 +2,22 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### DEVICE-01F-II implementation review
+
+- Prepared the minimal Run 21 Rescue delta without triggering a build: a
+  deterministic display-only Higo `4G + 5G` normalization patch plus
+  `tcpdump-mini` for future bounded IPv6 packet attribution.
+- Preserved the canonical vendor frontend and added distinct PROJECT_LOCAL
+  patch, transformed-asset and patched-runtime-tree hashes. Extended Higo
+  validation and build manifest/report semantics so patched runtime bytes are
+  never described as byte-identical vendor payload.
+- Added seven CPE fixtures preserving every existing profile label, recognizing
+  `4G + 5G`, retaining the unknown fallback, and proving patch idempotence.
+- Compared native-helper and narrow-ubus notification architectures; neither
+  has a proved Higo invocation boundary, so Notification remains out of Run 21.
+  IPv6 remains root-cause `UNKNOWN`, neighbour receives no firmware change,
+  and no device, Full, persistent-storage or workflow action occurred.
+
 ### DEVICE-01F-E2 evidence closure
 
 - Captured an authenticated Run 20 CPE network-mode fixture and correlated it

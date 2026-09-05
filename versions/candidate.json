@@ -24,10 +24,35 @@
       "frontend_tree_sha256": "9ebef3bbd38a0b7f70d5b201bfa4b08fbd6cdc7167a397888b466116d0b3ed2b"
     },
     "frontend_tree_hash_algorithm": "SHA256 over each sorted POSIX relative path encoded as UTF-8, then NUL, then exact file bytes; regular files only; 60 files",
+    "runtime_patch": {
+      "path": "scripts/patch-higo-cpe-frontend.py",
+      "sha256": "188b68ffbdf7743042b0f3334198c18b41dd3275262ba28ad06e4f51d4ea3daa",
+      "patched_asset": "assets/CPEManagement-CuEyMeyg.js",
+      "patched_asset_sha256": "f8eef73d3abe39a5170c3d84f952bbf5683690b6f240a23a9d58a783d2e33ad0",
+      "patched_frontend_tree_sha256": "e05e0e06fb137261df0d675384fbc9d06b477f5446cc81dfc0813ebf90d2ee7e"
+    },
     "status": "CONFIRMED"
   },
   "qmodem": {"repository": "https://github.com/FUjr/QModem.git", "commit": "c1db0fe2067955d6b9c6b43efff1b69259f4b096", "package_version": "3.2.0-r1", "status": "CONFIRMED"},
   "qmi_wwan_q": {"source": "https://github.com/FUjr/QModem.git", "commit": "c1db0fe2067955d6b9c6b43efff1b69259f4b096", "version": "1.5-r1", "kernel_compatibility": "Built in-tree against the locked ImmortalWrt kernel; source contains Linux 6.x compatibility branches and RG520 2c7c:0801 QMAP support.", "status": "CONFIRMED"},
+  "diagnostics": {
+    "ipv6_packet_tool": {
+      "package": "tcpdump-mini",
+      "version": "4.99.6",
+      "release": 1,
+      "origin": "IMMORTALWRT_CORE",
+      "source_url": "https://www.tcpdump.org/release/",
+      "source_sha256": "5839921a0f67d7d8fa3dacd9cd41e44c89ccb867e8a6db216d62628c7fd14b09",
+      "dependency": {
+        "package": "libpcap",
+        "version": "1.10.6",
+        "release": 1,
+        "source_sha256": "872dd11337fe1ab02ad9d4fee047c9da244d695c6ddf34e2ebb733efd4ed8aa9"
+      },
+      "immortalwrt_commit": "1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0",
+      "status": "CONFIRMED"
+    }
+  },
   "openappfilter": {"repository": null, "commit": null, "version": "7.0.1-r1", "status": "UNKNOWN"},
   "wrtbwmon": {"repository": null, "commit": null, "version": "1.2.1-r3", "status": "UNKNOWN"}
 }

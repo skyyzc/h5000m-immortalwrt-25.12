@@ -1,0 +1,9 @@
+[
+  {"selectedNetworks": ["3G", "4G", "5G"], "title": "5G 优先"},
+  {"selectedNetworks": ["3G", "4G"], "title": "4G 优先"},
+  {"selectedNetworks": ["4G", "5G"], "title": "4G + 5G"},
+  {"selectedNetworks": ["5G"], "title": "仅 5G"},
+  {"selectedNetworks": ["4G"], "title": "仅 4G"},
+  {"selectedNetworks": ["3G"], "title": "仅 3G"},
+  {"selectedNetworks": ["3G", "5G"], "title": "未识别配置"}
+]

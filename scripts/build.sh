@@ -15,12 +15,14 @@ cp "$root/configs/$profile.config" "$artifacts/requested.config"
 H5000M_SOURCE="$src" "$root/scripts/apply.sh"
 # Apply twice: native checks and identical package state must remain safe.
 H5000M_SOURCE="$src" "$root/scripts/apply.sh"
+"${PYTHON:-python3}" "$root/tests/test-higo-cpe-normalization.py"
 cp "$root/configs/$profile.config" "$src/.config"
 make -C "$src" defconfig
 cp "$src/.config" "$artifacts/resolved.config"
 "$root/scripts/validate-config.sh" "$artifacts/resolved.config"
 H5000M_SOURCE="$src" "$root/scripts/validate-higo.sh" "$source_lock"
 H5000M_SOURCE="$src" "$root/scripts/validate-rg520.sh" "$source_lock"
+H5000M_SOURCE="$src" "$root/scripts/validate-diagnostics.sh" "$source_lock"
 
 project_sha=$(git -C "$root" rev-parse HEAD)
 source_sha=$(git -C "$src" rev-parse HEAD)

@@ -39,6 +39,7 @@ require_y CONFIG_PACKAGE_uqmi 'QMI userspace is mandatory'
 require_y CONFIG_PACKAGE_kmod-qmi_wwan_q 'RG520 QMI/QMAP data path is mandatory'
 require_y CONFIG_PACKAGE_qmodem 'RG520 management is mandatory'
 require_y CONFIG_PACKAGE_luci-app-qmodem-next 'QModem LuCI application is mandatory'
+require_y CONFIG_PACKAGE_tcpdump-mini 'bounded IPv6 forwarding-path packet attribution is mandatory for Run 21 Rescue evidence'
 
 [ "$failed" -eq 0 ] || exit 1
 echo 'Resolved Rescue config gate passed'

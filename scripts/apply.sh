@@ -31,5 +31,7 @@ else
   cp -a "$root/package/hiveton/higoros" "$src/package/hiveton/higoros"
   echo "installed: package/hiveton/higoros"
 fi
+"${PYTHON:-python3}" "$root/scripts/patch-higo-cpe-frontend.py" apply \
+  "$src/package/hiveton/higoros/files/www/higoros/assets/CPEManagement-CuEyMeyg.js"
 if find "$root/files" -mindepth 1 ! -name .gitkeep -print -quit | grep -q .; then cp -a "$root/files/." "$src/"; fi
 echo "Applied H5000M package and root files"

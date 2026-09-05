@@ -13,6 +13,7 @@ lock=json.load(open(os.path.join(root,'versions',lock_name+'.json')))
 pkg=os.path.join(root,'package','hiveton','higoros')
 installed=os.path.join(src,'package','hiveton','higoros')
 expected=lock['higo']['payload_sha256']
+runtime_patch=lock['higo']['runtime_patch']
 paths={
  'higorosd':os.path.join(pkg,'files','usr','bin','higorosd'),
  'api_lua':os.path.join(pkg,'files','usr','share','higoros','lua','handlers','api.lua'),
@@ -41,12 +42,36 @@ for path in sorted(files,key=lambda p:os.path.relpath(p,front).replace(os.sep,'/
 actual_tree=tree.hexdigest()
 if actual_tree != expected.get('frontend_tree_sha256'):
     raise SystemExit(f'HIGO_GATE FAIL: frontend tree expected={expected.get("frontend_tree_sha256")} actual={actual_tree}')
+patch_path=os.path.join(root,runtime_patch['path'])
+patch_sha=hashlib.sha256(open(patch_path,'rb').read()).hexdigest()
+if patch_sha != runtime_patch['sha256']:
+    raise SystemExit(f'HIGO_GATE FAIL: runtime patch expected={runtime_patch["sha256"]} actual={patch_sha}')
+patched_rel='files/www/higoros/'+runtime_patch['patched_asset']
+differences=[]
 for path in files:
-    rel=os.path.relpath(path,pkg)
+    rel=os.path.relpath(path,pkg).replace(os.sep,'/')
     other=os.path.join(installed,rel)
-    if not os.path.isfile(other) or open(path,'rb').read()!=open(other,'rb').read():
-        raise SystemExit('HIGO_GATE FAIL: frontend install tree mismatch '+rel)
+    if not os.path.isfile(other): raise SystemExit('HIGO_GATE FAIL: missing installed '+rel)
+    if open(path,'rb').read()!=open(other,'rb').read(): differences.append(rel)
+if differences != [patched_rel]:
+    raise SystemExit(f'HIGO_GATE FAIL: unexpected runtime differences {differences}')
+patched_asset=os.path.join(installed,patched_rel)
+patched_asset_sha=hashlib.sha256(open(patched_asset,'rb').read()).hexdigest()
+if patched_asset_sha != runtime_patch['patched_asset_sha256']:
+    raise SystemExit(f'HIGO_GATE FAIL: patched asset expected={runtime_patch["patched_asset_sha256"]} actual={patched_asset_sha}')
+installed_files=[]
+installed_front=os.path.join(installed,'files','www','higoros')
+for base, _, names in os.walk(installed_front):
+    installed_files.extend(os.path.join(base,n) for n in names)
+runtime_tree=hashlib.sha256()
+for path in sorted(installed_files,key=lambda p:os.path.relpath(p,installed_front).replace(os.sep,'/')):
+    runtime_tree.update(os.path.relpath(path,installed_front).replace(os.sep,'/').encode('utf-8')+b'\0')
+    runtime_tree.update(open(path,'rb').read())
+actual_runtime_tree=runtime_tree.hexdigest()
+if actual_runtime_tree != runtime_patch['patched_frontend_tree_sha256']:
+    raise SystemExit(f'HIGO_GATE FAIL: patched tree expected={runtime_patch["patched_frontend_tree_sha256"]} actual={actual_runtime_tree}')
 print('HIGO_GATE PASS: canonical frontend payload='+expected['frontend'])
-print('HIGO_GATE PASS: deterministic 60-file frontend tree sha256='+actual_tree+'; installed tree byte-identical')
+print('HIGO_GATE PASS: vendor source 60-file frontend tree sha256='+actual_tree)
+print('HIGO_GATE PASS: deterministic patched runtime tree sha256='+actual_runtime_tree+'; only '+patched_rel+' differs')
 print('HIGO_GATE PASS: package, init script, defaults and dual-UI files installed')
 PY

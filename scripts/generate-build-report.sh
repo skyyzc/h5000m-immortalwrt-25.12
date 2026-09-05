@@ -18,6 +18,15 @@ lines += ['','## Gates','','- Prepare: PASS (fresh exact source and feed locks)'
  '','## Errors and Fixes','','- No unresolved build error.','','## Artifacts','']
 for a in m['artifacts']: lines.append(f"- `{a['filename']}` — {a['size']} bytes — `{a['sha256']}`")
 lines += ['','## Hashes','',f"- resolved.config: `{m['resolved_config']['sha256']}`",'','## Unknowns','']
+runtime_patch=m.get('packages',{}).get('higo',{}).get('project_runtime_patch')
+if runtime_patch:
+    lines[-2:-2]=[f"- Higo vendor frontend tree: `{m['packages']['higo']['vendor_source_hashes']['frontend_tree_sha256']}`",
+                  f"- Higo patched runtime tree: `{runtime_patch['patched_frontend_tree_sha256']}`",
+                  f"- Higo runtime patch: `{runtime_patch['sha256']}`",'']
+packet_tool=m.get('packages',{}).get('diagnostics',{}).get('ipv6_packet_tool')
+if packet_tool:
+    lines[-2:-2]=[f"- IPv6 packet tool: `{packet_tool['package']} {packet_tool['version']}-{packet_tool['release']}`",
+                  f"- IPv6 packet tool source: `{packet_tool['source_sha256']}`",'']
 lines += [f'- `{x}`' for x in m['unknown']] or ['- None for build identity fields.']
 lines += ['','## Known Issues','','- Runtime behavior, UI behavior, RG520 dialing, QMAP, Wi-Fi and IPv6 remain untested on hardware.',
  '','## Validation Level','','- SOURCE_LOCKED: PASS','- CONFIG_RESOLVED: PASS','- BUILD_OK: PASS',
