@@ -18,6 +18,27 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### ENGINEERING-EFFICIENCY-01
+
+- Added permanent evidence-preserving execution classes, readiness-based build
+  batching, build-worthiness fields, durable non-blocking deferral, and
+  independently matured plugin batches. Efficiency may remove duplicate work
+  but cannot weaken issue closure, direct evidence, exact-run validation,
+  provenance, authorization, modem ownership, rollback, security, or
+  candidate/stable gates.
+- Added bounded no-progress retry handling, explicit interactive-stall classes,
+  no-silent-skip outcomes, a fixed minimal human-assist request/return contract,
+  and dependency-aware continuation. Human assistance cannot bypass an owner
+  gate and resumes only the blocked branch.
+- Prepared (but did not execute) `CPE-RUN21-LIVE-BODY-01` for a browser
+  response-body/HAR or equivalent debugger proof. CPE RCA remains `UNKNOWN` and
+  unready; the confirmed IPv6 design remains ready, so the combined Run 22
+  changeset is not ready and no build was triggered.
+- Classified `tmp/run21_cpe_probe.sh` as untracked, run-specific local scratch
+  with no Git history: `UNTRACKED_NO_ACTION`. Added temporary-diagnostic and
+  governance anti-bloat rules. No firmware, device, source/package/config/lock,
+  workflow, Full, build, Run 22, or persistent-storage change occurred.
+
 ### CPE-EVIDENCE-01
 
 - Rebooted the already accepted Run 21 Rescue in RAM through the owner-only

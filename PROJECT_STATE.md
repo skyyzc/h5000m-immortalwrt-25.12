@@ -26,14 +26,13 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `CPE-EVIDENCE-01 / REVIEW REQUIRED`
-- `CURRENT_TASK`: Run 21 live CPE resource/API evidence is captured as far as
-  the available browser evidence interface permits; exact loaded response
-  bytes remain the only unresolved live-resource boundary.
+- `CURRENT_PHASE`: `ENGINEERING-EFFICIENCY-01 / GOVERNANCE COMPLETE`
+- `CURRENT_TASK`: durable execution-efficiency, batching, dependency-aware
+  continuation, and human-assist governance is synchronized.
 - `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: owner review of `docs/CPE-EVIDENCE-01.md`; capture the exact
-  browser-loaded CPE response body/hash (or equivalent evaluated-code proof)
-  before selecting another CPE repair.
+- `CURRENT_GATE`: `CPE-RUN21-LIVE-BODY-01` human-assisted read-only evidence;
+  capture the exact browser-loaded CPE response/hash or equivalent evaluated
+  resolver/live-input proof before selecting another CPE repair.
 - `STOP_CONDITION`: stop after evidence synchronization, commit, and normal
   push; do not implement CPE/IPv6 repair, begin Full, build Run 22, change the
   device, or perform a persistent operation.
@@ -129,9 +128,10 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: owner review, then exact browser response-body hash or
-  equivalent debugger proof for the observed CPE module request. Evidence and
-  the remaining binary decision are in `docs/CPE-EVIDENCE-01.md`.
+- `NEXT_GATE`: `CPE-RUN21-LIVE-BODY-01`. Follow the human-assist contract in
+  `docs/ENGINEERING-EFFICIENCY-01.md`, then resume only the blocked CPE gate.
+  CPE remains unready; the IPv6 repair design remains ready; Run 22 remains
+  unapproved and untriggered.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets
