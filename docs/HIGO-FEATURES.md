@@ -4,6 +4,11 @@ The complete Original 24.10 -> Run 20 Rescue -> expected Full classification,
 root-cause reports and priority backlog are in `DEVICE-01R-GAP-AUDIT.md`. This
 file remains the authoritative concise Higo feature gap/next-step matrix.
 
+The reviewed repair contracts for notification settings and canonical RG520
+profile presentation, plus the evidence-first neighbour plan, are in
+`DEVICE-01F-REPAIR-DESIGN.md`. They are design evidence only; no implementation
+or Run 21 result is implied.
+
 Evidence: historical latest-full analysis plus the canonical frontend/API
 payload. Status is conservative: package presence is not treated as proof that
 an authenticated page operation works.

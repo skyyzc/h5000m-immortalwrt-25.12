@@ -2,6 +2,22 @@
 
 ## Rebuild V1 / DEVICE-01
 
+### DEVICE-01F Repair Design
+
+- Added a review-only Rescue compatibility repair design covering exactly the
+  four DEVICE-01 gaps: LAN-client IPv6, Higo notification settings, RG520
+  canonical profile recognition and neighbour-cell reporting.
+- Defined a bounded, sanitized IPv6 evidence plan and hypothesis matrix. The
+  IPv6 root cause remains `UNKNOWN`; no NAT66, proxy-NDP, fw4, odhcpd, QModem
+  or policy-routing change is proposed without runtime boundary evidence.
+- Defined a project-local Higo notification settings adapter contract and an
+  additive RG520N-CN normalized profile contract that preserves the proven
+  QMI/QMAP dial path. Defined exclusive AT/QMI ownership and a read-only,
+  evidence-first neighbour-cell plan; its root cause remains `UNKNOWN`.
+- Defined the proposed Run 21 changeset, build gates and RAM retest plan without
+  implementing code, changing source/profile/package locks, triggering Run 21,
+  starting Full or modifying the device.
+
 ### DEVICE-01R Analysis
 
 - Added a durable Original 24.10 -> Run 20 Rescue -> expected Full feature-gap

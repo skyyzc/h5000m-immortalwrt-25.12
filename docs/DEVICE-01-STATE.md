@@ -259,6 +259,11 @@ device configuration change.
   `docs/DEVICE-01R-GAP-AUDIT.md`. It preserves all Rescue core PASS evidence,
   separates per-feature maturity, and leaves the four demonstrated issues for
   review rather than starting an implicit repair or Full build.
+- DEVICE-01F repair design is `COMPLETE` in
+  `docs/DEVICE-01F-REPAIR-DESIGN.md`. Notification and RG520 profile designs
+  are ready for owner review; IPv6 and neighbour-cell root causes remain
+  `UNKNOWN` and therefore have evidence-first plans rather than speculative
+  fixes. Run 21 has not been triggered.
 
 SOURCE_LOCKED: `YES`
 CONFIG_RESOLVED: `YES`
@@ -284,3 +289,6 @@ FINAL_FEATURE_COMPLETE: `NO`
 FULL_INTEGRATION_COMPLETE: `NO`
 DEVICE-01R_ANALYSIS: `COMPLETE`
 REPAIR_PLAN_READY: `YES`
+DEVICE-01F_DESIGN: `COMPLETE`
+RUN21_CHANGESET_DESIGN: `READY`
+RUN21_TRIGGERED: `NO`
