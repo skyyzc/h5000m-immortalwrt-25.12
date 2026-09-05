@@ -1,6 +1,6 @@
 # DEVICE-01R Root-Cause and Feature-Gap Audit
 
-Date: 2026-09-05  
+Date: 2026-09-05
 Branch / analysis HEAD: `rebuild-v1` / `9eb92abd0dd0864a67eae086487fd3e7c8b79c1b`
 
 ## Scope and decision
@@ -172,12 +172,17 @@ third-party repository and recorded in `docs/PACKAGES.md`/candidate locks.
 
 ## Final status and stop
 
-DEVICE-01: `PASS_WITH_KNOWN_ISSUES`  
-DEVICE-01R_ANALYSIS: `COMPLETE`  
-RESCUE_CORE_VALIDATED: `YES`  
-FINAL_FEATURE_COMPLETE: `NO`  
-FULL_INTEGRATION_COMPLETE: `NO`  
-REPAIR_PLAN_READY: `YES`  
+DEVICE-01: `PASS_WITH_KNOWN_ISSUES`
+
+DEVICE-01R_ANALYSIS: `COMPLETE`
+
+RESCUE_CORE_VALIDATED: `YES`
+
+FINAL_FEATURE_COMPLETE: `NO`
+
+FULL_INTEGRATION_COMPLETE: `NO`
+
+REPAIR_PLAN_READY: `YES`
 REVIEW_REQUIRED: `YES`
 
 No Run 21, build, source/config/package change, Full work, device write,
