@@ -91,3 +91,78 @@ Read in order: Charter -> `PROJECT_STATE.md` -> task matrices/evidence. Expand
 history only when evidence is insufficient or contradictory. Do not perform
 routine broad audits or turn micro fixes into broad docs. Governance is not a
 product feature and must not change runtime behavior.
+
+## Canonical truth hierarchy and anti-drift
+
+Authority is layered:
+
+- `LEVEL 0 — Exact evidence`: Git commit identity, build manifests, artifact
+  hashes, formal run evidence, and real-device evidence.
+- `LEVEL 1 — Product strategy/policy`: this Charter.
+- `LEVEL 2 — Durable capability truth`: `docs/PRODUCT-MATRIX.md`,
+  `docs/VENDOR-COMPATIBILITY-MATRIX.md`, `docs/HIGO-FEATURES.md`, and
+  `docs/PACKAGES.md`.
+- `LEVEL 3 — Current operational state`: `PROJECT_STATE.md`.
+- `LEVEL 4 — Chronology/history`: run ledger, `CHANGELOG.md`, and historical
+  reports.
+
+Lower levels must not silently redefine higher-level policy or exact evidence.
+A run failure may update current state and an affected capability, but may not
+rewrite product goals, remove another domain, change legacy migration policy,
+or weaken safety. Reference the canonical owner instead of maintaining a
+second independent copy whenever possible.
+
+Canonical ownership is:
+
+- the Charter owns product goal, permanent domains, branch roles, engineering
+  governance, and safety policy;
+- `PRODUCT-MATRIX` owns cross-domain capability coverage and status;
+- `VENDOR-COMPATIBILITY-MATRIX` owns vendor/legacy migration classification;
+- `HIGO-FEATURES` owns detailed Higo maturity, gaps, and next steps;
+- `PACKAGES` owns component version, source, provenance, and adaptation truth;
+- `PROJECT_STATE` owns only current phase/run/gate, identities, and pointers;
+- exact build/device evidence owns observed facts for that exact run; and
+- CHANGELOG/run ledger owns chronology and must not become current policy.
+
+For conflicts: exact direct evidence wins over summaries for observed facts;
+the canonical owner wins within its subject; and higher-level policy wins over
+lower-level narrative. If two canonical sources genuinely conflict, mark
+`CANONICAL_CONFLICT` and stop actions that depend on the unresolved fact. Never
+resolve a contradiction by deleting historical evidence.
+
+The Charter changes only for a real change to product goal, permanent domain
+model, branch/repository governance, safety model, or durable engineering
+governance. A new defect, run failure, package upgrade, fixture/test change,
+build result, or temporary blocker does not by itself justify a Charter edit.
+
+Every maturity/status promotion cites new evidence. Never strengthen
+`UNKNOWN`, `UNVERIFIED`, `PARTIAL`, `BLOCKED_BY_EVIDENCE`, or
+`HISTORICALLY_RUNNING` merely to make documents agree. When new evidence
+contradicts an earlier conclusion, preserve the earlier evidence and record the
+new state and reason.
+
+Permanent capabilities in `PRODUCT-MATRIX` do not disappear when deferred,
+blocked, unverified, or outside a task. Deletion requires an explicit
+Charter-level product-scope decision. This invariant includes platform
+hardware; MT7992/vendor parity; firmware/EEPROM/calibration; WED/HNAT/offload;
+RG520 lifecycle/reconnect; complete Higo scope; historical Full recovery;
+recovery and rollback; upstream lifecycle; OTA; stable promotion; and
+persistent/eMMC safety.
+
+A local blocker may raise priority within its domain, but must not erase,
+downgrade, or silently defer unrelated domains. Only a demonstrable dependency
+of the current milestone may make it a global `P0`.
+
+### Governance and firmware identity separation
+
+`GOVERNANCE_HEAD` is the current `rebuild-v1` commit containing governance and
+documentation state. `FIRMWARE_IMPLEMENTATION_BASELINE` is the exact commit
+whose runtime implementation is being validated. They may differ.
+
+For Run 23, `RUN23_FIRMWARE_IMPLEMENTATION_SHA` is
+`32e385cbbdfeace84d7bb9032cad18c753debb21`. Documentation-only commits must not
+replace that identity or imply new firmware maturity. A later
+`PROJECT_BUILD_SHA` may differ only when its relationship to the implementation
+baseline is explicit. When only governance/docs changed, record
+`RUNTIME_DELTA_FROM_FIRMWARE_BASELINE=NONE`; never infer firmware maturity from
+`GOVERNANCE_HEAD`.

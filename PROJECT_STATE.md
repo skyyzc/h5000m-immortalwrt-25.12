@@ -6,12 +6,18 @@ remain authoritative.
 ## Current repository and gate
 
 - `ACTIVE_PRODUCT_BRANCH=rebuild-v1`
+- `PROJECT_CONSOLIDATION_V2=PASS`
+- `ANTI_DRIFT_CONTRACT=PASS` (effective in the commit containing this file)
+- `GOVERNANCE_HEAD=HEAD` (resolve the exact current identity with
+  `git rev-parse HEAD`; a Git commit cannot embed its own hash)
 - `RUN23_FIRMWARE_IMPLEMENTATION_SHA=32e385cbbdfeace84d7bb9032cad18c753debb21`
+- `RUN23_FIRMWARE_BASELINE_PRESERVED=YES`
+- `RUNTIME_DELTA_FROM_RUN23_FIRMWARE_BASELINE=NONE`
 - `RUN23_BUILD_STARTED=NO`
-- `CURRENT_PHASE=PROJECT_CONSOLIDATION_V2`
+- `CURRENT_PHASE=GOVERNANCE_ANTI_DRIFT_01`
 - `CURRENT_GATE=DOCUMENTATION_GOVERNANCE_ONLY`
-- `STOP_CONDITION=commit/push consolidation; no build or device operation`
-- `NEXT_GATE=OWNER_REVIEW_PROJECT_CONSOLIDATION_V2`
+- `STOP_CONDITION=commit/push anti-drift contract; no build or device operation`
+- `NEXT_GATE=OWNER_REVIEW_GITHUB_CANONICAL_GOVERNANCE`
 - Exact locks: `versions/candidate.json`, `versions/stable.json`
 
 ## Current run maturity

@@ -4,6 +4,10 @@ All permanent domains remain visible. Allowed states are `PASS`, `PARTIAL`,
 `FAIL`, `BLOCKED_BY_EVIDENCE`, `DEFERRED`, `UNVERIFIED`, `PROHIBITED`,
 `HISTORICALLY_RUNNING`, and `HISTORICALLY_FUNCTION_TESTED`.
 
+Permanent capabilities remain listed even when deferred, blocked, unverified,
+or outside the current task. Removal requires an explicit Charter-level
+product-scope decision.
+
 | Domain | Capability | Status | Evidence / next boundary |
 |---|---|---|---|
 | PLATFORM_HARDWARE | H5000M MT7987A boot/board | PASS | Run 21 last function-tested Rescue; Run 22 RAM boot passed |

@@ -20,6 +20,14 @@ Do not perform routine full-repository or full-history audits. Micro fixes do
 not require broad documentation churn. Governance records reusable policy;
 `PROJECT_STATE.md` records current pointers; `CHANGELOG.md` records chronology.
 
+Before editing governance/state, identify the canonical owner of each fact and
+update only that owner where possible; other documents should reference it.
+Do not change the Charter for ordinary implementation, build, or run failures;
+remove permanent `PRODUCT-MATRIX` capabilities; or promote maturity without new
+direct evidence. Preserve `GOVERNANCE_HEAD` versus
+`FIRMWARE_IMPLEMENTATION_BASELINE`. If canonical owners conflict, record
+`CANONICAL_CONFLICT` and stop actions that depend on that fact.
+
 ## Evidence and maturity
 
 Use `CONFIRMED`, `PARTIAL`, `INFERRED`, `UNVERIFIED`, or `UNKNOWN`. Direct

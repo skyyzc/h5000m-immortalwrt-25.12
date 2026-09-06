@@ -1,5 +1,16 @@
 # Changelog
 
+## GOVERNANCE-ANTI-DRIFT-01
+
+- Added a canonical truth hierarchy, subject ownership, conflict handling,
+  Charter mutation, evidence promotion, permanent capability coverage, and
+  anti-single-blocker contract to prevent future documentation drift.
+- Separated the current governance HEAD from Run 23's firmware implementation
+  baseline `32e385cbbdfeace84d7bb9032cad18c753debb21`; this documentation-only
+  change has no runtime delta and does not alter Run 23 maturity.
+- No firmware, config, package selection, source lock, build, device, or
+  persistent operation occurred.
+
 ## PROJECT-CONSOLIDATION-V2
 
 - Added the project Charter plus product-domain and vendor-compatibility
