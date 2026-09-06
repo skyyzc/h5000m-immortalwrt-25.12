@@ -1,5 +1,33 @@
 # Changelog
 
+## RUN23 Rescue build and exact-run RAM validation
+
+- GitHub Actions Run ID `34029006688`, Run Number `23`, Attempt `1` built the
+  `rescue` candidate successfully from project SHA
+  `4aa49855a3a6932a72abd36366ba2a8749f04470` and locked ImmortalWrt SHA
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`. Artifact ID `9990359371`,
+  `h5000m-rescue-4aa49855-1d34e7b8-run23-attempt1`, passed acceptance; the
+  artifact archive digest is
+  `sha256:e90c0631eb3ac4929ed8f813f7d5f411127522f4bc023190fc322eb6e6ed528d`;
+  the
+  initramfs firmware is `19972420` bytes with SHA256
+  `6f1eeacd469fdbae5d1d0231b1ecdfa31559f866551b97052b7453cd4dd94f52`.
+- The owner RAM-booted that exact artifact. Run/build/source/profile identity,
+  initramfs tmpfs operation, and read-only mounting of the original squashfs
+  passed. The installed USBv6 hook and IPv6 reconciler hashes matched the
+  approved Run 23 source, and live USBv6 exposed `wwan0_1` plus one shared
+  canonical global /64.
+- The primary repair gate failed: no reconciler-owned `br-lan` metric-1
+  protocol-242 route, helper runtime state, or helper log appeared after the
+  actual interface lifecycle. The first demonstrated causal failure remains at
+  the hotplug dispatch-or-helper-execution boundary; its internal cause is not
+  yet proven. Per the work order, nonessential regression stopped and no repair
+  or later build was started.
+- After the owner's normal power cycle, original ImmortalWrt 24.10 with its
+  squashfs/F2FS overlay, Higo/LuCI HTTP service, LAN, both radios, QModem and
+  QMI/QMAP interfaces recovered; Run 23 build identity was absent and no
+  critical crash or persistent-modification evidence was observed.
+
 ## CODEX-TASK-LOG-V1
 
 - Added a small, sanitized, structured task-log template, policy, and

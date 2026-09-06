@@ -20,11 +20,11 @@ remain authoritative.
 - `RUN23_FIRMWARE_IMPLEMENTATION_SHA=32e385cbbdfeace84d7bb9032cad18c753debb21`
 - `RUN23_FIRMWARE_BASELINE_PRESERVED=YES`
 - `RUNTIME_DELTA_FROM_RUN23_FIRMWARE_BASELINE=NONE`
-- `RUN23_BUILD_STARTED=NO`
+- `RUN23_BUILD_STARTED=YES`
 - `CURRENT_PHASE=RESCUE_ENGINEERING`
-- `CURRENT_GATE=OWNER_AUTHORIZATION_RUN23_RESCUE_BUILD`
-- `STOP_CONDITION=await explicit Owner authorization before Run 23 build`
-- `NEXT_GATE=OWNER_AUTHORIZATION_RUN23_RESCUE_BUILD`
+- `CURRENT_GATE=OWNER_REVIEW_RUN23_RAM_FAILURE`
+- `STOP_CONDITION=await Owner review of the Run 23 RAM failure evidence`
+- `NEXT_GATE=OWNER_REVIEW_RUN23_RAM_FAILURE`
 - Exact locks: `versions/candidate.json`, `versions/stable.json`
 
 ## Current run maturity
@@ -43,18 +43,24 @@ remain authoritative.
 
 - `RUN23_IMPLEMENTATION=PASS`
 - `RUN23_STATIC_FIXTURE=PASS`
-- `RUN23_BUILD=NOT_STARTED`
-- `RUN23_DEVICE=UNVERIFIED`
+- `RUN23_BUILD=PASS`; `RUN23_ARTIFACT_ACCEPTANCE=PASS`;
+  `RUN23_RAM_BOOT=PASS`; `RUN23_DEVICE_FUNCTION=FAIL`;
+  `RUN23_PERSISTENT_RECOVERY=PASS`
+- `RUN23_CAUSAL_BOUNDARY=the exact installed USBv6/wwan0_1 hook and reconciler
+  matched the accepted source, and live USBv6 exposed one shared global /64,
+  but no reconciler-owned br-lan metric-1 protocol-242 route, runtime state, or
+  helper log was produced after the actual interface lifecycle; failure remains
+  at the hotplug dispatch-or-helper-execution boundary`
 - `IPV6_SELECTED_DESIGN=DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE`
 - Run 23 changes only the reviewed dispatch boundary: `USBv6` logical-interface
   lifecycle with the `wwan0_1` device guard where netifd provides it.
 
 ## Current authorization
 
-- This state transition is documentation-only; the Run 23 build remains at its
-  separate Owner authorization gate.
-- No runtime, firmware, config, package selection, source lock, build, RAM boot,
-  Full, stable, sysupgrade, device, or persistent operation is authorized.
+- Run 23 RAM validation is complete and failed its primary runtime repair gate;
+  no automatic repair or subsequent build is authorized.
+- No runtime, firmware, config, package selection, source lock, Full, stable,
+  sysupgrade, device mutation, or persistent operation is authorized.
 - `PERSISTENT_STORAGE_MODIFIED=NO`; `FULL_STARTED=NO`.
 
 ## Durable pointers
