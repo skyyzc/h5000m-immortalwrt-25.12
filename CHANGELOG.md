@@ -1,5 +1,18 @@
 # Changelog
 
+## CANONICAL-GOVERNANCE-FINAL-CORRECTION-01
+
+- Corrected the Charter progression so `CORE_RESCUE` closes before Full
+  Required recovery and Full Optional integration, followed by Full RAM,
+  recovery/rollback, lifecycle, manual stable, and separately authorized
+  persistent gates.
+- Expanded the canonical Product Matrix into durable per-capability rows for
+  platform, vendor wireless, RG520 lifecycle, Higo scope, individual Full
+  capabilities, and distinct lifecycle gates without promoting maturity.
+- Preserved Run 23 firmware baseline
+  `32e385cbbdfeace84d7bb9032cad18c753debb21`; no runtime/config/package/source,
+  build, device, or persistent change occurred.
+
 ## GOVERNANCE-ANTI-DRIFT-01
 
 - Added a canonical truth hierarchy, subject ownership, conflict handling,

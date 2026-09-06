@@ -7,10 +7,19 @@ this charter or make other product domains disappear.
 ## Product goal and permanent mainline
 
 Maintain an evolvable ImmortalWrt 25.12 product for Hiveton H5000M:
-ImmortalWrt upstream -> H5000M hardware adaptation -> permanent Higo
-compatibility -> LuCI coexistence -> RG520N-CN -> optional integrations ->
-Rescue RAM validation -> Full -> manual stable promotion -> persistent/eMMC
-only after recovery and rollback are proven.
+ImmortalWrt 25.12 upstream -> H5000M hardware/vendor adaptation -> Higo + LuCI
++ RG520 `CORE_RESCUE` -> Rescue RAM closure -> Full Required capability
+recovery -> Full Optional integrations -> Full RAM closure -> recovery/rollback
+proof -> upstream/update/OTA lifecycle -> manual stable promotion ->
+persistent/eMMC only after all required safety gates are proven and separately
+authorized.
+
+`CORE_RESCUE` is independent from Full Optional components. `FULL_REQUIRED`
+capabilities are product capabilities that must be recovered, provenanced,
+adapted, built, and function-tested rather than silently treated as optional
+plugins. `FULL_OPTIONAL` remains permanently visible but does not block Rescue
+unless a demonstrated dependency exists. Persistent/eMMC is prohibited in the
+current phase.
 
 Six permanent domains remain visible simultaneously:
 
