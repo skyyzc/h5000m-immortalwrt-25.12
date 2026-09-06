@@ -564,3 +564,33 @@ RUN22_FUNCTION_TESTED: `UNVERIFIED`
 RUN22_RAM_BOOT_AUTHORIZED: `NO`
 DEVICE_MODIFIED_RUN22_BUILD: `NO`
 PERSISTENT_STORAGE_MODIFIED_RUN22_BUILD: `NO`
+
+## Run 22 exact-run Rescue RAM validation
+
+- Exact local firmware name, size and SHA256 matched the accepted Run 22
+  artifact. Runtime identity matched Run ID `33987589482`, project
+  `ca75cc3d6a9b7ce1907656d585fa1c5b283c030b`, ImmortalWrt
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0` and profile `rescue`.
+- RAM safety passed: `rootfs_type=initramfs`, `/` was tmpfs and the original
+  squashfs was mounted read-only.
+- IPv6 implementation failed before function validation. netifd brought up
+  logical interface `USBv6` on device `wwan0_1`; the hook required
+  `INTERFACE=wwan0_1` and therefore never dispatched the helper. No helper
+  state/log or owned `br-lan` metric `1`, protocol `242` route existed. The
+  ordinary cellular metric `256` route remained preferred over LAN metric
+  `1024` for the shared `/64`.
+- Higo/LuCI HTTP, LAN, both APs, RG520, QModem/QMI/QMAP and device-side IPv6
+  passed bounded sanity, but reconnect/lifecycle and two-client tests were not
+  run after the critical failure and remain `UNVERIFIED`.
+- Owner power-cycle recovery passed. Original ImmortalWrt 24.10 squashfs/F2FS
+  overlay, Higo/LuCI, LAN, radios and RG520/QMI/QMAP returned; Run 22 identity
+  was absent. Persistent storage modified: `NO`.
+- Full evidence: `docs/RUN22-EXACT-RUN-RAM-VALIDATION-REPORT.md`.
+
+RUN22_RAM_BOOT_OK: `PASS`
+RUN22_RUNTIME_IDENTITY_MATCH: `PASS`
+RUN22_DEVICE_OK: `FAIL`
+RUN22_FUNCTION_TESTED: `FAIL`
+RUN22_FAILURE_BOUNDARY: `HOTPLUG_LOGICAL_INTERFACE_FILTER_MISMATCH`
+RUN22_PERSISTENT_RECOVERY_OK: `PASS`
+PERSISTENT_STORAGE_MODIFIED_RUN22_RAM: `NO`

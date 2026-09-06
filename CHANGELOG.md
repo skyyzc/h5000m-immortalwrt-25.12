@@ -1,5 +1,25 @@
 # Changelog
 
+## RUN22 exact-run Rescue RAM validation
+
+- The owner RAM-booted the exact accepted Run 22 image. Artifact identity,
+  embedded Run/project/source/profile identity, initramfs/tmpfs operation and
+  read-only original squashfs all passed.
+- The IPv6 repair failed at its first runtime dispatch boundary. netifd raised
+  logical interface `USBv6` on device `wwan0_1`, while the installed hotplug
+  hook accepted only `INTERFACE=wwan0_1`; it exited without invoking the
+  reconciler. No owned metric-1 protocol-242 LAN route, helper state or helper
+  log appeared, and the conflicting cellular metric-256 route remained ahead
+  of the LAN metric-1024 route.
+- Stopped before reconnect/lifecycle or two-client testing. Bounded sanity
+  retained Higo/LuCI, LAN, radios, RG520, QMI/QMAP and device-side IPv6, but
+  does not satisfy the full Run 22 regression contract.
+- After owner power-cycle, original ImmortalWrt 24.10 squashfs/F2FS overlay,
+  Higo/LuCI, LAN, radios and RG520/QMI/QMAP returned and Run 22 identity was
+  absent. `RUN22_RAM_BOOT_OK=PASS`, `RUN22_FUNCTION_TESTED=FAIL`, persistent
+  storage modified `NO`. No repair, Run 23, Full or persistent action occurred.
+  Detailed evidence: `docs/RUN22-EXACT-RUN-RAM-VALIDATION-REPORT.md`.
+
 ## RUN22-BUILD
 
 - Triggered exactly one authorized `rescue` / `candidate` build from accepted
