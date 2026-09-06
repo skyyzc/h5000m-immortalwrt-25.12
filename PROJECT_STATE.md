@@ -22,9 +22,9 @@ remain authoritative.
 - `RUNTIME_DELTA_FROM_RUN23_FIRMWARE_BASELINE=NONE`
 - `RUN23_BUILD_STARTED=YES`
 - `CURRENT_PHASE=RESCUE_ENGINEERING`
-- `CURRENT_GATE=OWNER_REVIEW_RUN23_RUNTIME_OBSERVATION`
-- `STOP_CONDITION=await Owner review of the proven Run 23 helper failure`
-- `NEXT_GATE=OWNER_REVIEW_RUN23_RUNTIME_OBSERVATION`
+- `CURRENT_GATE=OWNER_AUTHORIZATION_RUN24_RESCUE_BUILD`
+- `STOP_CONDITION=await explicit Owner authorization before Run 24 build`
+- `NEXT_GATE=OWNER_AUTHORIZATION_RUN24_RESCUE_BUILD`
 - Exact locks: `versions/candidate.json`, `versions/stable.json`
 
 ## Current run maturity
@@ -46,6 +46,7 @@ remain authoritative.
 - `RUN23_BUILD=PASS`; `RUN23_ARTIFACT_ACCEPTANCE=PASS`;
   `RUN23_RAM_BOOT=PASS`; `RUN23_DEVICE_FUNCTION=FAIL`;
   `RUN23_PERSISTENT_RECOVERY=PASS`
+- `RUN23_DEVICE=FAIL`; `RUN23_ROOT_CAUSE=PROVEN`
 - `RUN23_CAUSAL_BOUNDARY=the exact installed USBv6/wwan0_1 hook and reconciler
   matched the accepted source, and live USBv6 exposed one shared global /64,
   but no reconciler-owned br-lan metric-1 protocol-242 route, runtime state, or
@@ -57,14 +58,20 @@ remain authoritative.
 - `RUN23_ROOT_CAUSE=the helper enables set -u before sourcing the locked
   jshn.sh; json_init calls json_cleanup, which reads unset JSON_PREFIX and exits
   with parameter-not-set status 2 before json_load or route reconciliation`
+- `RUN24_FIRMWARE_IMPLEMENTATION_SHA=895b679d1778ab9a2fbde553774104df99a7c0ae`
+- `RUN24_IMPLEMENTATION=PASS`; `RUN24_BUILD=NOT_STARTED`;
+  `RUN24_DEVICE=UNVERIFIED`
+- `RUN24_STATIC_GATES=PASS`: locked-jshn nounset regression, all 16 route
+  fixtures, hotplug contract, shell syntax, double apply, exact install and
+  ownership/prohibited-mutation checks passed.
 - `IPV6_SELECTED_DESIGN=DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE`
 - Run 23 changes only the reviewed dispatch boundary: `USBv6` logical-interface
   lifecycle with the `wwan0_1` device guard where netifd provides it.
 
 ## Current authorization
 
-- Run 23 RAM diagnosis proved the helper's first causal failure; no automatic
-  repair or subsequent build is authorized.
+- Run 24 contains only the reviewed minimal jshn nounset compatibility repair;
+  no build or device validation is authorized without the next Owner gate.
 - No runtime, firmware, config, package selection, source lock, Full, stable,
   sysupgrade, device mutation, or persistent operation is authorized.
 - `PERSISTENT_STORAGE_MODIFIED=NO`; `FULL_STARTED=NO`.
