@@ -1,5 +1,8 @@
 # Higo feature matrix
 
+This file owns detailed Higo gaps and next steps. Cross-domain product status
+is summarized without duplicating this matrix in `PRODUCT-MATRIX.md`.
+
 The complete Original 24.10 -> Run 20 Rescue -> expected Full classification,
 root-cause reports and priority backlog are in `DEVICE-01R-GAP-AUDIT.md`. This
 file remains the authoritative concise Higo feature gap/next-step matrix.

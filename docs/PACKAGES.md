@@ -1,5 +1,9 @@
 # Package baseline
 
+Vendor capability migration and legacy/current compatibility are tracked in
+`VENDOR-COMPATIBILITY-MATRIX.md`; this file remains authoritative for component
+origin, exact provenance, adaptation, and validation state.
+
 Versions below distinguish historical runtime evidence from Run 20's clean
 Rescue build evidence. `UNKNOWN` means an exact version or upstream source
 commit was not proven; a successful build does not prove device behavior.

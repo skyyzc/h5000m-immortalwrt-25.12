@@ -1,5 +1,25 @@
 # Changelog
 
+## PROJECT-CONSOLIDATION-V2
+
+- Added the project Charter plus product-domain and vendor-compatibility
+  matrices so six permanent domains, legacy migration classes, branch roles,
+  Full capability baseline, blocker locality, and RAM-first lifecycle remain
+  visible independently of the newest defect.
+- Consolidated `AGENTS.md` into reusable execution, evidence, provenance,
+  secret, owner-gate, and safety rules, and reduced `PROJECT_STATE.md` to
+  current Run 21/22/23 maturity and durable pointers. Historical run/failure
+  records were not rewritten.
+- Preserved exact pre-consolidation Run 23 firmware implementation baseline
+  `32e385cbbdfeace84d7bb9032cad18c753debb21`. No firmware runtime, config,
+  package selection, source lock, build, device, Full, or persistent change.
+- Deferred machine-readable run-ledger and capability-manifest generation until
+  after Run 23 because current build/report integration is a separate formal
+  build-contract change.
+- Future entries record meaningful firmware changes, formal builds and
+  failures/repairs, device evidence, milestones, and releases; routine micro
+  edits need not create broad chronological noise.
+
 ## IPV6-RUN23-DISPATCH-REPAIR-01
 
 - Preserved Run 22's exact-run failure and repaired only its confirmed first

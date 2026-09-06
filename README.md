@@ -1,5 +1,9 @@
 # H5000M Firmware
 
+Project governance starts with `H5000M-PROJECT-CHARTER.md`; current execution
+state and cross-domain status are indexed by `PROJECT_STATE.md` and
+`docs/PRODUCT-MATRIX.md`.
+
 Source-locked firmware project for the Hiveton H5000M: MT7987A, about 1 GiB
 RAM, about 8 GiB eMMC, two 2.5 GbE ports, MT7992 Wi-Fi and an RG520N-CN
 modem (`2c7c:0801`). The software target is ImmortalWrt 25.12 with the
