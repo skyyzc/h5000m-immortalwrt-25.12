@@ -1,5 +1,18 @@
 # Changelog
 
+## RUN22-BUILD
+
+- Triggered exactly one authorized `rescue` / `candidate` build from accepted
+  `rebuild-v1` project SHA
+  `ca75cc3d6a9b7ce1907656d585fa1c5b283c030b`. Workflow `Build H5000M
+  firmware`, Run ID `33987589482`, Run Number `22`, Attempt `1` is
+  `IN_PROGRESS`; result and artifact acceptance remain `UNKNOWN`.
+- Entered `WAITING_EXTERNAL` with last confirmed gate equal to the accepted
+  IPv6 implementation/static gates. Active polling, rerun, Run 23, device/RAM
+  boot, Full, source-lock/package-selection change, and persistent operations
+  remain prohibited. Resume on an explicitly reported terminal status for
+  artifact acceptance or first-causal-error diagnosis.
+
 ## IPV6-RUN22-IMPLEMENTATION-01
 
 - Implemented the approved IPv6-only PROJECT_LOCAL shared-prefix route

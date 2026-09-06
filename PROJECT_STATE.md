@@ -26,18 +26,21 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `IPV6-RUN22-IMPLEMENTATION-01 / COMPLETE`
-- `CURRENT_TASK`: the reviewed IPv6-only dynamic preferred LAN shared-prefix
-  route helper, iface lifecycle hook, deterministic fixtures, and static/build
-  gates are implemented; stop for owner review without building Run 22.
-- `CURRENT_RUN`: Run 21 RAM validation is complete; no external run is active.
-- `CURRENT_GATE`: `IPV6_IMPLEMENTATION_COMPLETE=YES`;
-  `RUN22_CHANGESET_READY=YES`; `STATIC_GATES_PASS=YES`;
-  `BUILD_WORTH_TRIGGERING=YES`. Run 22 remains separately unauthorized and
-  untriggered.
-- `STOP_CONDITION`: stop after implementation/evidence synchronization,
-  validation, commit, and normal push; do not build Run 22, begin Full, change
-  the device, or perform a persistent operation.
+- `CURRENT_PHASE`: `RUN22-BUILD / WAITING_EXTERNAL`
+- `CURRENT_TASK`: exactly one authorized Rescue/candidate Run 22 is executing
+  from the accepted IPv6-only implementation; wait without active polling,
+  then perform complete artifact acceptance after an externally confirmed
+  terminal result.
+- `CURRENT_RUN`: workflow `Build H5000M firmware`; Run ID `33987589482`; Run
+  Number `22`; Attempt `1`; branch `rebuild-v1`; project SHA
+  `ca75cc3d6a9b7ce1907656d585fa1c5b283c030b`; profile `rescue`; source
+  `candidate`; status `IN_PROGRESS`; result `UNKNOWN`.
+- `CURRENT_GATE`: `RUN22_TRIGGERED=YES`; `EXTERNAL_BUILD=RUNNING`;
+  `RUN22_ARTIFACT_ACCEPTANCE=UNKNOWN`. Last confirmed local gate: accepted
+  implementation/static gates and exact clean local/remote project SHA.
+- `STOP_CONDITION`: `WAIT_REASON=GITHUB_ACTIONS_RUN_22`; stop active polling.
+  Resume only after explicit owner continuation/status change, query the exact
+  run once, and accept success artifacts or diagnose the first causal failure.
 - `CURRENT_TASK_REQUIRED_FILES`: `AGENTS.md`, `PROJECT_STATE.md`, `README.md`,
   latest relevant `CHANGELOG.md` section, current summary in
   `docs/DEVICE-01-STATE.md`, and the current task specification.
@@ -132,8 +135,9 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: owner review for Run 22 build authorization. The IPv6-only
-  implementation and static gates pass; Run 22 is untriggered.
+- `NEXT_GATE`: externally confirmed Run 22 terminal status, followed by exact
+  artifact acceptance on success or first-causal-error review on failure.
+  Run 22 RAM boot remains unauthorized.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets
