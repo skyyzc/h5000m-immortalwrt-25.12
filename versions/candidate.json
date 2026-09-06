@@ -58,6 +58,6 @@
       "status": "CONFIRMED"
     }
   },
-  "openappfilter": {"repository": null, "commit": null, "version": "7.0.1-r1", "status": "UNKNOWN"},
-  "wrtbwmon": {"repository": null, "commit": null, "version": "1.2.1-r3", "status": "UNKNOWN"}
+  "openappfilter": {"repository": "https://github.com/destan19/OpenAppFilter.git", "commit": "b88fcb082597486a816187ec1e02812082161d5e", "version": "7.0.1-r1", "status": "CONFIRMED"},
+  "wrtbwmon": {"repository": "https://github.com/brvphoenix/wrtbwmon.git", "commit": "f82f9b393842d2113c3253a4902af50bfc757e1a", "version": "1.2.1-r3", "luci_repository": "https://github.com/brvphoenix/luci-app-wrtbwmon.git", "luci_commit": "f1b59b2309a0bc45511a1e7432c6c72f080a47d7", "luci_version": "2.0.13", "status": "CONFIRMED"}
 }
