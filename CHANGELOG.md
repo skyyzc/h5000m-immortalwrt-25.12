@@ -1,5 +1,21 @@
 # Changelog
 
+## RUN23-HOTPLUG-RUNTIME-OBS-01
+
+- A tmpfs-only passive observer captured the natural Run 23 cellular startup.
+  `ACTION=ifup`, `INTERFACE=USBv6`, and present `DEVICE=wwan0_1` reached hook 95;
+  all guards passed, helper invocation was attempted, and the exact original
+  helper entry was reached. This disproves the prior guard-rejection hypothesis.
+- Shell execution tracing proved the first causal mechanism: the helper enables
+  `set -u` before sourcing the locked `jshn.sh`; `json_init` calls
+  `json_cleanup`, which reads unset `JSON_PREFIX`. The shell exited with status
+  2 before `json_load`, prefix selection, or route reconciliation, explaining
+  the absent helper state and protocol-242 route. No fix or build was performed.
+- All diagnostic instrumentation and raw trace existed only in Run 23 tmpfs.
+  After owner power-cycle, original ImmortalWrt 24.10, its overlay, Higo/LuCI,
+  LAN, both radios, QModem and QMI/QMAP interfaces recovered; Run 23 identity
+  was absent and persistent storage was not modified by this diagnostic.
+
 ## RUN23 Rescue build and exact-run RAM validation
 
 - GitHub Actions Run ID `34029006688`, Run Number `23`, Attempt `1` built the

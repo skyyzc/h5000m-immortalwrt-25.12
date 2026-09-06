@@ -22,9 +22,9 @@ remain authoritative.
 - `RUNTIME_DELTA_FROM_RUN23_FIRMWARE_BASELINE=NONE`
 - `RUN23_BUILD_STARTED=YES`
 - `CURRENT_PHASE=RESCUE_ENGINEERING`
-- `CURRENT_GATE=OWNER_REVIEW_RUN23_RAM_FAILURE`
-- `STOP_CONDITION=await Owner review of the Run 23 RAM failure evidence`
-- `NEXT_GATE=OWNER_REVIEW_RUN23_RAM_FAILURE`
+- `CURRENT_GATE=OWNER_REVIEW_RUN23_RUNTIME_OBSERVATION`
+- `STOP_CONDITION=await Owner review of the proven Run 23 helper failure`
+- `NEXT_GATE=OWNER_REVIEW_RUN23_RUNTIME_OBSERVATION`
 - Exact locks: `versions/candidate.json`, `versions/stable.json`
 
 ## Current run maturity
@@ -51,14 +51,20 @@ remain authoritative.
   but no reconciler-owned br-lan metric-1 protocol-242 route, runtime state, or
   helper log was produced after the actual interface lifecycle; failure remains
   at the hotplug dispatch-or-helper-execution boundary`
+- `RUN23_RUNTIME_OBSERVATION=PASS`; natural `ifup` reached hook 95 with
+  `INTERFACE=USBv6` and `DEVICE=wwan0_1`, passed every guard, invoked the helper,
+  and entered its exact original implementation.
+- `RUN23_ROOT_CAUSE=the helper enables set -u before sourcing the locked
+  jshn.sh; json_init calls json_cleanup, which reads unset JSON_PREFIX and exits
+  with parameter-not-set status 2 before json_load or route reconciliation`
 - `IPV6_SELECTED_DESIGN=DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE`
 - Run 23 changes only the reviewed dispatch boundary: `USBv6` logical-interface
   lifecycle with the `wwan0_1` device guard where netifd provides it.
 
 ## Current authorization
 
-- Run 23 RAM validation is complete and failed its primary runtime repair gate;
-  no automatic repair or subsequent build is authorized.
+- Run 23 RAM diagnosis proved the helper's first causal failure; no automatic
+  repair or subsequent build is authorized.
 - No runtime, firmware, config, package selection, source lock, Full, stable,
   sysupgrade, device mutation, or persistent operation is authorized.
 - `PERSISTENT_STORAGE_MODIFIED=NO`; `FULL_STARTED=NO`.
