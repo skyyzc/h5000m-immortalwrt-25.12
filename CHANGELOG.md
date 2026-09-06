@@ -1,5 +1,14 @@
 # Changelog
 
+## CODEX-TASK-LOG-V1
+
+- Added a small, sanitized, structured task-log template, policy, and
+  dependency-free recording script for significant engineering tasks. Task
+  logs remain scoped execution traces and do not replace canonical state,
+  CHANGELOG/run ledger, or exact evidence.
+- No firmware, config, package, source lock, workflow, build, device, or
+  persistent change occurred; Run 23 remains at its existing Owner build gate.
+
 ## CANONICAL-STATE-TRANSITION-01
 
 - Accepted and froze canonical governance. Engineering resumes at Owner

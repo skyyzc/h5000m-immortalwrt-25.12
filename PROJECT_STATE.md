@@ -14,6 +14,7 @@ remain authoritative.
 - `DISASTER_RECOVERY_CONTEXT_TEST=PASS`
 - `GOVERNANCE_FREEZE=YES`
 - `READY_TO_RESUME_ENGINEERING=YES`
+- `CODEX_TASK_LOG_V1=IMPLEMENTED`
 - `GOVERNANCE_HEAD=HEAD` (resolve the exact current identity with
   `git rev-parse HEAD`; a Git commit cannot embed its own hash)
 - `RUN23_FIRMWARE_IMPLEMENTATION_SHA=32e385cbbdfeace84d7bb9032cad18c753debb21`
