@@ -621,3 +621,19 @@ RUN23_BUILD_READY: `YES`
 RUN23_TRIGGERED: `NO`
 DEVICE_MODIFIED_RUN23_PREBUILD: `NO`
 PERSISTENT_STORAGE_MODIFIED_RUN23_PREBUILD: `NO`
+
+## Run 24 Rescue build bookkeeping
+
+GitHub Actions Run ID `34041525997`, Run Number `24`, Attempt `1`, project
+source `c5a3819fc237dfb07c4ad88899b339bfb9e86eea`, failed before firmware compile
+or artifact creation. The first causal failure was confined to the new jshn
+regression harness: the mock command environment was not exported reliably, so
+its expected post-initialization probe was not observed. This is not device
+evidence and does not promote or demote the preserved Run 21/22/23 technical
+maturity. The production helper was not changed by the harness correction.
+
+RUN24_BUILD: `FAIL`
+RUN24_DEVICE: `UNVERIFIED`
+RUN24_ARTIFACT_AVAILABLE: `NO`
+DEVICE_MODIFIED_RUN24_BUILD: `NO`
+PERSISTENT_STORAGE_MODIFIED_RUN24_BUILD: `NO`

@@ -1,5 +1,19 @@
 # Changelog
 
+## H5000M-FULL-CANDIDATE-V1-INTEGRATION
+
+- Integrated the first coherent Full Candidate source milestone as a strict
+  Rescue superset: exact OpenAppFilter and wrtbwmon source locks, current-feed
+  Full services, PROJECT_LOCAL fan/OAF compatibility packages, deterministic
+  lifecycle/safe-default transforms, and one shared profile-aware preflight.
+- Replaced the partial Run24 jshn fixture with the complete hash-verified locked
+  implementation and corrected the regression harness environment. GitHub Run
+  24 failed in that former harness before compile or artifact creation; the
+  production IPv6 helper was unchanged and Run24 device maturity remains
+  `UNVERIFIED`.
+- No build was triggered by this milestone. No device, persistent storage,
+  stable channel, or canonical governance state was changed.
+
 ## IPV6-RUN24-JSHN-NOUNSET-FIX-01
 
 - Kept helper `errexit` and all Run 22 route ownership plus Run 23 USBv6

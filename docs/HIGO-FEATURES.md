@@ -37,12 +37,12 @@ build history or repairs in `CHANGELOG.md`.
 | WAN | yes | eth1 no-link sample | rescue | netifd | UNKNOWN | no cable/link test | link test |
 | DHCP | yes | clients observed | rescue | dnsmasq | PRESERVED | none known | regression test |
 | IPv6 | yes | Run 21 device-side IPv6 works; real Wi-Fi client IPv6 fails; Run 22 repair was not dispatched | rescue | netifd/odhcpd/QMAP | PARTIAL / RUN22 FUNCTION_FAIL | Run 21 confirmed the same-prefix return-route collision. Run 22 exact-run evidence found netifd logical interface `USBv6`, but the new hook filtered for device name `wwan0_1`; the reconciler never ran and no owned preferred LAN route appeared | Owner review of exact dispatch failure; no repair or Run 23 without authorization |
-| Device list | yes | cache exists; clients not proven | full | Higo/wrtbwmon | PARTIAL | data contract unverified | authenticated UI test |
+| Device list | yes | cache exists; clients not proven | full | Higo/wrtbwmon | PARTIAL / BLOCKED_BY_EVIDENCE | exact wrtbwmon source and lifecycle are build-ready, but no proven Higo cache/API schema permits a safe adapter implementation | capture authenticated Full API payload and rendering after build |
 | Blacklist | yes | UNKNOWN | full | Higo/firewall | UNKNOWN | no operation evidence | functional test |
-| Traffic | yes | wrtbwmon collects | full | wrtbwmon/Higo | PARTIAL | Higo rendering unproven | adapter/UI test |
-| App filtering | yes | OAF services/data present | full | OpenAppFilter | PARTIAL | actual blocking untested | rule/block test |
+| Traffic | yes | wrtbwmon collects | full | wrtbwmon/Higo | PARTIAL / BLOCKED_BY_EVIDENCE | exact collector is build-ready; Higo traffic/ranking schema remains unproven | capture Full API payload then implement only if contract is real |
+| App filtering | yes | OAF services/data present | full | OpenAppFilter | PARTIAL | current OAF7 source plus legacy UCI/reload adapter is build-ready; Higo rule schema and actual blocking untested | build, inspect authenticated API, then controlled rule/block test |
 | Firewall | yes | base firewall works | rescue | firewall4 | PARTIAL | Higo editing untested | API/UI test |
-| DMZ | yes | UNKNOWN | full | firewall4 | UNKNOWN | no evidence | functional test |
+| DMZ | yes | backend adapter route present | full | firewall4 | PARTIAL | frontend/backend route is preserved; mutation untested | authenticated read then controlled RAM-only function test |
 | UPnP | yes | installed, disabled | full | miniupnpd | PARTIAL | mapping untested | controlled mapping test |
 | DDNS | yes | config readable | full | ddns-scripts | PARTIAL | update untested | test account later |
 | Fan | yes | dynamic PWM confirmed | full | fancontrol | PRESERVED | RPM sensor unavailable | clarify unsupported RPM |

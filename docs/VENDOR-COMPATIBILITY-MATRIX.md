@@ -13,9 +13,9 @@ contracts are distinct. Linux 6.6.94 `.ko` files must not be reused on 6.12.
 | qmi_wwan_f/q history | RG520 QMI/QMAP | exact qmi_wwan_q lock/in-tree 6.12 build | REPLACED | Run 20/21 data path; Run 22 build | reconnect/exact-run regression | core modem |
 | QModem controller | management/dial policy | exact lock plus local profile/redial adaptation | PORTED | current Rescue connectivity | adapters/neighbour/reconnect | modem/Higo |
 | legacy OAF kernel/userspace | app recognition/filtering | recover contract; never reuse kernel binary | SUPERSEDED | historical services/data | exact provenance UNKNOWN | Full required |
-| current OAF7 | current filter candidate | lock maintained source, adapt/build/RAM test | DEFERRED | inventory only | SHA/compatibility/block test | Full required |
-| fan control | thermal PWM | recover local policy/source via auditable interfaces | DEFERRED | historical PWM | provenance/current thermal test | hardware safety |
-| storage/service coupling | DiskMan/KSMBD/upgrade/backup | independent packages; external-media first | DEFERRED | historical UI/service | locks/write/recovery safety | Full/persistence |
+| current OAF7 | current filter candidate | exact source-built OAF7 plus PROJECT_LOCAL typed UCI/reload shim | PORTED | source lock and compatibility contract | build/kernel API/Higo block proof | Full required |
+| fan control | thermal PWM | PROJECT_LOCAL procd/UCI policy through pwm-fan sysfs | PORTED | historical PWM plus auditable source | build/current thermal test; RPM unsupported | hardware safety |
+| storage/service coupling | DiskMan/KSMBD/upgrade/backup | current feed packages; external-media first | MIGRATED | exact feed locks and explicit Full selection | build/external-media function; internal writes prohibited | Full/persistence |
 
 Migration classes are defined in the Charter. Exact component locks and
 ownership remain in `PACKAGES.md` and version-lock files.

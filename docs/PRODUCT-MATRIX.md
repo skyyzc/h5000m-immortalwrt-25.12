@@ -42,12 +42,12 @@ product-scope decision.
 | HIGO_PRODUCT | core CPE status/network presentation | PASS | Run 21 `4G + 5G` live resolver/title function evidence |
 | HIGO_PRODUCT | complete Rescue Higo scope | PARTIAL | `HIGO-FEATURES.md` exclusively owns detailed gaps and next steps |
 | HIGO_PRODUCT | complete Full Higo integration scope | DEFERRED | recover Full dependencies/contracts; details remain in HIGO-FEATURES |
-| FULL_CAPABILITIES | wrtbwmon collection | HISTORICALLY_FUNCTION_TESTED | historical collection worked; current 25.12 build/device proof absent |
+| FULL_CAPABILITIES | wrtbwmon collection | PARTIAL | exact current source and lifecycle adaptation ready for build; current build/device proof absent |
 | FULL_CAPABILITIES | Higo Device List integration | PARTIAL | historical cache/client evidence incomplete; adapter closure unresolved |
 | FULL_CAPABILITIES | Higo Traffic/ranking integration | PARTIAL | collector evidence does not prove current Higo rendering |
-| FULL_CAPABILITIES | OAF/OpenAppFilter | HISTORICALLY_RUNNING | legacy capability evidence only; current OAF7 needs source lock/adaptation/build/RAM function test |
-| FULL_CAPABILITIES | Higo OAF adapter/control contract | BLOCKED_BY_EVIDENCE | legacy/vendor assets are contract evidence, not current implementation proof |
-| FULL_CAPABILITIES | fancontrol | HISTORICALLY_FUNCTION_TESTED | dynamic PWM historical; current 25.12 validation absent; RPM unavailable |
+| FULL_CAPABILITIES | OAF/OpenAppFilter | PARTIAL | exact current source and Linux 6.12 source-build path configured; compile/RAM/block proof pending |
+| FULL_CAPABILITIES | Higo OAF adapter/control contract | PARTIAL | typed legacy-to-current enable/reload shim implemented; full rule/schema/block contract still needs RAM evidence |
+| FULL_CAPABILITIES | fancontrol | PARTIAL | PROJECT_LOCAL source/policy integrated; dynamic PWM historical; current build/RAM validation absent; RPM unsupported |
 | FULL_CAPABILITIES | DiskMan | PARTIAL | historical inventory/UI evidence; current safe write function unverified |
 | FULL_CAPABILITIES | KSMBD | HISTORICALLY_RUNNING | historical service/port; share read/write unverified |
 | FULL_CAPABILITIES | UPnP | HISTORICALLY_RUNNING | historical install/disabled state; controlled mapping unverified |

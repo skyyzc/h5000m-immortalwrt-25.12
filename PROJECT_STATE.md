@@ -21,10 +21,11 @@ remain authoritative.
 - `RUN23_FIRMWARE_BASELINE_PRESERVED=YES`
 - `RUNTIME_DELTA_FROM_RUN23_FIRMWARE_BASELINE=NONE`
 - `RUN23_BUILD_STARTED=YES`
-- `CURRENT_PHASE=RESCUE_ENGINEERING`
-- `CURRENT_GATE=OWNER_AUTHORIZATION_RUN24_RESCUE_BUILD`
-- `STOP_CONDITION=await explicit Owner authorization before Run 24 build`
-- `NEXT_GATE=OWNER_AUTHORIZATION_RUN24_RESCUE_BUILD`
+- `H5000M_FULL_CANDIDATE_V1_SOURCE_HEAD=e726c7088121b85005e48dca9644a98f2a09ac6e`
+- `CURRENT_PHASE=FULL_CANDIDATE_V1_SOURCE_INTEGRATION`
+- `CURRENT_GATE=OWNER_REVIEW_FULL_CANDIDATE_V1_SOURCE`
+- `STOP_CONDITION=await Owner review before any Rescue+Full build`
+- `NEXT_GATE=OWNER_REVIEW_FULL_CANDIDATE_V1_SOURCE`
 - Exact locks: `versions/candidate.json`, `versions/stable.json`
 
 ## Current run maturity
@@ -59,21 +60,30 @@ remain authoritative.
   jshn.sh; json_init calls json_cleanup, which reads unset JSON_PREFIX and exits
   with parameter-not-set status 2 before json_load or route reconciliation`
 - `RUN24_FIRMWARE_IMPLEMENTATION_SHA=895b679d1778ab9a2fbde553774104df99a7c0ae`
-- `RUN24_IMPLEMENTATION=PASS`; `RUN24_BUILD=NOT_STARTED`;
+- `RUN24_IMPLEMENTATION=PASS`; `RUN24_BUILD=FAIL`;
   `RUN24_DEVICE=UNVERIFIED`
 - `RUN24_STATIC_GATES=PASS`: locked-jshn nounset regression, all 16 route
   fixtures, hotplug contract, shell syntax, double apply, exact install and
   ownership/prohibited-mutation checks passed.
+- `RUN24_BUILD_RUN_ID=34041525997`; Run Number `24`, Attempt `1`, project
+  `c5a3819fc237dfb07c4ad88899b339bfb9e86eea`; the Rescue build stopped before
+  compile/artifact at the new jshn regression harness because its mock command
+  environment was not exported reliably. This is test-infrastructure failure,
+  not evidence that the Run24 production helper regressed.
+- `FULL_CANDIDATE_V1_SOURCE=READY_FOR_BUILD_REVIEW`: Full external sources are
+  exact-lock prepared; Core/Full profiles share one baseline; project-local fan
+  and OAF compatibility packages plus unified preflight are integrated. No Full
+  build or device maturity is implied.
 - `IPV6_SELECTED_DESIGN=DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE`
 - Run 23 changes only the reviewed dispatch boundary: `USBv6` logical-interface
   lifecycle with the `wwan0_1` device guard where netifd provides it.
 
 ## Current authorization
 
-- Run 24 contains only the reviewed minimal jshn nounset compatibility repair;
-  no build or device validation is authorized without the next Owner gate.
-- No runtime, firmware, config, package selection, source lock, Full, stable,
-  sysupgrade, device mutation, or persistent operation is authorized.
+- The Full Candidate source milestone changed firmware/package/config/source
+  preparation and workflow validation. A formal build, RAM/device validation,
+  stable promotion, sysupgrade, device mutation, or persistent operation is not
+  authorized without a separate Owner gate.
 - `PERSISTENT_STORAGE_MODIFIED=NO`; `FULL_STARTED=NO`.
 
 ## Durable pointers
