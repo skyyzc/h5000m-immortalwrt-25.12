@@ -1,5 +1,11 @@
 # Changelog
 
+## CANONICAL-STATE-TRANSITION-01
+
+- Accepted and froze canonical governance. Engineering resumes at Owner
+  authorization for the Run 23 Rescue build; no firmware, runtime, config,
+  package, source, build, device, or persistent change occurred.
+
 ## CANONICAL-GOVERNANCE-FINAL-CORRECTION-01
 
 - Corrected the Charter progression so `CORE_RESCUE` closes before Full

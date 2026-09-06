@@ -6,20 +6,24 @@ remain authoritative.
 ## Current repository and gate
 
 - `ACTIVE_PRODUCT_BRANCH=rebuild-v1`
-- `PROJECT_CONSOLIDATION_V2=PASS`
-- `ANTI_DRIFT_CONTRACT=PASS` (effective in the commit containing this file)
-- `CANONICAL_GOVERNANCE_FINAL_CORRECTION=PASS` (effective in the commit
-  containing this file)
+- `PROJECT_CONSOLIDATION_V2=ACCEPTED`
+- `ANTI_DRIFT_CONTRACT=ACCEPTED`
+- `CANONICAL_GOVERNANCE_FINAL_CORRECTION=ACCEPTED`
+- `H5000M_CANONICAL_GOVERNANCE=ACCEPTED`
+- `GITHUB_CANONICAL_ENTRYPOINT=PASS`
+- `DISASTER_RECOVERY_CONTEXT_TEST=PASS`
+- `GOVERNANCE_FREEZE=YES`
+- `READY_TO_RESUME_ENGINEERING=YES`
 - `GOVERNANCE_HEAD=HEAD` (resolve the exact current identity with
   `git rev-parse HEAD`; a Git commit cannot embed its own hash)
 - `RUN23_FIRMWARE_IMPLEMENTATION_SHA=32e385cbbdfeace84d7bb9032cad18c753debb21`
 - `RUN23_FIRMWARE_BASELINE_PRESERVED=YES`
 - `RUNTIME_DELTA_FROM_RUN23_FIRMWARE_BASELINE=NONE`
 - `RUN23_BUILD_STARTED=NO`
-- `CURRENT_PHASE=CANONICAL_GOVERNANCE_FINAL_CORRECTION_01`
-- `CURRENT_GATE=DOCUMENTATION_GOVERNANCE_ONLY`
-- `STOP_CONDITION=commit/push final canonical correction; no build or device operation`
-- `NEXT_GATE=OWNER_REVIEW_FINAL_CANONICAL_GOVERNANCE`
+- `CURRENT_PHASE=RESCUE_ENGINEERING`
+- `CURRENT_GATE=OWNER_AUTHORIZATION_RUN23_RESCUE_BUILD`
+- `STOP_CONDITION=await explicit Owner authorization before Run 23 build`
+- `NEXT_GATE=OWNER_AUTHORIZATION_RUN23_RESCUE_BUILD`
 - Exact locks: `versions/candidate.json`, `versions/stable.json`
 
 ## Current run maturity
@@ -46,7 +50,8 @@ remain authoritative.
 
 ## Current authorization
 
-- Governance/documentation consolidation only.
+- This state transition is documentation-only; the Run 23 build remains at its
+  separate Owner authorization gate.
 - No runtime, firmware, config, package selection, source lock, build, RAM boot,
   Full, stable, sysupgrade, device, or persistent operation is authorized.
 - `PERSISTENT_STORAGE_MODIFIED=NO`; `FULL_STARTED=NO`.
