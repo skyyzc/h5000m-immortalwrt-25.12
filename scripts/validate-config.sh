@@ -2,7 +2,9 @@
 set -eu
 
 config=${1:-}
+profile=${2:-rescue}
 [ -f "$config" ] || { echo "resolved config not found: $config" >&2; exit 1; }
+case "$profile" in rescue|full) ;; *) echo "profile must be rescue or full" >&2; exit 2;; esac
 
 failed=0
 require_y() {
@@ -41,5 +43,26 @@ require_y CONFIG_PACKAGE_qmodem 'RG520 management is mandatory'
 require_y CONFIG_PACKAGE_luci-app-qmodem-next 'QModem LuCI application is mandatory'
 require_y CONFIG_PACKAGE_tcpdump-mini 'bounded IPv6 forwarding-path packet attribution is mandatory for Run 21 Rescue evidence'
 
+if [ "$profile" = full ]; then
+  require_y CONFIG_PACKAGE_wrtbwmon 'Full client accounting is required'
+  require_y CONFIG_PACKAGE_luci-app-wrtbwmon 'Full wrtbwmon LuCI integration is required'
+  require_y CONFIG_PACKAGE_luci-app-oaf 'Full application filtering is required'
+  require_y CONFIG_PACKAGE_fancontrol 'Full thermal fan policy is required'
+  require_y CONFIG_PACKAGE_h5000m-full-compat 'Higo Full compatibility contracts are required'
+  require_y CONFIG_PACKAGE_block-mount 'Full external storage discovery is required'
+  require_y CONFIG_PACKAGE_kmod-usb-storage 'Full external USB storage is required'
+  require_y CONFIG_PACKAGE_luci-app-diskman 'Full disk inventory UI is required'
+  require_y CONFIG_PACKAGE_ksmbd-server 'Full SMB service is required'
+  require_y CONFIG_PACKAGE_luci-app-ksmbd 'Full SMB UI is required'
+  require_y CONFIG_PACKAGE_miniupnpd-nftables 'Full nftables UPnP service is required'
+  require_y CONFIG_PACKAGE_luci-app-upnp 'Full UPnP UI is required'
+  require_y CONFIG_PACKAGE_ddns-scripts 'Full DDNS service is required'
+  require_y CONFIG_PACKAGE_luci-app-ddns 'Full DDNS UI is required'
+  require_y CONFIG_PACKAGE_watchcat 'Full connectivity watchdog is required'
+  require_y CONFIG_PACKAGE_luci-app-watchcat 'Full watchdog UI is required'
+  require_y CONFIG_PACKAGE_zerotier 'Full optional ZeroTier package must resolve'
+  require_y CONFIG_PACKAGE_luci-app-zerotier 'Full optional ZeroTier UI must resolve'
+fi
+
 [ "$failed" -eq 0 ] || exit 1
-echo 'Resolved Rescue config gate passed'
+echo "Resolved $profile config gate passed"

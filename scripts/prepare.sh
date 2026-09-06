@@ -2,7 +2,9 @@
 set -eu
 
 lock_name="${1:-candidate}"
+profile="${2:-rescue}"
 case "$lock_name" in candidate|stable) ;; *) echo "usage: $0 candidate|stable" >&2; exit 2;; esac
+case "$profile" in rescue|full) ;; *) echo "profile must be rescue or full" >&2; exit 2;; esac
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 lock="$root/versions/$lock_name.json"
@@ -59,6 +61,9 @@ for name, feed in sources.items():
     subprocess.check_call(['git','-C',path,'fetch','--depth=1','origin',feed['commit']])
     subprocess.check_call(['git','-C',path,'checkout','--detach',feed['commit']])
 PY
+  if [ "$profile" = full ]; then
+    H5000M_SOURCE="$src" "$root/scripts/prepare-full-sources.sh" "$lock_name"
+  fi
   echo "Prepared locked source checkouts without feed indexing (fetch-only mode)"
   exit 0
 fi
@@ -76,4 +81,7 @@ for name, feed in sources.items():
     if actual != commit: raise SystemExit(f'{name} feed mismatch: {actual}')
 PY
 (cd "$src" && ./scripts/feeds install -a)
+if [ "$profile" = full ]; then
+  H5000M_SOURCE="$src" "$root/scripts/prepare-full-sources.sh" "$lock_name"
+fi
 echo "Prepared $src at $commit"

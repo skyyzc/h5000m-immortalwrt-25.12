@@ -1,0 +1,19 @@
+config global 'global'
+	option enable '1'
+	option work_mode '0'
+	option record_enable '1'
+	option disable_hnat '0'
+	option tcp_rst '1'
+	option lan_ifname 'br-lan'
+	option auto_load_engine '1'
+	option disable_quic '0'
+	option user_mode '0'
+	option app_filter_mode '0'
+
+config appfilter 'appfilter'
+
+config feature 'feature'
+	option update '0'
+	option format 'v3.0'
+
+config rule 'rule'

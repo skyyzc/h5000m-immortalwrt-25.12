@@ -1,0 +1,31 @@
+#!/bin/sh
+set -u
+
+. /lib/functions.sh
+
+while :; do
+	config_load fancontrol
+	config_get thermal settings thermal_file /sys/class/thermal/thermal_zone0/temp
+	config_get pwm settings fan_file /sys/class/hwmon/hwmon2/pwm1
+	config_get divisor settings temp_div 1000
+	config_get mode settings mode balanced
+	config_get max settings max_speed 255
+	config_get curve settings "curve_$mode"
+	[ -r "$thermal" ] || { logger -t fancontrol 'temperature source unavailable'; sleep 30; continue; }
+	[ -w "$pwm" ] || { logger -t fancontrol 'PWM control unavailable'; sleep 30; continue; }
+	temperature=$(cat "$thermal" 2>/dev/null || printf 0)
+	case "$temperature:$divisor:$max" in *[!0-9:]*) sleep 30; continue ;; esac
+	[ "$divisor" -gt 0 ] && [ "$max" -gt 0 ] || { sleep 30; continue; }
+	temperature=$((temperature / divisor))
+	percent=0
+	old_ifs=$IFS; IFS=,
+	for point in $curve; do
+		threshold=${point%%:*}; value=${point#*:}
+		case "$threshold:$value" in *[!0-9:]*) continue ;; esac
+		[ "$temperature" -ge "$threshold" ] && percent=$value
+	done
+	IFS=$old_ifs
+	[ "$percent" -le 100 ] || percent=100
+	printf '%s\n' $((percent * max / 100)) >"$pwm"
+	sleep 5
+done

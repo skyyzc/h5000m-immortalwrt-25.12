@@ -28,7 +28,7 @@ project_repo=(os.getenv('GITHUB_SERVER_URL')+'/'+os.getenv('GITHUB_REPOSITORY')
               else cmd('git','-C',root,'remote','get-url','origin'))
 kernel=cmd('make','-s','-C',src,'val.LINUX_VERSION')
 resolved=os.path.join(artifact_dir,'resolved.config')
-patches=sorted(glob.glob(os.path.join(root,'patches','immortalwrt','*.patch')))
+patches=sorted(glob.glob(os.path.join(root,'patches','**','*.patch'), recursive=True))
 images=sorted(p for p in glob.glob(os.path.join(artifact_dir,'*h5000m*initramfs-kernel.bin')) if os.path.isfile(p))
 unknown=[]
 for field, value in [('kernel.version',kernel),('github.run_id',os.getenv('GITHUB_RUN_ID')),
@@ -40,6 +40,7 @@ d={'schema_version':1,
            'immortalwrt_commit':cmd('git','-C',src,'rev-parse','HEAD')},
  'feeds':{name:{'repository':feed['repository'],'commit':cmd('git','-C',os.path.join(src,'feeds',name),'rev-parse','HEAD')}
           for name,feed in lock['feeds'].items()},
+ 'full_sources':(lock.get('full_sources',{}) if profile == 'full' else {}),
  'kernel':{'version':kernel},'profile':profile,
  'packages':{'higo':{'version':lock['higo']['version'],
                      'vendor_source_hashes':lock['higo']['payload_sha256'],
@@ -52,7 +53,7 @@ d={'schema_version':1,
  'github':{'workflow':os.getenv('GITHUB_WORKFLOW'),'run_id':os.getenv('GITHUB_RUN_ID'),
            'run_number':os.getenv('GITHUB_RUN_NUMBER'),'run_attempt':os.getenv('GITHUB_RUN_ATTEMPT')},
  'build':{'timestamp':datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),'status':'SUCCESS'},
- 'artifacts':[{'filename':os.path.basename(p),'type':'h5000m-rescue-initramfs','sha256':sha(p),'size':os.path.getsize(p)} for p in images],
+ 'artifacts':[{'filename':os.path.basename(p),'type':f'h5000m-{profile}-initramfs','sha256':sha(p),'size':os.path.getsize(p)} for p in images],
  'unknown':unknown}
 with open(out,'w',newline='\n') as f: json.dump(d,f,indent=2,sort_keys=True); f.write('\n')
 print(out)

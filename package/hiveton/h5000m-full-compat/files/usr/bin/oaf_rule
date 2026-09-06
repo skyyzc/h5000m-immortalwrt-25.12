@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+case "${1:-}" in
+	reload)
+		enabled=$(uci -q get appfilter.global.enable || printf 1)
+		case "$enabled" in 0|1) ;; *) logger -t oaf_rule 'invalid legacy enable value'; exit 1 ;; esac
+		uci -q set "fwx.appfilter.enable=$enabled"
+		uci -q commit fwx
+		/etc/init.d/appfilter reload
+		;;
+	*) exit 2 ;;
+esac

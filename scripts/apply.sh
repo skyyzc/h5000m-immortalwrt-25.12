@@ -24,13 +24,18 @@ for patch in "$root"/patches/immortalwrt/*.patch; do
 done
 
 mkdir -p "$src/package/hiveton"
-if [ -d "$src/package/hiveton/higoros" ] && diff -qr "$root/package/hiveton/higoros" "$src/package/hiveton/higoros" >/dev/null 2>&1; then
-  echo "already current: package/hiveton/higoros"
-else
-  rm -rf "$src/package/hiveton/higoros"
-  cp -a "$root/package/hiveton/higoros" "$src/package/hiveton/higoros"
-  echo "installed: package/hiveton/higoros"
-fi
+for local_package in "$root"/package/hiveton/*; do
+  [ -d "$local_package" ] || continue
+  package_name=$(basename "$local_package")
+  installed_package="$src/package/hiveton/$package_name"
+  if [ -d "$installed_package" ] && diff -qr "$local_package" "$installed_package" >/dev/null 2>&1; then
+    echo "already current: package/hiveton/$package_name"
+  else
+    rm -rf "$installed_package"
+    cp -a "$local_package" "$installed_package"
+    echo "installed: package/hiveton/$package_name"
+  fi
+done
 "${PYTHON:-python3}" "$root/scripts/patch-higo-cpe-frontend.py" apply \
   "$src/package/hiveton/higoros/files/www/higoros/assets/CPEManagement-CuEyMeyg.js"
 if find "$root/files" -mindepth 1 ! -name .gitkeep -print -quit | grep -q .; then cp -a "$root/files/." "$src/"; fi

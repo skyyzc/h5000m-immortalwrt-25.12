@@ -12,8 +12,9 @@ lines=['# H5000M Build Report','','## Build Identity','',
  f"- GitHub run: `{m['github']['run_id']}` / number `{m['github']['run_number']}` / attempt `{m['github']['run_attempt']}`",
  f"- Timestamp: `{m['build']['timestamp']}`",'','## Source Locks','',f"- ImmortalWrt: `{m['source']['immortalwrt_commit']}`"]
 for name, feed in m['feeds'].items(): lines.append(f"- {name}: `{feed['commit']}`")
+for name, source in m.get('full_sources',{}).items(): lines.append(f"- Full {name}: `{source['commit']}`")
 lines += ['','## Gates','','- Prepare: PASS (fresh exact source and feed locks)','- Apply: PASS (native baseline verified; identical second apply)',
- '- Defconfig: PASS','- Resolved Config: PASS','- H5000M/Higo/RG520 static build gates: PASS','- Compile: PASS',
+ '- Unified preflight: PASS','- Defconfig: PASS','- Resolved Config: PASS','- H5000M/Higo/RG520 static build gates: PASS','- Compile: PASS',
  '','## Warnings','','- Static/build evidence only; no device or RAM boot validation was performed.',
  '','## Errors and Fixes','','- No unresolved build error.','','## Artifacts','']
 for a in m['artifacts']: lines.append(f"- `{a['filename']}` — {a['size']} bytes — `{a['sha256']}`")
