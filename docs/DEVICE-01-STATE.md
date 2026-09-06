@@ -594,3 +594,30 @@ RUN22_FUNCTION_TESTED: `FAIL`
 RUN22_FAILURE_BOUNDARY: `HOTPLUG_LOGICAL_INTERFACE_FILTER_MISMATCH`
 RUN22_PERSISTENT_RECOVERY_OK: `PASS`
 PERSISTENT_STORAGE_MODIFIED_RUN22_RAM: `NO`
+
+## IPV6-RUN23-DISPATCH-REPAIR-01 static implementation
+
+Run 22 remains `DEVICE_OK=FAIL` and `FUNCTION_TESTED=FAIL`. Its first causal
+error was repaired without reinterpreting that historical result. The locked
+netifd contract sets `INTERFACE` to the logical name, supplies `DEVICE` only
+for `ifup`/`ifupdate`, and omits it for `ifdown`. Accordingly, the hook now
+requires `USBv6` plus `wwan0_1` for up/prefix update, and `USBv6` with absent
+`DEVICE` for teardown. The helper's ubus selector is now logical `USBv6`.
+
+The Run 22-equivalent event and fail-closed negatives pass deterministic
+fixtures alongside all 16 existing route cases. This is static evidence only:
+real helper invocation, protocol-242 route ownership, client forwarding,
+prefix replacement/cleanup, reconnect/recovery, foreign preservation and
+ifdown remain `UNVERIFIED` until a future separately authorized exact-run RAM
+test.
+
+IPV6_RUN23_DISPATCH_REPAIR_PERFORMED: `YES`
+IMPLEMENTATION_CONFORMS_TO_FAILURE_EVIDENCE: `YES`
+HOTPLUG_RUNTIME_CONTRACT_DOCUMENTED: `YES`
+REALISTIC_HOTPLUG_FIXTURE_ADDED: `YES`
+FIXTURE_TESTS_RUN23_PREBUILD: `PASS`
+STATIC_GATES_RUN23_PREBUILD: `PASS`
+RUN23_BUILD_READY: `YES`
+RUN23_TRIGGERED: `NO`
+DEVICE_MODIFIED_RUN23_PREBUILD: `NO`
+PERSISTENT_STORAGE_MODIFIED_RUN23_PREBUILD: `NO`

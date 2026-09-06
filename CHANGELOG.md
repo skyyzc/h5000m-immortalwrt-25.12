@@ -1,5 +1,26 @@
 # Changelog
 
+## IPV6-RUN23-DISPATCH-REPAIR-01
+
+- Preserved Run 22's exact-run failure and repaired only its confirmed first
+  causal dispatch boundary. Locked netifd sets `INTERFACE` to the logical
+  interface, sets `DEVICE` only for `ifup`/`ifupdate`, and omits `DEVICE` for
+  `ifdown`; Run 22 observed `USBv6` over `wwan0_1`.
+- The H5000M-only hook now requires `USBv6` plus `wwan0_1` for up/prefix-update,
+  and requires `USBv6` with absent `DEVICE` for down. The helper now selects
+  the `USBv6` ubus logical interface while retaining `wwan0_1` only as the
+  hook's underlying-device guard.
+- Added a deterministic Run 22 hotplug contract matrix: three positive
+  lifecycle cases, ten absent/wrong/unrelated fail-closed cases, and repeated
+  one-event/one-dispatch coverage. All 16 existing route, ownership, cleanup,
+  rollback and idempotence fixtures remain passing. Double apply, exact
+  install hashes, executable Git modes, Higo runtime-patch check, prohibited-
+  mutation review, secret scan and diff checks passed.
+- No source/feed lock, package selection, profile, unrelated firmware, device,
+  Run 23/build, Full or persistent change occurred. Static readiness does not
+  prove runtime dispatch, route creation, lifecycle or client IPv6; those
+  remain for a separately authorized exact-run RAM validation.
+
 ## RUN22 exact-run Rescue RAM validation
 
 - The owner RAM-booted the exact accepted Run 22 image. Artifact identity,

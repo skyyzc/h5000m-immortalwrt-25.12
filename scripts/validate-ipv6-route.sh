@@ -38,6 +38,9 @@ fi
 # a read-only `ip -6 route show proto 242` parser probe before any mutation.
 grep -q '^ROUTE_PROTOCOL=242$' "$package/$helper"
 grep -Fq 'ip -6 route show proto "$ROUTE_PROTOCOL"' "$package/$helper"
+grep -q '^CELLULAR_INTERFACE=USBv6$' "$package/$helper"
+grep -q '^LOGICAL_INTERFACE=USBv6$' "$package/$hook"
+grep -q '^UNDERLYING_DEVICE=wwan0_1$' "$package/$hook"
 
 for forbidden in 'nat66' 'proxy_ndp' 'proxy-ndp' 'nft ' 'fw4' 'qmodem' 'uqmi' 'network reload'; do
 	if grep -iF "$forbidden" "$package/$helper" "$package/$hook" >/dev/null; then

@@ -278,6 +278,40 @@ features.
 At preimplementation-review completion, implementation was still unauthorized.
 No confirmed IPv6 diagnosis should be repeated absent contradictory evidence.
 
+## IPV6-RUN23-DISPATCH-REPAIR-01
+
+Run 22 exact-run evidence proved the first implementation error before the
+helper ran: netifd emitted `INTERFACE=USBv6` for device `wwan0_1`, while the
+hook filtered `INTERFACE=wwan0_1`. The pinned netifd `interface-event.c`
+contract establishes:
+
+- `ACTION=ifup`: `INTERFACE=USBv6`, `DEVICE=wwan0_1`;
+- prefix `ACTION=ifupdate`: the same identities plus
+  `IFUPDATE_PREFIXES=1`;
+- `ACTION=ifdown`: `INTERFACE=USBv6`, with `DEVICE` intentionally absent.
+
+The selected fail-closed dispatch requires both logical and device identity
+for up/update, and exact logical identity plus absent device for down. This is
+safer than a logical-only broad hook and compatible with the pinned teardown
+semantics. Because the helper reads `ubus network.interface dump`, its
+`CELLULAR_INTERFACE` selector is also the logical `USBv6`; `wwan0_1` remains
+the underlying-device guard only.
+
+Exact implementation delta:
+
+- update the existing hook and helper interface constants/guards;
+- update the fixture constant;
+- extend the existing Python fixture with the observed positive event,
+  update/down lifecycle, wrong/absent/unrelated negatives and repeated
+  one-event/one-dispatch behavior;
+- extend the existing static validator with the exact logical/device guards.
+
+All route selection, metric/protocol ownership, state/lock, rollback,
+idempotence, cleanup and prohibited-mutation behavior is unchanged. Future
+Run 23 must prove actual dispatch, owned route creation, two-client forwarding,
+prefix/reconnect/ifdown lifecycle, stale cleanup, foreign preservation and
+power-cycle recovery. Static PASS is not device maturity.
+
 ## IPV6-RUN22-IMPLEMENTATION-01
 
 Owner review accepted the preimplementation contract and authorized only the

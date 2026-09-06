@@ -1,17 +1,24 @@
 #!/bin/sh
 
 # PROJECT_LOCAL: reconcile only the H5000M cellular RFC7278 shared /64.
-[ "${INTERFACE:-}" = "wwan0_1" ] || exit 0
+LOGICAL_INTERFACE=USBv6
+UNDERLYING_DEVICE=wwan0_1
+
+[ "${INTERFACE:-}" = "$LOGICAL_INTERFACE" ] || exit 0
 
 case "${ACTION:-}" in
 	ifup)
+		[ "${DEVICE:-}" = "$UNDERLYING_DEVICE" ] || exit 0
 		exec /usr/libexec/h5000m-ipv6-route-reconcile reconcile
 		;;
 	ifupdate)
+		[ "${DEVICE:-}" = "$UNDERLYING_DEVICE" ] || exit 0
 		[ "${IFUPDATE_PREFIXES:-0}" = "1" ] || exit 0
 		exec /usr/libexec/h5000m-ipv6-route-reconcile reconcile
 		;;
 	ifdown)
+		# Locked netifd deliberately omits DEVICE for ifdown events.
+		[ -z "${DEVICE:-}" ] || exit 0
 		exec /usr/libexec/h5000m-ipv6-route-reconcile teardown
 		;;
 esac

@@ -1,6 +1,7 @@
 {
   "constants": {
-    "cellular_interface": "wwan0_1",
+    "cellular_interface": "USBv6",
+    "cellular_device": "wwan0_1",
     "lan_interface": "lan",
     "lan_device": "br-lan",
     "metric": 1,

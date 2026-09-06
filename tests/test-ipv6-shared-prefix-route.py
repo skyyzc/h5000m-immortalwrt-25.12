@@ -39,10 +39,69 @@ def transition(case):
     return result, {prefix}, foreign
 
 
+def dispatch_event(event):
+    if event.get("INTERFACE") != "USBv6":
+        return []
+    action = event.get("ACTION")
+    if action in {"ifup", "ifupdate"}:
+        if event.get("DEVICE") != "wwan0_1":
+            return []
+        if action == "ifupdate" and event.get("IFUPDATE_PREFIXES", "0") != "1":
+            return []
+        return ["reconcile"]
+    if action == "ifdown" and "DEVICE" not in event:
+        return ["teardown"]
+    return []
+
+
+def test_hotplug_contract(hook):
+    positives = (
+        ({"ACTION": "ifup", "INTERFACE": "USBv6", "DEVICE": "wwan0_1"}, "reconcile"),
+        ({"ACTION": "ifupdate", "INTERFACE": "USBv6", "DEVICE": "wwan0_1",
+          "IFUPDATE_PREFIXES": "1"}, "reconcile"),
+        ({"ACTION": "ifdown", "INTERFACE": "USBv6"}, "teardown"),
+    )
+    for event, action in positives:
+        assert dispatch_event(event) == [action], event
+
+    negatives = (
+        {"ACTION": "ifup", "INTERFACE": "USBv6", "DEVICE": "wwan0"},
+        {"ACTION": "ifup", "INTERFACE": "wwan0_1", "DEVICE": "wwan0_1"},
+        {"ACTION": "ifup", "INTERFACE": "lan", "DEVICE": "wwan0_1"},
+        {"ACTION": "ifup", "DEVICE": "wwan0_1"},
+        {"ACTION": "ifup", "INTERFACE": "USBv6"},
+        {"ACTION": "ifupdate", "INTERFACE": "USBv6", "DEVICE": "wwan0_1"},
+        {"ACTION": "ifupdate", "INTERFACE": "USBv6", "DEVICE": "wwan0_1",
+         "IFUPDATE_PREFIXES": "0"},
+        {"ACTION": "ifdown", "INTERFACE": "USBv6", "DEVICE": "wwan0_1"},
+        {"INTERFACE": "USBv6", "DEVICE": "wwan0_1"},
+        {},
+    )
+    for event in negatives:
+        assert dispatch_event(event) == [], event
+
+    # Each event dispatches once; repeated events delegate idempotence to the helper.
+    repeated = {"ACTION": "ifupdate", "INTERFACE": "USBv6", "DEVICE": "wwan0_1",
+                "IFUPDATE_PREFIXES": "1"}
+    assert dispatch_event(repeated) == ["reconcile"]
+    assert dispatch_event(repeated) == ["reconcile"]
+
+    for exact in (
+        'LOGICAL_INTERFACE=USBv6', 'UNDERLYING_DEVICE=wwan0_1',
+        '[ "${INTERFACE:-}" = "$LOGICAL_INTERFACE" ] || exit 0',
+        '[ "${DEVICE:-}" = "$UNDERLYING_DEVICE" ] || exit 0',
+        '[ -z "${DEVICE:-}" ] || exit 0',
+        'exec /usr/libexec/h5000m-ipv6-route-reconcile reconcile',
+        'exec /usr/libexec/h5000m-ipv6-route-reconcile teardown',
+    ):
+        assert exact in hook, exact
+
+
 def main():
     data = json.loads(FIXTURE.read_text(encoding="utf-8"))
     assert data["constants"] == {
-        "cellular_interface": "wwan0_1", "lan_interface": "lan",
+        "cellular_interface": "USBv6", "cellular_device": "wwan0_1",
+        "lan_interface": "lan",
         "lan_device": "br-lan", "metric": 1, "protocol": 242,
     }
     required = {
@@ -64,7 +123,7 @@ def main():
     helper = HELPER.read_text(encoding="utf-8")
     hook = HOOK.read_text(encoding="utf-8")
     for exact in (
-        "CELLULAR_INTERFACE=wwan0_1", "LAN_INTERFACE=lan", "LAN_DEVICE=br-lan",
+        "CELLULAR_INTERFACE=USBv6", "LAN_INTERFACE=lan", "LAN_DEVICE=br-lan",
         "ROUTE_METRIC=1", "ROUTE_PROTOCOL=242",
         "STATE_FILE=/var/run/h5000m-ipv6-route.state",
         "LOCK_DIR=/var/run/h5000m-ipv6-route.lock",
@@ -75,12 +134,16 @@ def main():
         assert exact in helper, exact
     assert 'ubus call network.interface dump' in helper
     assert 'IFUPDATE_PREFIXES:-0' in hook
+    assert 'LOGICAL_INTERFACE=USBv6' in hook
+    assert 'UNDERLYING_DEVICE=wwan0_1' in hook
     assert all(event in hook for event in ("ifup)", "ifupdate)", "ifdown)"))
     forbidden = ("nat66", "proxy_ndp", "proxy-ndp", "nft ", "fw4", "qmodem", "uqmi", "ifdown wwan", "network reload")
     combined = (helper + hook).lower()
     assert not any(token in combined for token in forbidden)
     assert not re.search(r"[23][0-9a-f]{3}:[0-9a-f:]+/64", helper)
+    test_hotplug_contract(hook)
     print(f"IPV6_ROUTE_FIXTURES PASS: {len(data['cases'])} deterministic cases")
+    print("IPV6_HOTPLUG_FIXTURES PASS: exact Run22 contract and fail-closed negatives")
     print("IPV6_ROUTE_STATIC PASS: ownership/lifecycle/safety constants")
 
 

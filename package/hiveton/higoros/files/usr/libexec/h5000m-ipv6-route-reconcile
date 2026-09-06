@@ -3,7 +3,7 @@ set -eu
 
 # PROJECT_LOCAL route identity. Protocol 242 is intentionally numeric and
 # reserved by this project; never weaken ownership to prefix-only deletion.
-CELLULAR_INTERFACE=wwan0_1
+CELLULAR_INTERFACE=USBv6
 LAN_INTERFACE=lan
 LAN_DEVICE=br-lan
 ROUTE_METRIC=1

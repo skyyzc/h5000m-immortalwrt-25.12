@@ -26,22 +26,19 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `RUN22 EXACT-RUN RAM VALIDATION / FAILED`
-- `CURRENT_TASK`: Run 22 boot and identity passed, but its IPv6 reconciler was
-  not dispatched because the hotplug hook filtered the device name instead of
-  netifd's logical `USBv6` interface. Failure and recovery evidence are
-  complete; stop for Owner review before any repair.
+- `CURRENT_PHASE`: `IPV6-RUN23-DISPATCH-REPAIR-01 / IMPLEMENTED`
+- `CURRENT_TASK`: The Run 22 hotplug logical-interface mismatch has the
+  Owner-approved minimal implementation and realistic fixture repair. Static
+  gates pass; stop before any Run 23 build or device action.
 - `CURRENT_RUN`: workflow `Build H5000M firmware`; Run ID `33987589482`; Run
   Number `22`; Attempt `1`; branch `rebuild-v1`; project SHA
   `ca75cc3d6a9b7ce1907656d585fa1c5b283c030b`; profile `rescue`; source
   `candidate`; status `COMPLETED`; result `SUCCESS`; duration `2h28m02s`.
-- `CURRENT_GATE`: `RUN22_RAM_BOOT_OK=PASS`;
-  `RUN22_FUNCTION_TESTED=FAIL`;
-  `FIRST_CAUSAL_ERROR=HOTPLUG_LOGICAL_INTERFACE_FILTER_MISMATCH`;
-  `RUN22_PERSISTENT_RECOVERY_OK=PASS`.
-- `STOP_CONDITION`: stop after failure evidence synchronization and push. No
-  repair, Run 23, additional device lifecycle operation, Full, stable promotion
-  or persistent operation is authorized.
+- `CURRENT_GATE`: `IPV6_RUN23_DISPATCH_REPAIR_PERFORMED=YES`;
+  `FIXTURE_TESTS=PASS`; `STATIC_GATES=PASS`; `RUN23_BUILD_READY=YES`.
+- `STOP_CONDITION`: stop after implementation/evidence commit and push. Run 23
+  build, RAM boot, device lifecycle operation, Full, stable promotion and
+  persistent operation remain unauthorized.
 - `CURRENT_TASK_REQUIRED_FILES`: `AGENTS.md`, `PROJECT_STATE.md`, `README.md`,
   latest relevant `CHANGELOG.md` section, current summary in
   `docs/DEVICE-01-STATE.md`, and the current task specification.
@@ -107,7 +104,11 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current firmware candidate
 
-- `CURRENT_FIRMWARE_CANDIDATE`: accepted Run 22 Rescue initramfs above.
+- `LAST_ACCEPTED_BUILD_ARTIFACT`: `RUN22` (build/artifact acceptance only;
+  exact-run device/function result is failed).
+- `ACTIVE_FUNCTION_CANDIDATE`: `NONE` pending a separately authorized Run 23
+  build and exact-run validation.
+- `LAST_FUNCTION_TESTED_RESCUE`: `RUN21`.
 - CPE repair: display-only `[4G,5G] -> 4G + 5G` frontend normalization is built,
   hash-traced, and function-tested on Run 21. The earlier unknown-title
   observation is retained as a non-reproduced timing/state discrepancy.
@@ -126,9 +127,10 @@ their underlying facts; this file points to them and does not replace history.
     title produce `4G + 5G`. The earlier unknown-title observation remains a
     `PARTIAL_TIMING_OR_STATE_EVALUATION_BOUNDARY`; no additional CPE repair is
     currently required.
-  - Run 22 exact-run evidence confirms the IPv6 hook dispatch filter is wrong:
-    netifd logical `USBv6` does not match device name `wwan0_1`. Repair and a
-    later build require Owner review; do not rerun or create Run 23 unchanged.
+  - Run 22 exact-run evidence confirmed the IPv6 hook dispatch mismatch. The
+    minimal `USBv6` logical-interface plus `wwan0_1` device-guard repair and
+    realistic fixtures now pass statically; build and exact-run maturity remain
+    separately gated.
   - Notification storage contract remains `UNKNOWN`; Run 21 change is `NO`.
   - Neighbour repair remains `NO`; the observed Run 20 sample was modem-raw
     empty and does not prove non-empty parser behavior.
@@ -136,21 +138,20 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Authorization and prohibitions
 
-- `CURRENT_AUTHORIZATION`: Run 22 failure evidence synchronization,
-  documentation-only commit, and normal fast-forward push to `rebuild-v1`.
+- `CURRENT_AUTHORIZATION`: the approved Run 22 dispatch-only implementation,
+  static/fixture validation, evidence commit and normal fast-forward push.
 - Project-scoped authentication and read-only evidence rules are in
   `AGENTS.md`; they do not authorize state-changing operations.
-- `CURRENT_PROHIBITIONS`: no repair, Run 23/build, further RAM boot or device
-  lifecycle change, Full, stable promotion, source-lock/package/profile/firmware changes,
+- `CURRENT_PROHIBITIONS`: no Run 23/build, RAM boot or device lifecycle change,
+  unrelated repair, Full, stable promotion, source-lock/package/profile changes,
   sysupgrade, eMMC/GPT/U-Boot/BL2/Factory or other persistent operations.
 - Persistent storage modified: `NO`.
 - Full started: `NO`.
 
 ## Next gate
 
-- `NEXT_GATE`: Owner review of
-  `docs/RUN22-EXACT-RUN-RAM-VALIDATION-REPORT.md`. Any repair, new build or
-  device validation requires new explicit authorization.
+- `NEXT_GATE`: Owner review for Run 23 build authorization. Build and later
+  exact-run RAM validation remain separate gates.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets
