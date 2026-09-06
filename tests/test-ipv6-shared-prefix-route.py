@@ -133,6 +133,8 @@ def main():
     ):
         assert exact in helper, exact
     assert 'ubus call network.interface dump' in helper
+    assert 'set +u\n\tjson_init || { set -u; fail json_init; }' in helper
+    assert 'new=$(select_shared_prefix 2>/dev/null || true)\n\tset -u' in helper
     assert 'IFUPDATE_PREFIXES:-0' in hook
     assert 'LOGICAL_INTERFACE=USBv6' in hook
     assert 'UNDERLYING_DEVICE=wwan0_1' in hook

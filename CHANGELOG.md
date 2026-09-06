@@ -1,5 +1,19 @@
 # Changelog
 
+## IPV6-RUN24-JSHN-NOUNSET-FIX-01
+
+- Kept helper `errexit` and all Run 22 route ownership plus Run 23 USBv6
+  dispatch semantics unchanged. Suspended only shell nounset while the locked
+  libubox jshn API initializes, loads and reads its JSON variables, then restored
+  nounset before any route or state mutation.
+- Added a real-shell regression based on the initialization/load functions from
+  locked libubox `7dd127841e82eb1cfb61185da37dde7b9bd9ba6d`. Its control reproduces the
+  Run 23 unset-`JSON_PREFIX` exit; the patched helper must continue past
+  `json_init` with both `JSON_PREFIX` and `JSON_UNSET` initially absent.
+- No hotplug, route ownership, network, firewall, QModem, package-selection,
+  source-lock or profile change was made. Build and device validation remain
+  separately authorized gates.
+
 ## RUN23-HOTPLUG-RUNTIME-OBS-01
 
 - A tmpfs-only passive observer captured the natural Run 23 cellular startup.

@@ -161,9 +161,14 @@ teardown() {
 reconcile() {
 	SNAPSHOT=$(mktemp /tmp/h5000m-ipv6-route.XXXXXX) || fail snapshot_create
 	ubus call network.interface dump >"$SNAPSHOT" 2>/dev/null || fail snapshot_read
-	json_init
-	json_load "$(cat "$SNAPSHOT")" || fail snapshot_parse
+	# Locked libubox jshn treats unset namespace/storage variables as empty and
+	# is not nounset-safe. Suspend only nounset while its API is active; keep
+	# errexit enabled and restore nounset before route/state mutation.
+	set +u
+	json_init || { set -u; fail json_init; }
+	json_load "$(cat "$SNAPSHOT")" || { set -u; fail snapshot_parse; }
 	new=$(select_shared_prefix 2>/dev/null || true)
+	set -u
 	if [ -z "$new" ]; then
 		teardown
 		fail prefix_not_unique_shared_global_64

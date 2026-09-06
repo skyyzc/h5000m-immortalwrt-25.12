@@ -19,6 +19,7 @@ for rel in "$helper" "$hook"; do
 done
 
 "$python_cmd" "$root/tests/test-ipv6-shared-prefix-route.py"
+"$root/tests/test-jshn-nounset-compat.sh"
 
 grep -q '^PKG_VERSION:=1\.37\.0$' "$src/package/utils/busybox/Makefile" || {
 	echo 'IPV6_ROUTE_GATE FAIL: locked BusyBox version changed' >&2; exit 1;
@@ -50,5 +51,6 @@ for forbidden in 'nat66' 'proxy_ndp' 'proxy-ndp' 'nft ' 'fw4' 'qmodem' 'uqmi' 'n
 done
 
 echo 'IPV6_ROUTE_GATE PASS: exact executable install and shell syntax'
+echo 'IPV6_ROUTE_GATE PASS: locked jshn nounset compatibility regression'
 echo 'IPV6_ROUTE_GATE PASS: BusyBox 1.37 numeric protocol parser + runtime fail-closed probe'
 echo 'IPV6_ROUTE_GATE PASS: fixtures, ownership, lifecycle and mutation boundaries'
