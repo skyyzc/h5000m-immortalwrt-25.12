@@ -5,13 +5,39 @@
 - Triggered exactly one authorized `rescue` / `candidate` build from accepted
   `rebuild-v1` project SHA
   `ca75cc3d6a9b7ce1907656d585fa1c5b283c030b`. Workflow `Build H5000M
-  firmware`, Run ID `33987589482`, Run Number `22`, Attempt `1` is
-  `IN_PROGRESS`; result and artifact acceptance remain `UNKNOWN`.
-- Entered `WAITING_EXTERNAL` with last confirmed gate equal to the accepted
-  IPv6 implementation/static gates. Active polling, rerun, Run 23, device/RAM
-  boot, Full, source-lock/package-selection change, and persistent operations
-  remain prohibited. Resume on an explicitly reported terminal status for
-  artifact acceptance or first-causal-error diagnosis.
+  firmware`, Run ID `33987589482`, Run Number `22`, Attempt `1` completed
+  `SUCCESS` in `2h28m02s` against locked ImmortalWrt
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`.
+- Exact source/feed preparation, double apply, IPv6 fixtures/static/install,
+  defconfig/resolved config, H5000M, Higo, RG520/QModem/qmi_wwan_q,
+  diagnostics, compile, manifest/report/checksum generation, and artifact
+  upload gates passed. The only GitHub annotation was the deferred Node.js 20
+  Actions warning; it was not a build failure.
+- Accepted artifact `h5000m-rescue-ca75cc3d-1d34e7b8-run22-attempt1`, ID
+  `9977722506`, downloaded archive size `20042327` bytes and GitHub/archive
+  digest `sha256:c29736f4f0f7d8ff5fdb9a0555a44a81e68ffa97bf2274ea34026fbc238c4d69`.
+  Firmware `immortalwrt-mediatek-filogic-hiveton_h5000m-initramfs-kernel.bin`
+  is `19975104` bytes with SHA256
+  `bacb594c5fcbfe37e562efc8bef584a635848bc6b7e27bc87f0f8a3e85bb7d4a`.
+- `SHA256SUMS` verified the firmware, manifest, report and resolved config.
+  Manifest/report/feed/profile/run/project/source identities agree. Embedded
+  `/etc/h5000m-build.json` agrees with Run 22, Rescue, project and ImmortalWrt
+  identities. The initramfs contains exact approved executable bytes for the
+  IPv6 helper (SHA256
+  `bbcb9fdc43c402e1d98e0eb12e1bf019f7d993c811fd4e1593f94249fda9cdcd`)
+  and hotplug hook (SHA256
+  `a786c8c45bffa0cd09863faa0b195156bd3f850e8557e62200ddd8eac3ea7a97`).
+- Run 21 and Run 22 requested/resolved configs are identical; source locks and
+  package selections did not change. Cross-build byte comparison also changed
+  generated APK signing metadata and one same-size rebuilt binary, so
+  byte-for-byte reproducibility remains `UNVERIFIED`; this is not evidence of
+  an unrelated source/feature delta. The existing empty optional
+  `kernel.version` manifest field remains explicitly `UNKNOWN`; FIT identifies
+  Linux `6.12.103` and all required build identities remain intact.
+- `RUN22_BUILD_OK=YES` and `RUN22_ARTIFACT_ACCEPTANCE=PASS` are build-scoped.
+  RAM boot, device and function maturity remain `UNVERIFIED`. No Run 23,
+  device/persistent action, Full, source-lock/package-selection/profile change,
+  Notification/neighbour repair, or stable promotion occurred.
 
 ## IPV6-RUN22-IMPLEMENTATION-01
 

@@ -519,3 +519,48 @@ CURRENT_PHASE_IMPLEMENTATION_AUTHORIZED: `NO`
 IPV6_IMPLEMENTATION_UNBLOCKED: `YES`
 RUN22_CHANGESET_READY: `YES`
 BUILD_WORTH_TRIGGERING: `NO` (implementation not present)
+
+## Run 22 build and artifact acceptance
+
+Run 22 is build evidence only; no RAM boot or device operation occurred.
+
+- Workflow / Run ID / number / attempt: `Build H5000M firmware` /
+  `33987589482` / `22` / `1`.
+- Result / duration: `SUCCESS` / `2h28m02s`.
+- Build-input project / ImmortalWrt SHA:
+  `ca75cc3d6a9b7ce1907656d585fa1c5b283c030b` /
+  `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`.
+- Profile / source: `rescue` / `candidate`.
+- Artifact: `h5000m-rescue-ca75cc3d-1d34e7b8-run22-attempt1`; ID
+  `9977722506`; downloaded archive size `20042327`; digest
+  `sha256:c29736f4f0f7d8ff5fdb9a0555a44a81e68ffa97bf2274ea34026fbc238c4d69`.
+- Firmware:
+  `immortalwrt-mediatek-filogic-hiveton_h5000m-initramfs-kernel.bin`;
+  `19975104` bytes; SHA256
+  `bacb594c5fcbfe37e562efc8bef584a635848bc6b7e27bc87f0f8a3e85bb7d4a`.
+- Manifest, report, requested/resolved config, checksums, source/feed identities,
+  Higo and RG520/QModem/qmi_wwan_q gates all passed. Embedded build identity
+  matches the exact run/project/source/profile.
+- The initramfs contains exact approved `0755` helper and hotplug hook bytes:
+  helper SHA256
+  `bbcb9fdc43c402e1d98e0eb12e1bf019f7d993c811fd4e1593f94249fda9cdcd`;
+  hook SHA256
+  `a786c8c45bffa0cd09863faa0b195156bd3f850e8557e62200ddd8eac3ea7a97`.
+- Run 21/22 requested and resolved configs are identical. No source lock,
+  package selection, profile, unrelated source/feature, Full, device or
+  persistent change occurred. Byte-for-byte reproducibility remains
+  `UNVERIFIED`.
+
+RUN22_TRIGGERED: `YES`
+RUN22_BUILD_RESULT: `SUCCESS`
+RUN22_ARTIFACT_ACCEPTANCE: `PASS`
+RUN22_BUILD_OK: `YES`
+RUN22_IPV6_HELPER_PRESENT: `YES`
+RUN22_IPV6_HOTPLUG_PRESENT: `YES`
+RUN22_BUILD_IDENTITY_MATCH: `YES`
+RUN22_RAM_BOOT_OK: `UNVERIFIED`
+RUN22_DEVICE_OK: `UNVERIFIED`
+RUN22_FUNCTION_TESTED: `UNVERIFIED`
+RUN22_RAM_BOOT_AUTHORIZED: `NO`
+DEVICE_MODIFIED_RUN22_BUILD: `NO`
+PERSISTENT_STORAGE_MODIFIED_RUN22_BUILD: `NO`

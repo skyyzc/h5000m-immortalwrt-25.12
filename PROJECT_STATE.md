@@ -26,43 +26,46 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Current phase and task
 
-- `CURRENT_PHASE`: `RUN22-BUILD / WAITING_EXTERNAL`
-- `CURRENT_TASK`: exactly one authorized Rescue/candidate Run 22 is executing
-  from the accepted IPv6-only implementation; wait without active polling,
-  then perform complete artifact acceptance after an externally confirmed
-  terminal result.
+- `CURRENT_PHASE`: `RUN22-BUILD / ARTIFACT_ACCEPTANCE_COMPLETE`
+- `CURRENT_TASK`: Run 22 completed successfully and its Rescue artifact,
+  identities, checksums, package/static gates, and embedded IPv6 implementation
+  were accepted; stop before any RAM boot or device action.
 - `CURRENT_RUN`: workflow `Build H5000M firmware`; Run ID `33987589482`; Run
   Number `22`; Attempt `1`; branch `rebuild-v1`; project SHA
   `ca75cc3d6a9b7ce1907656d585fa1c5b283c030b`; profile `rescue`; source
-  `candidate`; status `IN_PROGRESS`; result `UNKNOWN`.
-- `CURRENT_GATE`: `RUN22_TRIGGERED=YES`; `EXTERNAL_BUILD=RUNNING`;
-  `RUN22_ARTIFACT_ACCEPTANCE=UNKNOWN`. Last confirmed local gate: accepted
-  implementation/static gates and exact clean local/remote project SHA.
-- `STOP_CONDITION`: `WAIT_REASON=GITHUB_ACTIONS_RUN_22`; stop active polling.
-  Resume only after explicit owner continuation/status change, query the exact
-  run once, and accept success artifacts or diagnose the first causal failure.
+  `candidate`; status `COMPLETED`; result `SUCCESS`; duration `2h28m02s`.
+- `CURRENT_GATE`: `RUN22_BUILD_OK=YES`;
+  `RUN22_ARTIFACT_ACCEPTANCE=PASS`; exact firmware, manifest, report, resolved
+  config, checksums, embedded identity, IPv6 helper/hotplug, Higo, RG520,
+  QModem and diagnostics gates passed.
+- `STOP_CONDITION`: stop after evidence synchronization and push. Run 22 RAM
+  boot, Recovery WebUI, device changes, Full, stable promotion, and persistent
+  operations remain unauthorized.
 - `CURRENT_TASK_REQUIRED_FILES`: `AGENTS.md`, `PROJECT_STATE.md`, `README.md`,
   latest relevant `CHANGELOG.md` section, current summary in
   `docs/DEVICE-01-STATE.md`, and the current task specification.
 
 ## Last accepted build
 
-- Phase: `BUILD-03 / RUN21`
+- Phase: `RUN22-BUILD`
 - Workflow: `Build H5000M initramfs`
-- Run ID / number / attempt: `33951063311` / `21` / `1`
+- Run ID / number / attempt: `33987589482` / `22` / `1`
 - Result / acceptance: `SUCCESS` / `PASS`
 - Build-input project SHA:
-  `ab4d2cbaa8e1b9fa8742ae397b15399f535a50d1`
+  `ca75cc3d6a9b7ce1907656d585fa1c5b283c030b`
 - ImmortalWrt SHA:
   `1d34e7b88708d4eeb3feabe0b2b6f835a909c9c0`
 - Profile / source: `rescue` / `candidate`
 - Firmware:
   `immortalwrt-mediatek-filogic-hiveton_h5000m-initramfs-kernel.bin`
-- Firmware size: `19970460` bytes
+- Firmware size: `19975104` bytes
 - Firmware SHA256:
-  `17d771fc5a1f469c0a56e5c92e8877bc0f8b700321de8860254304503b78d960`
-- Detailed build ledger: latest Run 21 section in `CHANGELOG.md` and current
-  Run 21 block in `docs/DEVICE-01-STATE.md`.
+  `bacb594c5fcbfe37e562efc8bef584a635848bc6b7e27bc87f0f8a3e85bb7d4a`
+- Artifact: `h5000m-rescue-ca75cc3d-1d34e7b8-run22-attempt1`, ID
+  `9977722506`, archive digest
+  `sha256:c29736f4f0f7d8ff5fdb9a0555a44a81e68ffa97bf2274ea34026fbc238c4d69`.
+- Detailed build ledger: latest Run 22 section in `CHANGELOG.md` and Run 22
+  build-acceptance block in `docs/DEVICE-01-STATE.md`.
 
 ## Run-scoped maturity
 
@@ -90,9 +93,17 @@ their underlying facts; this file points to them and does not replace history.
   the same delegated `/64` was installed on both interfaces.
 - Run 20 device maturity is not inherited by Run 21.
 
+- `RUN22_BUILD_OK`: `YES`
+- `RUN22_ARTIFACT_ACCEPTANCE`: `PASS`
+- `RUN22_RAM_BOOT_OK`: `UNVERIFIED`
+- `RUN22_DEVICE_OK`: `UNVERIFIED`
+- `RUN22_FUNCTION_TESTED`: `UNVERIFIED`
+- Run 22 contains the exact approved IPv6 helper/hotplug bytes and permissions;
+  no Run 21 runtime maturity is inherited until exact-run RAM validation.
+
 ## Current firmware candidate
 
-- `CURRENT_FIRMWARE_CANDIDATE`: accepted Run 21 Rescue initramfs above.
+- `CURRENT_FIRMWARE_CANDIDATE`: accepted Run 22 Rescue initramfs above.
 - CPE repair: display-only `[4G,5G] -> 4G + 5G` frontend normalization is built,
   hash-traced, and function-tested on Run 21. The earlier unknown-title
   observation is retained as a non-reproduced timing/state discrepancy.
@@ -135,9 +146,8 @@ their underlying facts; this file points to them and does not replace history.
 
 ## Next gate
 
-- `NEXT_GATE`: externally confirmed Run 22 terminal status, followed by exact
-  artifact acceptance on success or first-causal-error review on failure.
-  Run 22 RAM boot remains unauthorized.
+- `NEXT_GATE`: owner review for Run 22 exact-run Rescue RAM validation
+  authorization. Run 22 RAM boot remains unauthorized until that gate.
 - Online update remains blocked and is not the next gate.
 
 ## Long-term targets
