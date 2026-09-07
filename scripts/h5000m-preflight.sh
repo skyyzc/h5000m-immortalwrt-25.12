@@ -31,10 +31,26 @@ if [ "$profile" = full ] || [ "$profile" = both ]; then
   echo 'PREFLIGHT PASS: Full is a strict superset of Core Rescue'
 fi
 
-for script in "$root"/scripts/*.sh "$root"/package/hiveton/*/files/etc/init.d/* "$root"/package/hiveton/*/files/usr/bin/* "$root"/package/hiveton/*/files/usr/libexec/*; do
+# These two locations are shell contracts by definition.  Validate every file
+# so a missing or damaged shebang cannot silently bypass the gate.
+for script in "$root"/scripts/*.sh "$root"/package/hiveton/*/files/etc/init.d/*; do
   [ -f "$script" ] || continue
   sh -n "$script"
 done
+
+# Package bin/libexec directories may also contain native executables (Higo's
+# higorosd is an AArch64 ELF).  Validate only payloads that explicitly declare
+# a shell interpreter; feeding arbitrary executables to `sh -n` caused both
+# Run 25 profiles to fail before config resolution or compilation.
+for payload in "$root"/package/hiveton/*/files/usr/bin/* "$root"/package/hiveton/*/files/usr/libexec/*; do
+  [ -f "$payload" ] || continue
+  [ "$(dd if="$payload" bs=2 count=1 2>/dev/null)" = '#!' ] || continue
+  first_line=$(LC_ALL=C sed -n '1p' "$payload")
+  case "$first_line" in
+    *sh*) sh -n "$payload" ;;
+  esac
+done
+echo 'PREFLIGHT PASS: declared project shell payload syntax'
 "$python_cmd" "$root/tests/test-higo-cpe-normalization.py"
 H5000M_SOURCE="$src" "$root/scripts/validate-ipv6-route.sh"
 
