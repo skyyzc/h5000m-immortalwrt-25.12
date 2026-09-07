@@ -21,11 +21,11 @@ remain authoritative.
 - `RUN23_FIRMWARE_BASELINE_PRESERVED=YES`
 - `RUNTIME_DELTA_FROM_RUN23_FIRMWARE_BASELINE=NONE`
 - `RUN23_BUILD_STARTED=YES`
-- `H5000M_FULL_CANDIDATE_V1_SOURCE_HEAD=e726c7088121b85005e48dca9644a98f2a09ac6e`
-- `CURRENT_PHASE=FULL_CANDIDATE_V1_SOURCE_INTEGRATION`
-- `CURRENT_GATE=OWNER_REVIEW_FULL_CANDIDATE_V1_SOURCE`
-- `STOP_CONDITION=await Owner review before any Rescue+Full build`
-- `NEXT_GATE=OWNER_REVIEW_FULL_CANDIDATE_V1_SOURCE`
+- `H5000M_FULL_CANDIDATE_V1_SOURCE_HEAD=d05325d34fe0dbbeb48ec1b2717e8495dc1081ec`
+- `CURRENT_PHASE=FULL_CANDIDATE_V1_BUILD_CLOSURE`
+- `CURRENT_GATE=OWNER_REVIEW_RUN25_BUILD_CLOSURE`
+- `STOP_CONDITION=await Owner review before any further build`
+- `NEXT_GATE=OWNER_REVIEW_RUN25_BUILD_CLOSURE`
 - Exact locks: `versions/candidate.json`, `versions/stable.json`
 
 ## Current run maturity
@@ -74,6 +74,15 @@ remain authoritative.
   exact-lock prepared; Core/Full profiles share one baseline; project-local fan
   and OAF compatibility packages plus unified preflight are integrated. No Full
   build or device maturity is implied.
+- `RUN25_BUILD=FAIL`; Run ID `34072182262`, Run Number `25`, Attempt `1`,
+  profile `both`, source `candidate`, project
+  `6932baa896c9f6849d80f603fb0b53039c01166b`. Both Rescue and Full failed at
+  the same shared preflight boundary after source preparation and idempotent
+  apply: shell syntax validation passed the AArch64 ELF `higorosd` to `sh -n`.
+  Config validation, defconfig and compile were not reached; no firmware
+  artifacts were produced. Commit `d05325d34fe0dbbeb48ec1b2717e8495dc1081ec`
+  classifies package payloads by declared interpreter and preserves production
+  IPv6 and Full capability code unchanged. Build confirmation is pending.
 - `IPV6_SELECTED_DESIGN=DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE`
 - Run 23 changes only the reviewed dispatch boundary: `USBv6` logical-interface
   lifecycle with the `wwan0_1` device guard where netifd provides it.

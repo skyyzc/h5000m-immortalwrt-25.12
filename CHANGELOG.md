@@ -1,5 +1,19 @@
 # Changelog
 
+## H5000M-FULL-CANDIDATE-V1-BUILD-CLOSURE-01
+
+- Recorded GitHub Run 25 (`34072182262`, profile `both`) as a shared-preflight
+  failure: both Rescue and Full completed exact source preparation and
+  idempotent apply, then incorrectly passed the AArch64 ELF `higorosd` to
+  `sh -n` before config resolution, defconfig, or compilation.
+- Restricted syntax validation to declared shell payloads while retaining
+  unconditional validation for project `.sh` and init scripts. A same-class
+  inventory found 19 shell payloads, one native ELF, and no unknown payloads.
+- The Run24 jshn gate was not reached and the production IPv6 helper, Full
+  capability set, source locks, package selection, profiles and governance were
+  unchanged. No build was triggered and no device or persistent operation was
+  performed by this closure task.
+
 ## H5000M-FULL-CANDIDATE-V1-INTEGRATION
 
 - Integrated the first coherent Full Candidate source milestone as a strict
