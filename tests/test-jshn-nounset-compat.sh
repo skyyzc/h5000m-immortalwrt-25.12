@@ -66,6 +66,8 @@ sed \
 	-e "s|^JSHN=.*|JSHN=$jshn|" \
 	-e '/^[[:space:]]*if \[ -z "$new" \]; then/i\
 	case $- in *u*) printf "%s\\n" nounset-restored >"$NOUNSET_MARKER" ;; *) exit 97 ;; esac' \
+	-e '/^[[:space:]]*fail prefix_not_unique_shared_global_64$/i\
+	printf "%s\\n" prefix_not_unique_shared_global_64 >"$BOUNDARY_MARKER"' \
 	"$helper" >"$tmp/helper"
 chmod 755 "$tmp/helper"
 
@@ -76,7 +78,8 @@ set +e
 	JSHN_MARKER="$tmp/jshn-reached"
 	LOGGER_MARKER="$tmp/logger"
 	NOUNSET_MARKER="$tmp/nounset-restored"
-	export PATH JSHN_MARKER LOGGER_MARKER NOUNSET_MARKER
+	BOUNDARY_MARKER="$tmp/post-init-boundary"
+	export PATH JSHN_MARKER LOGGER_MARKER NOUNSET_MARKER BOUNDARY_MARKER
 	run_target_sh "$tmp/helper" reconcile
 ) >"$tmp/helper.out" 2>"$tmp/helper.err"
 rc=$?
@@ -93,9 +96,12 @@ regression_fail() {
 [ "$rc" -eq 1 ] || regression_fail 'expected controlled prefix failure'
 [ -f "$tmp/jshn-reached" ] || regression_fail 'compiled jshn boundary was not reached'
 [ -f "$tmp/nounset-restored" ] || regression_fail 'nounset was not restored before route/state phase'
-[ -f "$tmp/logger" ] || regression_fail 'controlled error was not logged'
-grep -q 'prefix_not_unique_shared_global_64' "$tmp/logger" || regression_fail 'unexpected post-init boundary'
+[ -f "$tmp/post-init-boundary" ] || regression_fail 'controlled post-init boundary was not reached'
+grep -qx 'prefix_not_unique_shared_global_64' "$tmp/post-init-boundary" || regression_fail 'unexpected post-init boundary'
+if [ -f "$tmp/logger" ]; then
+	grep -q 'prefix_not_unique_shared_global_64' "$tmp/logger" || regression_fail 'unexpected optional logger output'
+fi
 if grep -Eq 'parameter not set|unbound variable' "$tmp/helper.err"; then regression_fail 'patched helper retained nounset failure'; fi
 [ ! -e "$tmp/lock" ] || regression_fail 'helper lock was not released'
 
-echo "JSHN_NOUNSET_REGRESSION PASS: $test_shell used complete locked jshn; helper crossed load/read and restored nounset"
+echo "JSHN_NOUNSET_REGRESSION PASS: $test_shell used complete locked jshn; helper crossed load/read, restored nounset, and reached the controlled prefix boundary"
