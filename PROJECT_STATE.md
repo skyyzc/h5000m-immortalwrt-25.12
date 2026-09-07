@@ -23,9 +23,9 @@ remain authoritative.
 - `RUN23_BUILD_STARTED=YES`
 - `H5000M_FULL_CANDIDATE_V1_SOURCE_HEAD=d05325d34fe0dbbeb48ec1b2717e8495dc1081ec`
 - `CURRENT_PHASE=FULL_CANDIDATE_V1_BUILD_CLOSURE`
-- `CURRENT_GATE=OWNER_REVIEW_RUN25_BUILD_CLOSURE`
+- `CURRENT_GATE=OWNER_REVIEW_RUN26_BUILD_CLOSURE`
 - `STOP_CONDITION=await Owner review before any further build`
-- `NEXT_GATE=OWNER_REVIEW_RUN25_BUILD_CLOSURE`
+- `NEXT_GATE=OWNER_REVIEW_RUN26_BUILD_CLOSURE`
 - Exact locks: `versions/candidate.json`, `versions/stable.json`
 
 ## Current run maturity
@@ -83,6 +83,18 @@ remain authoritative.
   artifacts were produced. Commit `d05325d34fe0dbbeb48ec1b2717e8495dc1081ec`
   classifies package payloads by declared interpreter and preserves production
   IPv6 and Full capability code unchanged. Build confirmation is pending.
+- `RUN26_BUILD=FAIL`; Run ID `34076391399`, Run Number `26`, Attempt `1`,
+  profile `both`, source `candidate`, project
+  `fa86aea1a96f113c8616c9dc785a6de4cb5ed1fe`. Rescue and Full independently
+  confirmed the Run25 shell-payload classification fix, exact source
+  preparation, idempotent apply, Higo validation, and IPv6 route/hotplug gates.
+  Both stopped in the shared Run24 jshn regression after BusyBox ash returned
+  the expected controlled status and crossed the real-jshn plus restored-nounset
+  markers, because the harness incorrectly required a fake-logger side effect.
+  Config resolution, defconfig and compilation were not reached; no firmware
+  artifacts were produced. Commit `9cae48b36814acdffeb66587a29190e490afb15e`
+  observes the controlled post-init boundary directly; production runtime and
+  Full capability code remain unchanged. Build confirmation is pending.
 - `IPV6_SELECTED_DESIGN=DYNAMIC_PREFERRED_LAN_SHARED_PREFIX_ROUTE`
 - Run 23 changes only the reviewed dispatch boundary: `USBv6` logical-interface
   lifecycle with the `wwan0_1` device guard where netifd provides it.

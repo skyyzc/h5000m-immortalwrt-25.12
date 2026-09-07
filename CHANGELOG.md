@@ -1,5 +1,18 @@
 # Changelog
 
+## H5000M-FULL-CANDIDATE-V1-RUN26-BUILD-CLOSURE-01
+
+- Recorded GitHub Run 26 (`34076391399`, profile `both`) as a shared test-harness
+  failure. Rescue and Full both confirmed the Run25 payload-classification fix,
+  source preparation, idempotent apply, Higo checks and IPv6 route/hotplug
+  fixtures before the Run24 jshn regression stopped on an absent fake-logger
+  marker; config resolution, defconfig and compilation were not reached.
+- Changed only that regression harness to prove the exact controlled
+  `prefix_not_unique_shared_global_64` boundary directly, while retaining direct
+  rc/stdout/stderr diagnostics and optional logger validation. The production
+  IPv6 helper, Full capabilities, configuration, packages, source locks and
+  profiles were unchanged; no build, device, or persistent operation occurred.
+
 ## H5000M-FULL-CANDIDATE-V1-BUILD-CLOSURE-01
 
 - Recorded GitHub Run 25 (`34072182262`, profile `both`) as a shared-preflight
